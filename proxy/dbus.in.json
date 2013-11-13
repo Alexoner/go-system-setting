@@ -1,0 +1,19 @@
+{
+    "Config": {
+	"NotExportBus": true,
+	"OutputDir": "upower-go",
+	"InputDir": "upower-xml",
+	"PkgName": "upower",
+	"BusType": "System",
+	"DestName": "org.freedesktop.UPower"
+    },
+    "Interfaces": [
+    {
+	"Interface": "org.freedesktop.UPower",
+	"GoFile": "upower.go",
+	"XMLFile": "upower.xml",
+	"ObjectName": "upower",
+	"TestPath": "/org/freedesktop/UPower"
+    }
+	]
+}
