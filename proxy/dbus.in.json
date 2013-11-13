@@ -11,9 +11,27 @@
     {
 	"Interface": "org.freedesktop.UPower",
 	"GoFile": "upower.go",
-	"XMLFile": "upower.xml",
+	"XMLFile": "org.freedesktop.UPower.xml",
 	"ObjectName": "upower",
 	"TestPath": "/org/freedesktop/UPower"
-    }
+    },
+	{
+	"Interface": "org.freedesktop.UPower.QoS",
+	"GoFile": "upower-qos.go",
+	"XMLFile": "org.freedesktop.UPower.QoS.xml",
+	"ObjectName": "qos"
+	},
+	{
+	"Interface": "org.freedesktop.UPower.Wakeups",
+	"GoFile": "upower-wakeups.go",
+	"XMLFile": "wakeups.xml",
+	"ObjectName": "wakeups"
+	},
+	{
+	"Interface": "org.freedesktop.UPower.Device",
+	"GoFile": "upower-device.go",
+	"XMLFile": "org.freedesktop.UPower.Device.xml",
+	"ObjectName": "device"
+	}
 	]
 }
