@@ -1,13 +1,43 @@
+// +build ignore
 package main
 
 import (
 	"dlib/dbus"
+	"dlib"
+	"os"
 )
 
+type upower struct {
+	bus_name             string
+	object_path          string
+
+	//method names
+	m_EnumerateDevices  string
+	
+	//property names
+	p_CanSuspend        string
+	p_LidIsPresent       string
+}
+
+type battery struct {
+	bus_name                 string
+	object_path              string
+
+	m_Refresh                string
+
+	p_IsPresent              string
+	p_PowerSupply            bool
+	p_Percentage             float64
+	p_Voltage                float64
+	p_TimeToEmpty            int64
+	p_TImeToFull             int64
+
+}
+
 const (
-	opsuspend = 0
-	oppoweroff=1
-	ophibernate=2
+	opsuspend = "suspend"
+	oppoweroff= "poweroff"
+	ophibernate= "hibernate"
 )
 
 const (
@@ -21,12 +51,17 @@ const (
 
 
 type Power struct {
-	BatteryPre              int32
-	BatteryVoltageNow       float64
-	PluginedIn              int32
-	SuspendTime             []int32//with or without battery
-	HandleLowPower          []int32
-	HandleClosedLid         []int32
+	BatteryIsPresent        bool    `access:"read"`  //battery present
+	BatteryPercentage		float64 `access:"read"`  //batter valtage
+	PluginedIn              int32   `access:"read"` //power pluged in
+	SuspendTime             []int32 `access:"read/write"` //with or without battery
+	HandleLowPower          []string`access:"read/write"`
+	HandleClosedLid         []string
+}
+
+var BAT0=battery {
+	"org.freedesktop.UPower",    //bus name
+	"org/freedesktop/UPower/devices/battery_BAT0",
 }
 
 
@@ -38,6 +73,11 @@ func (p *Power)GetDBusInfo() dbus.DBusInfo {
 	}
 
 }
+
+func (p *power) Refresh() int32 {
+	conn,err := dbus.SystemBus()
+}
+
 
 func main() {
 	dbus.InstallOnSession(&Power{})
