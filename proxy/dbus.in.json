@@ -1,7 +1,7 @@
 {
     "Config": {
 	"NotExportBus": true,
-	"OutputDir": "upower-go",
+	"OutputDir": "upower",
 	"InputDir": "upower-xml",
 	"PkgName": "upower",
 	"BusType": "System",
@@ -12,26 +12,26 @@
 	"Interface": "org.freedesktop.UPower",
 	"GoFile": "upower.go",
 	"XMLFile": "org.freedesktop.UPower.xml",
-	"ObjectName": "upower",
+	"ObjectName": "Upower",
 	"TestPath": "/org/freedesktop/UPower"
     },
 	{
 	"Interface": "org.freedesktop.UPower.QoS",
 	"GoFile": "upower-qos.go",
 	"XMLFile": "org.freedesktop.UPower.QoS.xml",
-	"ObjectName": "qos"
+	"ObjectName": "QoS"
 	},
 	{
 	"Interface": "org.freedesktop.UPower.Wakeups",
 	"GoFile": "upower-wakeups.go",
 	"XMLFile": "wakeups.xml",
-	"ObjectName": "wakeups"
+	"ObjectName": "Wakeups"
 	},
 	{
 	"Interface": "org.freedesktop.UPower.Device",
 	"GoFile": "upower-device.go",
 	"XMLFile": "org.freedesktop.UPower.Device.xml",
-	"ObjectName": "device"
+	"ObjectName": "Device"
 	}
 	]
 }
