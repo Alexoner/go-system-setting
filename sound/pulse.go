@@ -3,6 +3,7 @@
 package main
 
 import (
+	"../audio"
 	"dlib/dbus"
 	"strconv"
 )
@@ -195,19 +196,19 @@ func (card *Card) GetDBusInfo() dbus.DBusInfo {
 	}
 }
 
-func (audio *Audio) GetSink() *Sink {
+func (audio *Audio) GetSinks() []*Sink {
 	return &Sink{}
 }
 
-func (audio *Audio) GetSource() *Source {
+func (audio *Audio) GetSources() *Source {
 	return &Source{}
 }
 
-func (audio *Audio) Get_sink_inputs() *Sink_input {
+func (audio *Audio) GetSinkInputs() *Sink_input {
 	return &Sink_input{}
 }
 
-func (audio *Audio) Get_source_output() *Source_output {
+func (audio *Audio) GetSourceOutput() *Source_output {
 	return &Source_output{}
 }
 
@@ -245,7 +246,10 @@ func (o *Audio) GetDBusInfo() dbus.DBusInfo {
 	}
 }
 
+var p = pulse.Pulse{}
+
 func main() {
+	p.PulseInit()
 	dbus.InstallOnSession(&Audio{})
 	select {}
 }
