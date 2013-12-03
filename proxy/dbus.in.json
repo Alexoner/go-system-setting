@@ -5,7 +5,8 @@
 	"InputDir": "upower-xml",
 	"PkgName": "upower",
 	"BusType": "System",
-	"DestName": "org.freedesktop.UPower"
+	"DestName": "org.freedesktop.UPower",
+	"Target":"Golang"
     },
     "Interfaces": [
     {

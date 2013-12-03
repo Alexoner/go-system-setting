@@ -6,8 +6,9 @@ import "upower"
 import "fmt"
 
 func main() {
-	a := upower.Getupower("/org/freedesktop/UPower")
-	//b := upower.Getdevice("org/freedesktop/UPower/devices/battery_BAT0")
-	//fmt.Println("Model: ", upower.Getdevice("/org/freedesktop/UPower/devices/battery_BAT0").GetModel())
-	fmt.Println("can suspend: ", b.GetModel())
+	a := upower.GetUpower("/org/freedesktop/UPower")
+	b := upower.GetDevice("/org/freedesktop/UPower/devices/battery_BAT0")
+	fmt.Println("can suspend: ", a.GetCanSuspend())
+	fmt.Println("Model: ", upower.GetDevice("/org/freedesktop/UPower/devices/battery_BAT0").GetModel())
+	fmt.Println("Model: ", b.GetModel(), "Vendor: ", b.GetVendor())
 }

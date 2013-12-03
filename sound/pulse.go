@@ -3,7 +3,7 @@
 package main
 
 import (
-	"../audio"
+	"../sound"
 	"dlib/dbus"
 	"strconv"
 )
@@ -197,7 +197,19 @@ func (card *Card) GetDBusInfo() dbus.DBusInfo {
 }
 
 func (audio *Audio) GetSinks() []*Sink {
-	return &Sink{}
+	sinks := make([]*Sink, 2)
+	sinks[0] = &Sink{}
+	sinks[0].Index = 2
+	sinks[1] = &Sink{}
+	sinks[1].Index = 3
+
+	data, err := p.PulseCtl("list-sinks")
+	if err != nil {
+		println(err.Error())
+		return nil
+	}
+
+	return sinks
 }
 
 func (audio *Audio) GetSources() *Source {
@@ -212,16 +224,14 @@ func (audio *Audio) GetSourceOutput() *Source_output {
 	return &Source_output{}
 }
 
-/*
-func (audio *Audio)GetClients() [2]*Client {
-	var clients =[2]*Client{}
-	clients[0]=new(Client)
-	clients[0].Index=0
-	clients[1]=new(Client)
-	clients[1].Index=1
+func (audio *Audio) GetClients() [2]*Client {
+	var clients = [2]*Client{}
+	clients[0] = new(Client)
+	clients[0].Index = 0
+	clients[1] = new(Client)
+	clients[1].Index = 1
 	return clients
 }
-*/
 
 func (audio *Audio) GetClients() *Client {
 	var client = new(Client)
