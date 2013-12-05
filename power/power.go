@@ -57,7 +57,6 @@ type Power struct {
 	PlugedIn          int32    `access:"read"`       //1 for in,2 for out
 	TimeToEmpty       int64    `access:"read"`       //
 	TimeToFull        int64    `access:"read"`       //time to fully charged
-	SuspendTime       []int32  `access:"read/write"` //with or without battery
 }
 
 var device *upower.Device = nil
