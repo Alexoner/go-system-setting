@@ -3,8 +3,9 @@
 package main
 
 import (
-	"../sound"
 	"dlib/dbus"
+	"fmt"
+	"os"
 	"strconv"
 )
 
@@ -98,6 +99,104 @@ type Module struct {
 type Volume struct {
 	Channels uint32
 	Values   [2]uint32 `access:"read"`
+}
+
+func NewAudio() (*Audio, error) {
+	audio := Audio{}
+	conn, err := dbus.SessionBus()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Failed to connect to session bus:", err)
+		os.Exit(1)
+	}
+	obj := conn.Object("org.pulseaudio.Server", "/org/pulseaudio/server_lookup1")
+	if obj == nil {
+		fmt.Fprintln(os.Stderr,
+			"Unable to connect to the pulseaudio bus server \n")
+	}
+	property, err := obj.GetProperty("org.PulseAudio.ServerLookup1.Address")
+	if err != nil {
+		panic(err)
+		os.Exit(-1)
+	} else {
+		fmt.Fprintln(os.Stderr, "server path: "+property.String())
+	}
+	connCore, err := dbus.Dial("unix:path=/run/user/1000/pulse/dbus-socket")
+	if err != nil {
+		println("error")
+		panic(err)
+	}
+	fmt.Fprintln(os.Stderr, connCore)
+	/*obj = conn.Object("org.PulseAudio.Core1", "/org/pulseaudio/core1")
+	if obj == nil {
+		fmt.Fprint(os.Stderr,
+			"Unable to connect to the pulseaudio bus server\n")
+		os.Exit(-1)
+	} else {
+		fmt.Fprintln(os.Stderr,
+			obj)
+		property, err = obj.GetProperty("org.PulseAudio.Core1.Hostname")
+		if err != nil {
+			panic(err)
+		} else {
+			fmt.Fprintln(os.Stderr,
+				"Hostname= "+property.String())
+		}
+	}*/
+	return &audio, nil
+}
+
+func (o *Audio) GetDBusInfo() dbus.DBusInfo {
+	return dbus.DBusInfo{
+		"com.deepin.daemon.Audio",
+		"/com/deepin/daemon/Audio",
+		"com.deepin.daemon.Audio",
+	}
+}
+
+func (audio *Audio) GetSinks() []*Sink {
+	sinks := make([]*Sink, 2)
+	sinks[0] = &Sink{}
+	sinks[0].Index = 2
+	sinks[1] = &Sink{}
+	sinks[1].Index = 3
+
+	/*data, err := p.PulseCtl("list-sinks")
+	if err != nil {
+		println(err.Error())
+		return nil
+	}*/
+
+	return sinks
+}
+
+func (audio *Audio) GetSources() *Source {
+	return &Source{}
+}
+
+func (audio *Audio) GetSinkInputs() *Sink_input {
+	return &Sink_input{}
+}
+
+func (audio *Audio) GetSourceOutput() *Source_output {
+	return &Source_output{}
+}
+
+func (audio *Audio) GetClients() [2]*Client {
+	var clients = [2]*Client{}
+	clients[0] = new(Client)
+	clients[0].Index = 0
+	clients[1] = new(Client)
+	clients[1].Index = 1
+	return clients
+}
+
+func (audio *Audio) GetVolume() *Volume {
+	return &Volume{}
+}
+
+func (o *Audio) IsRunning() uint32 {
+	a := 3999
+	return uint32(a)
 }
 
 func (sink *Sink) GetDBusInfo() dbus.DBusInfo {
@@ -196,70 +295,12 @@ func (card *Card) GetDBusInfo() dbus.DBusInfo {
 	}
 }
 
-func (audio *Audio) GetSinks() []*Sink {
-	sinks := make([]*Sink, 2)
-	sinks[0] = &Sink{}
-	sinks[0].Index = 2
-	sinks[1] = &Sink{}
-	sinks[1].Index = 3
-
-	data, err := p.PulseCtl("list-sinks")
-	if err != nil {
-		println(err.Error())
-		return nil
-	}
-
-	return sinks
-}
-
-func (audio *Audio) GetSources() *Source {
-	return &Source{}
-}
-
-func (audio *Audio) GetSinkInputs() *Sink_input {
-	return &Sink_input{}
-}
-
-func (audio *Audio) GetSourceOutput() *Source_output {
-	return &Source_output{}
-}
-
-func (audio *Audio) GetClients() [2]*Client {
-	var clients = [2]*Client{}
-	clients[0] = new(Client)
-	clients[0].Index = 0
-	clients[1] = new(Client)
-	clients[1].Index = 1
-	return clients
-}
-
-func (audio *Audio) GetClients() *Client {
-	var client = new(Client)
-	client.Index = 123
-	return client
-}
-
-func (audio *Audio) GetVolume() *Volume {
-	return &Volume{}
-}
-
-func (o *Audio) IsRunning() uint32 {
-	a := 3999
-	return uint32(a)
-}
-
-func (o *Audio) GetDBusInfo() dbus.DBusInfo {
-	return dbus.DBusInfo{
-		"com.deepin.daemon.Audio",
-		"/com/deepin/daemon/Audio",
-		"com.deepin.daemon.Audio",
-	}
-}
-
-var p = pulse.Pulse{}
-
 func main() {
-	p.PulseInit()
-	dbus.InstallOnSession(&Audio{})
+	pulse, err := NewAudio()
+	if err != nil {
+		panic(err)
+		os.Exit(-1)
+	}
+	dbus.InstallOnSession(pulse)
 	select {}
 }
