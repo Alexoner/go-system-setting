@@ -2,7 +2,7 @@
     > File Name: mainloop.c
     > Author: onerhao
     > Mail: haodu@hustunique.com
-    > Created Time: 2013年10月11日 星期五 14时46分06秒
+    > Created Time: 2013年 星期五 14时46分06秒
  ************************************************************************/
 
 #include <unistd.h>
@@ -13,31 +13,14 @@
 #include <pulse/pulseaudio.h>
 #include <pulse/mainloop.h>
 
+#include "dde-pulse.h"
+
+
 #define MAX_KEY 32
 
 
 
-typedef struct _pa
-{
-    pa_mainloop *pa_ml;
-    pa_mainloop_api *pa_mlapi;
-    pa_context *pa_ctx;
-    pa_operation   *pa_op;
-
-    void *server_info;
-    void *cards;
-    void *sinks;
-    void *sources;
-    void *clients;
-    void *sink_inputs;
-    void *source_outputs;
-    void *input_ports;
-    void *output_ports;
-} pa;
-
-
-
-static int pa_clear(pa *self)
+int pa_clear(pa *self)
 {
 
     if(self->pa_op)
@@ -64,25 +47,31 @@ static int pa_clear(pa *self)
     return 0;
 }
 
-static void pa_dealloc(pa *self)
+void pa_dealloc(pa *self)
 {
     pa_clear(self);
     fprintf(stderr,"object deleted\n");
     return;
 }
 
-static pa * pa_new()
+pa* pa_alloc()
+{
+	pa *self=(pa*)malloc(sizeof(pa));
+	if(self==NULL)
+	{
+		fprintf(stderr,"running out of virtual memory!\n");
+		exit(-1);
+	}
+	return self;
+}
+
+pa* pa_new()
 {
     pa *self;
-    self=(pa*)malloc(sizeof(pa)*1);
+    self=pa_alloc();
     if(self!=NULL)
     {
-        self->pa_ml=NULL;
-        self->pa_mlapi=NULL;
-        self->pa_ctx=NULL;
-        self->pa_op=NULL;
-
-
+		memset(self,0,sizeof(*self));
     }
     else
     {
@@ -90,30 +79,15 @@ static pa * pa_new()
         return NULL;
     }
 
-    return (void*)self;
+	pa_init(self,NULL,NULL);
+
+    return self;
 }
 
 
-static int pa_init(pa *self,void *args,void *kwds)
+int pa_init(pa *self,void *args,void *kwds)
 {
-
-    if(self->pa_op)
-    {
-        pa_operation_unref(self->pa_op);
-        self->pa_op=NULL;
-    }
-    if(self->pa_ctx)
-    {
-        pa_context_disconnect(self->pa_ctx);
-        pa_context_unref(self->pa_ctx);
-        self->pa_ctx=NULL;
-    }
-    if(self->pa_ml)
-    {
-        //to reassign,free first
-        pa_mainloop_free(self->pa_ml);
-        self->pa_ml=NULL;
-    }
+	pa_clear(self);
 
     self->pa_ml=pa_mainloop_new();
     if(!self->pa_ml)
@@ -141,80 +115,11 @@ static int pa_init(pa *self,void *args,void *kwds)
 }
 
 
-typedef struct pa_devicelist
-{
-    uint8_t initialized;
-    char name[512];
-    uint32_t index;
-    char description[256];
-} pa_devicelist_t;
-
-static void *pa_get_server_info(pa *self);
-static void *pa_get_card_list(pa *self);
-static void *pa_get_device_list(pa *self);
-static void *pa_get_client_list(pa *self);
-static void *pa_get_sink_input_list(pa *self);
-static void *pa_get_source_output_list(pa *self);
-static void* pa_get_sink_input_index_by_pid(pa *self,void *args);
-
-static void *pa_set_sink_mute_by_index(pa *self,void *args);
-static void *pa_set_sink_volume_by_index(pa *self,void *args);
-static void *pa_inc_sink_volume_by_index(pa *self,void *args);
-static void *pa_dec_sink_volume_by_index(pa *self,void *args);
-
-static void *pa_set_source_mute_by_index(pa *self,void *args);
-static void *pa_set_source_volume_by_index(pa *self,void *args);
-static void *pa_inc_source_volume_by_index(pa *self,void *args);
-static void *pa_dec_source_volume_by_index(pa *self,void *args);
-
-static void *pa_set_sink_input_mute(pa *self,void *args);
-static void* pa_set_sink_input_mute_by_pid(pa *self,void *args);
-static void *pa_set_sink_input_volume(pa *self,void *args);
-static void *pa_inc_sink_input_volume(pa *self,void *args);
-static void *pa_dec_sink_input_volume(pa *self,void *args);
-
-static void *pa_set_source_output_mute(pa *self,void *args);
-static void *pa_set_source_output_volume(pa *self,void *args);
-static void *pa_inc_source_output_volume(pa *self,void *args);
-static void *pa_dec_source_output_volume(pa *self,void *args);
-
-void pa_state_cb(pa_context *c,void *userdata);
-void pa_get_serverinfo_cb(pa_context *c, const pa_server_info*i, void *userdata);
-void pa_get_cards_cb(pa_context *c, const pa_card_info*i, int eol, void *userdata);
-void pa_get_sinklist_cb(pa_context *c, const pa_sink_info *l, int eol, void *userdata);
-void pa_get_sink_volume_cb(pa_context *c, const pa_sink_info *i, int eol, void *userdata);
-void pa_get_sourcelist_cb(pa_context *c, const pa_source_info *l,
-                          int eol, void *userdata);
-void pa_get_source_volume_cb(pa_context *c,const pa_source_info *l,int eol,void *userdata);
-void pa_get_clientlist_cb(pa_context *c, const pa_client_info*i,
-                          int eol, void *userdata);
-void pa_get_sink_input_list_cb(pa_context *c,const pa_sink_input_info *i,
-                               int eol,void *userdata);
-void pa_get_sink_input_info_cb(pa_context *c, const pa_sink_input_info *i, int eol, void *userdata);
-void pa_get_sink_input_volume_cb(pa_context *c, const pa_sink_input_info *i, int eol, void *userdata);
-void pa_get_source_output_list_cb(pa_context *c, const pa_source_output_info *i, int eol, void *userdata);
-void pa_get_source_output_volume_cb(pa_context *c, const pa_source_output_info *o,int eol,void *userdata);
-
-
-void pa_context_success_cb(pa_context *c,int success,void *userdata);
-void pa_set_sink_input_mute_cb(pa_context *c,int success,void *userdata);
-void pa_set_sink_input_volume_cb(pa_context *c, int success, void *userdata);
-
-
-
-//utils
-int pa_init_context(pa *self);
-static void *pa_get_server_info(pa *self)
+void *pa_get_server_info(pa *self)
 {
     int pa_ready = 0;
     int state = 0;
 
-    if(self->server_info)
-    {
-    }
-    else
-    {
-    }
 
     pa_context_connect(self->pa_ctx, NULL, 0, NULL);
     pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &pa_ready);
@@ -266,20 +171,10 @@ static void *pa_get_server_info(pa *self)
     return NULL;
 }
 
-static void *pa_get_card_list(pa *self)
+void *pa_get_card_list(pa *self)
 {
     int pa_ready = 0;
     int state = 0;
-    void *tmp=NULL;
-
-    if(self->cards==NULL)
-    {
-        if(!self->cards)
-        {
-            fprintf(stderr,"PyList_New() error\n");
-            return NULL;
-        }
-    }
 
     pa_context_connect(self->pa_ctx, NULL, 0, NULL);
     pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &pa_ready);
@@ -331,12 +226,11 @@ static void *pa_get_card_list(pa *self)
     return NULL;
 }
 
-static void *pa_get_device_list(pa *self)
+void *pa_get_device_list(pa *self)
 {
     // We'll need these state variables to keep track of our requests
     int state = 0;
     int pa_ready = 0;
-    void *tmp=self->sinks;
 
     if(self->sinks==NULL)
     {
@@ -456,12 +350,11 @@ static void *pa_get_device_list(pa *self)
     return NULL;
 }
 
-static void *pa_get_client_list(pa *self)
+void *pa_get_client_list(pa *self)
 {
     // We'll need these state variables to keep track of our requests
     int state = 0;
     int pa_ready = 0;
-    void *tmp=NULL;
 
 
 
@@ -547,11 +440,10 @@ static void *pa_get_client_list(pa *self)
     return NULL;
 }
 
-static void *pa_get_sink_input_list(pa *self)
+void *pa_get_sink_input_list(pa *self)
 {
     int pa_ready = 0;
     int state = 0;
-    void *tmp=NULL;
 
 
     pa_context_connect(self->pa_ctx, NULL, 0, NULL);
@@ -607,11 +499,11 @@ static void *pa_get_sink_input_list(pa *self)
     return NULL;
 }
 
-static void *pa_get_source_output_list(pa *self)
+void *pa_get_source_output_list(pa *self)
 {
     int pa_ready = 0;
     int state = 0;
-    void *tmp=NULL;
+
 
     pa_context_connect(self->pa_ctx, NULL, 0, NULL);
     pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &pa_ready);
@@ -665,16 +557,13 @@ static void *pa_get_source_output_list(pa *self)
     return NULL;
 }
 
-static void* pa_get_sink_input_index_by_pid(pa *self,void *args)
+void* pa_get_sink_input_index_by_pid(pa *self,void *args)
 {
     if(!self)
     {
         fprintf(stderr,"NULL object pointer\n");
         return NULL;
     }
-    void *dict=NULL,*tmp;
-    int i,l,index=-1;
-    pid_t kpid,pid=-1;
 
     /*if(!PyArg_ParseTuple(args,"ii",&kpid,&i))
     {
@@ -693,19 +582,16 @@ static void* pa_get_sink_input_index_by_pid(pa *self,void *args)
         return NULL;
     }
 
-    for(i=0; i<l; i++)
-    {
-    }
 
     fprintf(stderr,"No matching pid detected\n");
     return NULL;
 }
 
-static void *pa_set_sink_mute_by_index(pa *self,void *args)
+void *pa_set_sink_mute_by_index(pa *self,void *args)
 {
     int pa_ready = 0;
     int state = 0;
-    int index,mute;
+    int index=0,mute;
 
 
     pa_context_connect(self->pa_ctx, NULL, 0, NULL);
@@ -761,12 +647,11 @@ static void *pa_set_sink_mute_by_index(pa *self,void *args)
     return NULL;
 }
 
-static void *pa_set_sink_volume_by_index(pa *self,void *args)
+void *pa_set_sink_volume_by_index(pa *self,void *args)
 {
     int pa_ready=0;//CRITICAL!,initialize pa_ready to zero
     int state=0;
     int index,volume;
-    float tmp=0;
     pa_cvolume cvolume;
     if(!self)
     {
@@ -837,11 +722,10 @@ static void *pa_set_sink_volume_by_index(pa *self,void *args)
     return NULL;
 }
 
-static void *pa_inc_sink_volume_by_index(pa *self,void *args)
+void *pa_inc_sink_volume_by_index(pa *self,void *args)
 {
     int pa_ready = 0,state = 0;
     int index, volume=0;
-    float tmp=0;
 
 
     pa_cvolume cvolume;
@@ -927,13 +811,12 @@ static void *pa_inc_sink_volume_by_index(pa *self,void *args)
     return NULL;
 }
 
-static void *pa_dec_sink_volume_by_index(pa *self,void *args)
+void *pa_dec_sink_volume_by_index(pa *self,void *args)
 {
     int pa_ready = 0;
     int state = 0;
     int index;
     int volume=0;
-    float tmp=0;
 
     pa_cvolume cvolume;
     memset(&cvolume,0,sizeof(cvolume));
@@ -1018,7 +901,7 @@ static void *pa_dec_sink_volume_by_index(pa *self,void *args)
 }
 
 
-static void *pa_set_source_mute_by_index(pa *self,void *args)
+void *pa_set_source_mute_by_index(pa *self,void *args)
 {
     int pa_ready = 0;
     int state = 0;
@@ -1078,12 +961,12 @@ static void *pa_set_source_mute_by_index(pa *self,void *args)
     return NULL;
 }
 
-static void *pa_set_source_volume_by_index(pa *self,void *args)
+void *pa_set_source_volume_by_index(pa *self,void *args)
 {
     int pa_ready=0;//CRITICAL!,initialize pa_ready to zero
     int state=0;
     int index,volume;
-    float tmp=0;
+
     pa_cvolume cvolume;
     if(!self)
     {
@@ -1154,18 +1037,18 @@ static void *pa_set_source_volume_by_index(pa *self,void *args)
     return NULL;
 }
 
-static void *pa_inc_source_volume_by_index(pa *self,void *args)
+void *pa_inc_source_volume_by_index(pa *self,void *args)
 {
     int pa_ready = 0;
     int state = 0;
     int index;
     int volume=0;
-    float tmp=0;
 
     pa_cvolume cvolume;
     memset(&cvolume,0,sizeof(cvolume));
     if(!pa_cvolume_valid(&cvolume))
-    {   //check if the volume increase is valid
+    {
+        //check if the volume increase is valid
         fprintf(stderr,"Invalid volume!\n");
         return NULL;
     }
@@ -1218,7 +1101,7 @@ static void *pa_inc_source_volume_by_index(pa *self,void *args)
                     pa_init_context(self);
                     return NULL;
                 }
-                       else
+                else
                 {
                     pa_context_set_source_volume_by_index(self->pa_ctx,index,&cvolume,
                                                           pa_context_success_cb,self);
@@ -1244,20 +1127,19 @@ static void *pa_inc_source_volume_by_index(pa *self,void *args)
             break;
         default:
             fprintf(stderr, "in state %d\n", state);
-			return NULL;
+            return NULL;
         }
         pa_mainloop_iterate(self->pa_ml, 1, NULL);
     }
-	return NULL;
+    return NULL;
 }
 
-static void *pa_dec_source_volume_by_index(pa *self,void *args)
+void *pa_dec_source_volume_by_index(pa *self,void *args)
 {
     int pa_ready = 0;
     int state = 0;
     int index;
     int volume=0;
-    float tmp=0;
 
 
     pa_cvolume cvolume;
@@ -1282,7 +1164,7 @@ static void *pa_dec_source_volume_by_index(pa *self,void *args)
             self->pa_mlapi=NULL;
             self->pa_ml=NULL;
             pa_init_context(self);
-			return NULL;
+            return NULL;
         }
         switch (state)
         {
@@ -1307,7 +1189,7 @@ static void *pa_dec_source_volume_by_index(pa *self,void *args)
                     self->pa_ml=NULL;
                     self->pa_mlapi=NULL;
                     pa_init_context(self);
-					return NULL;
+                    return NULL;
                 }
                 else
                 {
@@ -1330,20 +1212,20 @@ static void *pa_dec_source_volume_by_index(pa *self,void *args)
                 self->pa_mlapi=NULL;
                 self->pa_ml=NULL;
                 pa_init_context(self);
-				return NULL;
+                return NULL;
             }
             break;
         default:
             fprintf(stderr, "in state %d\n", state);
-			return NULL;
+            return NULL;
         }
         pa_mainloop_iterate(self->pa_ml, 1, NULL);
     }
-	return NULL;
+    return NULL;
 }
 
 
-static void *pa_set_sink_input_mute(pa *self,void *args)
+void *pa_set_sink_input_mute(pa *self,void *args)
 {
     int pa_ready = 0;
     int state = 0;
@@ -1370,7 +1252,7 @@ static void *pa_set_sink_input_mute(pa *self,void *args)
             self->pa_ml=NULL;
             pa_init_context(self);
 
-			return NULL;
+            return NULL;
         }
         switch (state)
         {
@@ -1390,35 +1272,33 @@ static void *pa_set_sink_input_mute(pa *self,void *args)
                 self->pa_mlapi=NULL;
                 self->pa_ml=NULL;
                 pa_init_context(self);
-				return NULL;
+                return NULL;
             }
             break;
         default:
             fprintf(stderr, "in state %d\n", state);
-			return NULL;
+            return NULL;
         }
         pa_mainloop_iterate(self->pa_ml, 1, NULL);
     }
-	return NULL;
+    return NULL;
 }
 
-static void* pa_set_sink_input_mute_by_pid(pa *self,void *args)
+void* pa_set_sink_input_mute_by_pid(pa *self,void *args)
 {
     void *index_py;
-    void *tuple=NULL;
-    int index,pid,mute;
     if(!self)
     {
         fprintf(stderr,"NULL object pointer\n");
-		return NULL;
+        return NULL;
     }
 
     index_py=pa_get_sink_input_index_by_pid(self,args);
 
-	return NULL;
+    return NULL;
 }
 
-static void *pa_set_sink_input_volume(pa *self,void *args)
+void *pa_set_sink_input_volume(pa *self,void *args)
 {
     int pa_ready=0;//CRITICAL!,initialize pa_ready to zero
     int state=0;
@@ -1428,7 +1308,7 @@ static void *pa_set_sink_input_volume(pa *self,void *args)
     if(!self)
     {
         fprintf(stderr,"NULL object pointer\n");
-		return NULL;
+        return NULL;
     }
 
 
@@ -1438,7 +1318,7 @@ static void *pa_set_sink_input_volume(pa *self,void *args)
     if(!pa_cvolume_valid(&cvolume))
     {
         fprintf(stderr,"Invalid volume %d provided,please choose another one\n",volume);
-		return NULL;
+        return NULL;
     }
 
     pa_context_connect(self->pa_ctx, NULL, 0, NULL);
@@ -1460,7 +1340,7 @@ static void *pa_set_sink_input_volume(pa *self,void *args)
             self->pa_ctx=NULL;
             self->pa_mlapi=NULL;
             self->pa_ml=NULL;
-			return NULL;
+            return NULL;
         }
         switch (state)
         {
@@ -1481,21 +1361,21 @@ static void *pa_set_sink_input_volume(pa *self,void *args)
                 self->pa_mlapi=NULL;
                 self->pa_ml=NULL;
                 pa_init_context(self);
-				return NULL;
+                return NULL;
             }
             break;
         default:
             fprintf(stderr, "in state %d\n", state);
-			return NULL;
+            return NULL;
         }
         pa_mainloop_iterate(self->pa_ml, 1, NULL);
     }
 
 
-	return NULL;
+    return NULL;
 }
 
-static void *pa_inc_sink_input_volume(pa *self,void *args)
+void *pa_inc_sink_input_volume(pa *self,void *args)
 {
     int pa_ready = 0;
     int state = 0;
@@ -1509,9 +1389,10 @@ static void *pa_inc_sink_input_volume(pa *self,void *args)
     cvolume.channels=2;
     pa_cvolume_inc(&cvolume,volume);
     if(!pa_cvolume_valid(&cvolume))
-    {   //check if the volume increase is valid
+    {
+        //check if the volume increase is valid
         fprintf(stderr,"Invalid volume!\n");
-		return NULL;
+        return NULL;
     }
 
 
@@ -1535,7 +1416,7 @@ static void *pa_inc_sink_input_volume(pa *self,void *args)
             self->pa_mlapi=NULL;
             self->pa_ml=NULL;
             pa_init_context(self);
-			return NULL;
+            return NULL;
         }
         switch (state)
         {
@@ -1561,7 +1442,7 @@ static void *pa_inc_sink_input_volume(pa *self,void *args)
                     self->pa_ml=NULL;
                     self->pa_mlapi=NULL;
                     pa_init_context(self);
-					return NULL;
+                    return NULL;
                 }
                 else
                 {
@@ -1584,19 +1465,19 @@ static void *pa_inc_sink_input_volume(pa *self,void *args)
                 self->pa_mlapi=NULL;
                 self->pa_ml=NULL;
                 pa_init_context(self);
-				return NULL;
+                return NULL;
             }
             break;
         default:
             fprintf(stderr, "in state %d\n", state);
-			return NULL;
+            return NULL;
         }
         pa_mainloop_iterate(self->pa_ml, 1, NULL);
     }
-	return  NULL;
+    return  NULL;
 }
 
-static void *pa_dec_sink_input_volume(pa *self,void *args)
+void *pa_dec_sink_input_volume(pa *self,void *args)
 {
     int pa_ready = 0;
     int state = 0;
@@ -1626,7 +1507,7 @@ static void *pa_dec_sink_input_volume(pa *self,void *args)
             self->pa_mlapi=NULL;
             self->pa_ml=NULL;
             pa_init_context(self);
-			return NULL;
+            return NULL;
         }
         switch (state)
         {
@@ -1651,7 +1532,7 @@ static void *pa_dec_sink_input_volume(pa *self,void *args)
                     self->pa_ml=NULL;
                     self->pa_mlapi=NULL;
                     pa_init_context(self);
-					return NULL;
+                    return NULL;
                 }
                 else
                 {
@@ -1674,20 +1555,20 @@ static void *pa_dec_sink_input_volume(pa *self,void *args)
                 self->pa_mlapi=NULL;
                 self->pa_ml=NULL;
                 pa_init_context(self);
-				return NULL;
+                return NULL;
             }
             break;
         default:
             fprintf(stderr, "in state %d\n", state);
-			return NULL;
+            return NULL;
         }
         pa_mainloop_iterate(self->pa_ml, 1, NULL);
     }
-	return NULL;
+    return NULL;
 }
 
 
-static void *pa_set_source_output_mute(pa *self,void *args)
+void *pa_set_source_output_mute(pa *self,void *args)
 {
     int pa_ready = 0;
     int state = 0;
@@ -1714,7 +1595,7 @@ static void *pa_set_source_output_mute(pa *self,void *args)
             self->pa_ml=NULL;
             pa_init_context(self);
 
-			return NULL;
+            return NULL;
         }
         switch (state)
         {
@@ -1735,19 +1616,19 @@ static void *pa_set_source_output_mute(pa *self,void *args)
                 self->pa_mlapi=NULL;
                 self->pa_ml=NULL;
                 pa_init_context(self);
-				return NULL;
+                return NULL;
             }
             break;
         default:
             fprintf(stderr, "in state %d\n", state);
-			return NULL;
+            return NULL;
         }
         pa_mainloop_iterate(self->pa_ml, 1, NULL);
     }
-	return NULL;
+    return NULL;
 }
 
-static void *pa_set_source_output_volume(pa *self,void *args)
+void *pa_set_source_output_volume(pa *self,void *args)
 {
     int pa_ready=0;//CRITICAL!,initialize pa_ready to zero
     int state=0;
@@ -1757,7 +1638,7 @@ static void *pa_set_source_output_volume(pa *self,void *args)
     if(!self)
     {
         fprintf(stderr,"NULL object pointer\n");
-		return NULL;
+        return NULL;
     }
 
 
@@ -1767,7 +1648,7 @@ static void *pa_set_source_output_volume(pa *self,void *args)
     if(!pa_cvolume_valid(&cvolume))
     {
         fprintf(stderr,"Invalid volume %d provided,please choose another one\n",volume);
-		return NULL;
+        return NULL;
     }
 
     pa_context_connect(self->pa_ctx, NULL, 0, NULL);
@@ -1789,7 +1670,7 @@ static void *pa_set_source_output_volume(pa *self,void *args)
             self->pa_ctx=NULL;
             self->pa_mlapi=NULL;
             self->pa_ml=NULL;
-			return NULL;
+            return NULL;
         }
         switch (state)
         {
@@ -1810,21 +1691,21 @@ static void *pa_set_source_output_volume(pa *self,void *args)
                 self->pa_mlapi=NULL;
                 self->pa_ml=NULL;
                 pa_init_context(self);
-				return NULL;
+                return NULL;
             }
             break;
         default:
             fprintf(stderr, "in state %d\n", state);
-			return NULL;
+            return NULL;
         }
         pa_mainloop_iterate(self->pa_ml, 1, NULL);
     }
 
 
-	return NULL;
+    return NULL;
 }
 
-static void *pa_inc_source_output_volume(pa *self,void *args)
+void *pa_inc_source_output_volume(pa *self,void *args)
 {
     int pa_ready = 0;
     int state = 0;
@@ -1838,9 +1719,10 @@ static void *pa_inc_source_output_volume(pa *self,void *args)
     cvolume.channels=2;
     pa_cvolume_inc(&cvolume,volume);
     if(!pa_cvolume_valid(&cvolume))
-    {   //check if the volume increase is valid
+    {
+        //check if the volume increase is valid
         fprintf(stderr,"Invalid volume!\n");
-		return NULL;
+        return NULL;
     }
 
 
@@ -1864,7 +1746,7 @@ static void *pa_inc_source_output_volume(pa *self,void *args)
             self->pa_mlapi=NULL;
             self->pa_ml=NULL;
             pa_init_context(self);
-			return NULL;
+            return NULL;
         }
         switch (state)
         {
@@ -1889,7 +1771,7 @@ static void *pa_inc_source_output_volume(pa *self,void *args)
                     self->pa_ml=NULL;
                     self->pa_mlapi=NULL;
                     pa_init_context(self);
-					return NULL;
+                    return NULL;
                 }
                 else
                 {
@@ -1912,19 +1794,19 @@ static void *pa_inc_source_output_volume(pa *self,void *args)
                 self->pa_mlapi=NULL;
                 self->pa_ml=NULL;
                 pa_init_context(self);
-				return NULL;
+                return NULL;
             }
             break;
         default:
             fprintf(stderr, "in state %d\n", state);
-			return NULL;
+            return NULL;
         }
         pa_mainloop_iterate(self->pa_ml, 1, NULL);
     }
-	return NULL;
+    return NULL;
 }
 
-static void *pa_dec_source_output_volume(pa *self,void *args)
+void *pa_dec_source_output_volume(pa *self,void *args)
 {
     int pa_ready = 0;
     int state = 0;
@@ -1954,7 +1836,7 @@ static void *pa_dec_source_output_volume(pa *self,void *args)
             self->pa_mlapi=NULL;
             self->pa_ml=NULL;
             pa_init_context(self);
-			return NULL;
+            return NULL;
         }
         switch (state)
         {
@@ -1979,7 +1861,7 @@ static void *pa_dec_source_output_volume(pa *self,void *args)
                     self->pa_ml=NULL;
                     self->pa_mlapi=NULL;
                     pa_init_context(self);
-					return NULL;
+                    return NULL;
                 }
                 else
                 {
@@ -2002,16 +1884,16 @@ static void *pa_dec_source_output_volume(pa *self,void *args)
                 self->pa_mlapi=NULL;
                 self->pa_ml=NULL;
                 pa_init_context(self);
-				return NULL;
+                return NULL;
             }
             break;
         default:
             fprintf(stderr, "in state %d\n", state);
-			return NULL;
+            return NULL;
         }
         pa_mainloop_iterate(self->pa_ml, 1, NULL);
     }
-	return NULL;
+    return NULL;
 }
 
 //higher level apis for manipulating pulseaudio
@@ -2051,23 +1933,31 @@ void pa_state_cb(pa_context *c, void *userdata)
 void pa_get_serverinfo_cb(pa_context *c, const pa_server_info*i, void *userdata)
 {
     pa *self= userdata;
-    void *dict=self->server_info;
+	if ( self==NULL)
+	{
+		fprintf(stderr,"NULL pointer passed\n");
+		return;
+	}
+	else
+	{
+		/*if(!self->server_info)
+		{
+			self->server_info=(pa_server_info*)malloc(sizeof(pa_server_info));
+		}
+		if(self->server_info==NULL)
+		{
+			fprintf(stderr,"Running out of virtual memory!\n");
+			exit(-1);
+		}
+		else
+		{
+			memcpy(self->server_info,i,sizeof(*i));
+		}*/
 
-    if(!dict)
-    {
-        fprintf(stderr,"ERROR in PyDict_New()");
-        return;
-    }
+		fprintf(stderr,"server host name: %s\n",i->host_name);
 
-    /*PyDict_SetItemString(dict,"user_name",PYSTRING_FROMSTRING(i->user_name));
-    PyDict_SetItemString(dict,"host_name",PYSTRING_FROMSTRING(i->host_name));
-    PyDict_SetItemString(dict,"server_version",PYSTRING_FROMSTRING(i->server_version));
-    PyDict_SetItemString(dict,"server_name",PYSTRING_FROMSTRING(i->server_name));
-    PyDict_SetItemString(dict,"default_sink_name",PYSTRING_FROMSTRING(i->default_sink_name));
-    PyDict_SetItemString(dict,"default_source_name",PYSTRING_FROMSTRING(i->default_source_name));
-    PyDict_SetItemString(dict,"cookie",PyInt_FromLong(i->cookie));
-	*/
-
+		memcpy(&self->server_info,i,sizeof(*i));
+	}
     return;
 }
 
@@ -2076,7 +1966,7 @@ void pa_get_serverinfo_cb(pa_context *c, const pa_server_info*i, void *userdata)
 // structure
 void pa_get_sinklist_cb(pa_context *c, const pa_sink_info *l, int eol, void *userdata)
 {
-    pa *self= userdata;
+    pa *self= (pa*)userdata;
     pa_sink_port_info **ports  = NULL;
     pa_sink_port_info *port = NULL;
     int i = 0;
@@ -2096,17 +1986,6 @@ void pa_get_sinklist_cb(pa_context *c, const pa_sink_info *l, int eol, void *use
     const char *prop_key=NULL;
     void *prop_state=NULL;
 
-    /*PyDict_SetItemString(dict,"index",PyInt_FromLong(l->index));
-    PyDict_SetItemString(dict,"name",PYSTRING_FROMSTRING(l->name));
-    PyDict_SetItemString(dict,"description",PYSTRING_FROMSTRING(l->description));
-    PyDict_SetItemString(dict,"driver",PYSTRING_FROMSTRING(l->driver));
-    PyDict_SetItemString(dict,"mute",PyInt_FromLong(l->mute));
-    PyDict_SetItemString(dict,"n_volume_steps",PyInt_FromLong(l->n_volume_steps));
-    PyDict_SetItemString(dict,"card",PyInt_FromLong(l->card));
-    PyDict_SetItemString(dict,"n_ports",PyInt_FromLong(l->n_ports));
-    PyDict_SetItemString(dict,"n_formats",PyInt_FromLong(l->n_formats));
-    PyDict_SetItemString(dict,"cvolume",pa_dict_from_cvolume(l->volume));
-	*/
 
     for (i = 0; i < l->channel_map.channels; i++)
     {
@@ -2334,7 +2213,7 @@ void pa_get_cards_cb(pa_context *c, const pa_card_info*i, int eol, void *userdat
     const char *prop_key = NULL;
     void *prop_state = NULL;
 
-       return;
+    return;
 }
 
 void pa_context_success_cb(pa_context *c,int success,void *userdata)
@@ -2416,7 +2295,7 @@ void *pa_dict_from_cvolume(pa_cvolume cv)
     {
         sprintf(key,"channel %d",i);
     }
-	return NULL;
+    return NULL;
 }
 
 

@@ -2,6 +2,11 @@
 
 package main
 
+// #cgo amd64 386 CFLAGS: -g -Wall
+// #cgo LDFLAGS: -L. -ldde-pulse -lpulse -lc
+// #include "dde-pulse.h"
+import "C"
+
 import (
 	"dlib/dbus"
 	"fmt"
@@ -11,6 +16,7 @@ import (
 
 type Audio struct {
 	NumDevics int32
+	pa        *C.pa
 	//Change func(int32)
 }
 
@@ -103,45 +109,13 @@ type Volume struct {
 
 func NewAudio() (*Audio, error) {
 	audio := Audio{}
-	conn, err := dbus.SessionBus()
-	if err != nil {
-		fmt.Fprintln(os.Stderr, "Failed to connect to session bus:", err)
-		os.Exit(1)
-	}
-	obj := conn.Object("org.pulseaudio.Server", "/org/pulseaudio/server_lookup1")
-	if obj == nil {
+	audio.pa = C.pa_new()
+	if audio.pa == nil {
 		fmt.Fprintln(os.Stderr,
-			"Unable to connect to the pulseaudio bus server \n")
-	}
-	property, err := obj.GetProperty("org.PulseAudio.ServerLookup1.Address")
-	if err != nil {
-		panic(err)
+			"unable to connect to the pulseaudio server,exiting\n")
 		os.Exit(-1)
-	} else {
-		fmt.Fprintln(os.Stderr, "server path: "+property.String())
 	}
-	connCore, err := dbus.Dial("unix:path=/run/user/1000/pulse/dbus-socket")
-	if err != nil {
-		println("error")
-		panic(err)
-	}
-	fmt.Fprintln(os.Stderr, connCore)
-	/*obj = conn.Object("org.PulseAudio.Core1", "/org/pulseaudio/core1")
-	if obj == nil {
-		fmt.Fprint(os.Stderr,
-			"Unable to connect to the pulseaudio bus server\n")
-		os.Exit(-1)
-	} else {
-		fmt.Fprintln(os.Stderr,
-			obj)
-		property, err = obj.GetProperty("org.PulseAudio.Core1.Hostname")
-		if err != nil {
-			panic(err)
-		} else {
-			fmt.Fprintln(os.Stderr,
-				"Hostname= "+property.String())
-		}
-	}*/
+	fmt.Println("module started\n")
 	return &audio, nil
 }
 
@@ -151,6 +125,11 @@ func (o *Audio) GetDBusInfo() dbus.DBusInfo {
 		"/com/deepin/daemon/Audio",
 		"com.deepin.daemon.Audio",
 	}
+}
+
+func (audio *Audio) GetServerInfo() string {
+	C.pa_get_server_info(audio.pa)
+	return C.GoString(audio.pa.server_info.host_name)
 }
 
 func (audio *Audio) GetSinks() []*Sink {
