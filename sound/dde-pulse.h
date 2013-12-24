@@ -9,53 +9,166 @@
 
 #include <pulse/pulseaudio.h>
 #include <pulse/mainloop-api.h>
+#include <pulse/sample.h>
 
-#define MAX_SINKS 4
+#define MAX_STRING 512
 #define MAX_CARDS 4
-#define MAX_SOURCES  4
 #define MAX_SINKS 4
+#define MAX_SOURCES  4
+#define MAX_PORTS 32
 #define MAX_CLIENTS 128
 #define MAX_SINK_INPUTS 128
-#define MAX_SOURCE_OUPUTS 128
+#define MAX_SOURCE_OUTPUTS 128
+#define MAX_CARD_PROFILES 32
 
-typedef struct _pa
+typedef void (*struct_dealloc_t)(void* self);
+
+typedef struct server_info_s
+{
+    char *user_name;
+    char *host_name;
+    struct_dealloc_t dealloc;
+}server_info_t;
+
+typedef struct card_profile_s
+{
+    char name[MAX_STRING];
+    char description[MAX_STRING];
+}card_profile_t;
+
+typedef struct card_s
+{
+    int index;
+    char name[MAX_STRING];
+    int owner_module;
+    char driver[MAX_STRING];
+    uint32_t n_profiles;
+    card_profile_t profiles[MAX_CARD_PROFILES];
+    card_profile_t* active_profile;
+}card_t;
+
+typedef struct sink_port_info_s
+{
+    char name[MAX_STRING];
+    char description[MAX_STRING];
+    int available;
+}sink_port_info_t;
+
+typedef struct sink_s
+{
+    int index;
+    char name[MAX_STRING];
+    char description[MAX_STRING];
+    char driver[MAX_STRING];
+    int mute;
+    int nvolumesteps;
+    int card;
+    pa_cvolume volume;
+
+    uint32_t n_ports;
+    sink_port_info_t ports[MAX_PORTS];
+    sink_port_info_t* active_port;
+}sink_t;
+
+typedef struct source_port_info_s
+{
+    char name[MAX_STRING];
+    char description[MAX_STRING];
+    int available;
+}source_port_info_t;
+
+typedef struct source_s
+{
+    int index;
+    char name[MAX_STRING];
+    char description[MAX_STRING];
+    char driver[MAX_STRING];
+    int mute;
+    int nvolumesteps;
+    int card;
+    pa_cvolume volume;
+
+    uint32_t n_ports;
+    source_port_info_t ports[MAX_PORTS];
+    source_port_info_t* active_port;
+}source_t;
+
+typedef struct sink_input_s
+{
+    int index;
+    char name[MAX_STRING];
+    int owner_module;
+    int client;
+    int sink;
+    pa_cvolume volume;
+    char driver[MAX_STRING];
+    int mute;
+    int has_volume;
+    int volume_writable;
+}sink_input_t;
+
+typedef struct source_output_s
+{
+    int index;
+    char name[MAX_STRING];
+    int owner_module;
+    int client;
+    int source;
+    pa_cvolume volume;
+    char driver[MAX_STRING];
+    int mute;
+    int has_volume;
+    int volume_writable;
+}source_output_t;
+
+typedef struct client_s
+{
+    int index;
+    char name[MAX_STRING];
+    int owner_module;
+    char driver[MAX_STRING];
+}client_t;
+
+typedef struct pa_s
 {
     pa_mainloop *pa_ml;
     pa_mainloop_api *pa_mlapi;
     pa_context *pa_ctx;
     pa_operation   *pa_op;
 
-    pa_server_info server_info;
-    pa_card_info *cards;
+    server_info_t *server_info;
+    card_t cards[MAX_CARDS];
     int  n_cards;
-    pa_sink_info *sinks;
+    sink_t sinks[MAX_SINKS];
     int  n_sinks;
-    pa_source_info *sources;
+    source_t sources[MAX_SOURCES];
     int  n_sources;
-    pa_client_info *clients;
+    client_t clients[MAX_CLIENTS];
     int  n_clients;
-    pa_sink_input_info *sink_inputs;
+    sink_input_t sink_inputs[MAX_SINK_INPUTS];
     int  n_sink_inputs;
-    pa_source_output_info *source_outputs;
+    source_output_t source_outputs[MAX_SOURCE_OUTPUTS];
     int  n_source_outputs;
-    void *input_ports;
-    int  n_input_ports;
-    void *output_ports;
-    int  n_output_ports;
+
+    struct_dealloc_t dealloc;
 } pa;
 
 typedef struct pa_devicelist
 {
     uint8_t initialized;
-    char name[512];
+    char name[MAX_STRING];
     uint32_t index;
     char description[256];
 } pa_devicelist_t;
 
 int pa_clear(pa *self);
+pa* pa_alloc();
 void pa_dealloc(pa *self);
 pa* pa_new();
-int pa_init(pa *self,void *args,void *kwds);
+int pa_init(pa *self);
+
+server_info_t * serverinfo_new(server_info_t *self);
+void serverinfo_dealloc(server_info_t *self);
 
 void *pa_get_server_info(pa *self);
 void *pa_get_card_list(pa *self);
@@ -63,28 +176,32 @@ void *pa_get_device_list(pa *self);
 void *pa_get_client_list(pa *self);
 void *pa_get_sink_input_list(pa *self);
 void *pa_get_source_output_list(pa *self);
-void* pa_get_sink_input_index_by_pid(pa *self,void *args);
+//void* pa_get_sink_input_index_by_pid(pa *self,int index,int pid);
 
-void *pa_set_sink_mute_by_index(pa *self,void *args);
-void *pa_set_sink_volume_by_index(pa *self,void *args);
-void *pa_inc_sink_volume_by_index(pa *self,void *args);
-void *pa_dec_sink_volume_by_index(pa *self,void *args);
+int pa_set_card_profile_by_index(pa *self,int index,const char *profile);
 
-void *pa_set_source_mute_by_index(pa *self,void *args);
-void *pa_set_source_volume_by_index(pa *self,void *args);
-void *pa_inc_source_volume_by_index(pa *self,void *args);
-void *pa_dec_source_volume_by_index(pa *self,void *args);
+int pa_set_sink_port_by_index(pa *self,int index,const char *port);
+int pa_set_sink_mute_by_index(pa *self,int index,int mute);
+int pa_set_sink_volume_by_index(pa *self,int index,pa_cvolume *cvolume);
+int pa_inc_sink_volume_by_index(pa *self,int index,int volume);
+int pa_dec_sink_volume_by_index(pa *self,int index,int volume);
 
-void *pa_set_sink_input_mute(pa *self,void *args);
-void* pa_set_sink_input_mute_by_pid(pa *self,void *args);
-void *pa_set_sink_input_volume(pa *self,void *args);
-void *pa_inc_sink_input_volume(pa *self,void *args);
-void *pa_dec_sink_input_volume(pa *self,void *args);
+int pa_set_source_port_by_index(pa *self,int index,const char *port);
+int pa_set_source_mute_by_index(pa *self,int index,int mute);
+int pa_set_source_volume_by_index(pa *self,int index,pa_cvolume *cvolume);
+int pa_inc_source_volume_by_index(pa *self,int index,int volume);
+int pa_dec_source_volume_by_index(pa *self,int index,int volume);
 
-void *pa_set_source_output_mute(pa *self,void *args);
-void *pa_set_source_output_volume(pa *self,void *args);
-void *pa_inc_source_output_volume(pa *self,void *args);
-void *pa_dec_source_output_volume(pa *self,void *args);
+int pa_set_sink_input_mute(pa *self,int index,int mute);
+int pa_set_sink_input_mute_by_pid(pa *self,int index,int mute);
+int pa_set_sink_input_volume(pa *self,int index,pa_cvolume *cvolume);
+int pa_inc_sink_input_volume(pa *self,int index,int volume);
+int pa_dec_sink_input_volume(pa *self,int index,int volume);
+
+int pa_set_source_output_mute(pa *self,int index,int mute);
+int pa_set_source_output_volume(pa *self,int index,pa_cvolume *volume);
+int pa_inc_source_output_volume(pa *self,int index,int volume);
+int pa_dec_source_output_volume(pa *self,int index,int volume);
 
 void pa_state_cb(pa_context *c,void *userdata);
 void pa_get_serverinfo_cb(pa_context *c, const pa_server_info*i, void *userdata);
