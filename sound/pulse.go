@@ -32,10 +32,13 @@ type CardProfileInfo struct {
 }
 
 type Card struct {
-	Index        int32
-	Name         string
-	Owner_module int32
-	Driver       string
+	Index         int32
+	Name          string
+	Owner_module  int32
+	Driver        string
+	NProfiles     int32
+	Profiles      []CardProfileInfo
+	ActiveProfile *CardProfileInfo
 }
 
 type SinkPortInfo struct {
@@ -53,6 +56,10 @@ type Sink struct {
 	NVolumeSteps int32
 	Card         int32
 	Cvolume      Volume
+
+	NPorts     int32
+	Ports      []SinkPortInfo
+	ActivePort *SinkPortInfo
 }
 
 //Only capitalized first character in Capitalized structure can be exposed
@@ -74,6 +81,10 @@ type Source struct {
 	C_ports      int32
 	N_formates   int32
 	Cvolume      Volume
+
+	NPorts     int32
+	Ports      []SourcePortInfo
+	ActivePort *SourcePortInfo
 }
 
 type SinkInput struct {
@@ -154,13 +165,23 @@ func (audio *Audio) getCards() []*Card {
 	C.pa_get_card_list(audio.pa)
 	n := int(audio.pa.n_cards)
 	cards := make([]*Card, n)
-	for i := 0; i < n; {
+	for i := 0; i < n; i = i + 1 {
 		cards[i] = &Card{}
 		cards[i].Index = int32(audio.pa.cards[i].index)
 		cards[i].Name = C.GoString(&audio.pa.cards[i].name[0])
 		cards[i].Driver = C.GoString(&audio.pa.cards[i].driver[0])
 		cards[i].Owner_module = int32(audio.pa.cards[i].owner_module)
-		i = i + 1
+		cards[i].NProfiles = int32(audio.pa.cards[i].n_profiles)
+
+		for j := 0; j < int(cards[i].NProfiles); j = j + 1 {
+			cards[i].Profiles[j].Name = C.GoString(&audio.pa.cards[i].profiles[j].name[0])
+			cards[i].Profiles[j].Description = C.GoString(&audio.pa.cards[i].profiles[j].description[0])
+			ret := C.strcmp((*C.char)(&audio.pa.cards[i].active_profile.name[0]),
+				(*C.char)(&audio.pa.cards[i].profiles[j].name[0]))
+			if ret == 0 {
+				cards[i].ActiveProfile = &cards[i].Profiles[j]
+			}
+		}
 	}
 	return cards
 }
@@ -185,6 +206,17 @@ func (audio *Audio) getsinks() []*Sink {
 		for j := 0; j < int(sinks[i].Cvolume.Channels); j = j + 1 {
 			sinks[i].Cvolume.Values[j] =
 				*((*uint32)(unsafe.Pointer(&audio.pa.sinks[i].volume.values[j])))
+		}
+		sinks[i].NPorts = int32(audio.pa.sinks[i].n_ports)
+		for j := 0; j < int(sinks[i].NPorts); j = j + 1 {
+			sinks[i].Ports[j].Available = int32(audio.pa.sinks[i].ports[j].available)
+			sinks[i].Ports[j].Name = C.GoString(&audio.pa.sinks[i].ports[j].name[0])
+			sinks[i].Ports[j].Description = C.GoString(&audio.pa.sinks[i].ports[j].description[0])
+			ret := C.strcmp((*C.char)(&audio.pa.sinks[i].ports[j].name[0]),
+				(*C.char)(&audio.pa.sinks[i].active_port.name[0]))
+			if ret == 0 {
+				sinks[i].ActivePort = &sinks[i].Ports[j]
+			}
 		}
 		fmt.Println("Index: " + strconv.Itoa(int((sinks[i].Index))) + " Card:" + strconv.Itoa(int(sinks[i].Card)))
 	}
@@ -214,6 +246,19 @@ func (audio *Audio) getSource() []*Source {
 		for j := uint32(0); j < sources[i].Cvolume.Channels; j = j + 1 {
 			sources[i].Cvolume.Values[j] =
 				*((*uint32)(unsafe.Pointer(&audio.pa.sources[i].volume.values[j])))
+		}
+
+		sources[i].NPorts = int32(audio.pa.sources[i].n_ports)
+
+		for j := 0; j < int(sources[i].NPorts); j = j + 1 {
+			sources[i].Ports[j].Available = int32(audio.pa.sources[i].ports[j].available)
+			sources[i].Ports[j].Name = C.GoString(&audio.pa.sources[i].ports[j].name[0])
+			sources[i].Ports[j].Description = C.GoString(&audio.pa.sources[i].ports[j].description[0])
+			ret := C.strcmp(&audio.pa.sinks[i].ports[j].name[0],
+				&audio.pa.sinks[i].active_port.name[0])
+			if ret == 0 {
+				sources[i].ActivePort = &sources[i].Ports[j]
+			}
 		}
 	}
 	return sources
@@ -257,9 +302,6 @@ func (audio *Audio) GetSourceOutputs() []*SourceOutput {
 	var sourceOutputs = make([]*SourceOutput, n)
 
 	fmt.Print(len(sourceOutputs))
-	/*if n < 0 {
-		return nil
-	}*/
 
 	for i := 0; i < n; i = i + 1 {
 		sourceOutputs[i] = &SourceOutput{}
@@ -304,7 +346,9 @@ func (sink *Sink) GetDBusInfo() dbus.DBusInfo {
 }
 
 func (card *Card) setCardProfile(index int32, port string) int32 {
-	return C.pa_set_source_port_by_index(audio.pa, C.int(index), C.Cstring(port))
+	return int32(C.pa_set_source_port_by_index(audio.pa,
+		C.int(index),
+		C.CString(port)))
 }
 
 func (sink *Sink) GetSinkVolume() Volume {

@@ -7,6 +7,7 @@
 #ifndef DDE_PULSE_H
 #define DDE_PULSE_H
 
+#include <string.h>
 #include <pulse/pulseaudio.h>
 #include <pulse/mainloop-api.h>
 #include <pulse/sample.h>
