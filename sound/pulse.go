@@ -19,10 +19,10 @@ type Audio struct {
 	pa        *C.pa
 	HostName  string
 	UserName  string
-	cards     []Card
-	sinks     []Sink
-	sources   []Source
-	clients   []Client
+	cards     []*Card
+	sinks     []*Sink
+	sources   []*Source
+	clients   []*Client
 	//Change func(int32)
 }
 
@@ -164,26 +164,28 @@ func (audio *Audio) GetServerInfo() *Audio {
 func (audio *Audio) getCards() []*Card {
 	C.pa_get_card_list(audio.pa)
 	n := int(audio.pa.n_cards)
-	cards := make([]*Card, n)
+	audio.cards = make([]*Card, n)
 	for i := 0; i < n; i = i + 1 {
-		cards[i] = &Card{}
-		cards[i].Index = int32(audio.pa.cards[i].index)
-		cards[i].Name = C.GoString(&audio.pa.cards[i].name[0])
-		cards[i].Driver = C.GoString(&audio.pa.cards[i].driver[0])
-		cards[i].Owner_module = int32(audio.pa.cards[i].owner_module)
-		cards[i].NProfiles = int32(audio.pa.cards[i].n_profiles)
+		audio.cards[i] = &Card{}
+		audio.cards[i].Index = int32(audio.pa.cards[i].index)
+		audio.cards[i].Name = C.GoString(&audio.pa.cards[i].name[0])
+		audio.cards[i].Driver = C.GoString(&audio.pa.cards[i].driver[0])
+		audio.cards[i].Owner_module = int32(audio.pa.cards[i].owner_module)
+		audio.cards[i].NProfiles = int32(audio.pa.cards[i].n_profiles)
 
-		for j := 0; j < int(cards[i].NProfiles); j = j + 1 {
-			cards[i].Profiles[j].Name = C.GoString(&audio.pa.cards[i].profiles[j].name[0])
-			cards[i].Profiles[j].Description = C.GoString(&audio.pa.cards[i].profiles[j].description[0])
+		for j := 0; j < int(audio.cards[i].NProfiles); j = j + 1 {
+			audio.cards[i].Profiles = make([]CardProfileInfo, audio.cards[i].NProfiles)
+			audio.cards[i].Profiles[j].Name = C.GoString(&audio.pa.cards[i].profiles[j].name[0])
+			audio.cards[i].Profiles[j].Description = C.GoString(&audio.pa.cards[i].profiles[j].description[0])
 			ret := C.strcmp((*C.char)(&audio.pa.cards[i].active_profile.name[0]),
 				(*C.char)(&audio.pa.cards[i].profiles[j].name[0]))
 			if ret == 0 {
-				cards[i].ActiveProfile = &cards[i].Profiles[j]
+				audio.cards[i].ActiveProfile = &audio.cards[i].Profiles[j]
 			}
+			fmt.Println(audio.cards[i].Profiles[j].Name)
 		}
 	}
-	return cards
+	return audio.cards
 }
 
 func (audio *Audio) GetCards() []*Card {
@@ -343,6 +345,11 @@ func (sink *Sink) GetDBusInfo() dbus.DBusInfo {
 		"/com/deepin/daemon/Audio/Output" + strconv.FormatInt(int64(sink.Index), 10),
 		"com.deepin.daemon.Audio.Output",
 	}
+}
+
+func (card *Card) GetCardProfile() *CardProfileInfo {
+	fmt.Print("description: " + card.Profiles[2].Description)
+	return &card.Profiles[2]
 }
 
 func (card *Card) setCardProfile(index int32, port string) int32 {
