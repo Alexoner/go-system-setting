@@ -91,7 +91,6 @@ pa* pa_new()
         fprintf(stderr, "Virtual memory exhausted!\n");
         return NULL;
     }
-    pthread_mutex_init(&self->pa_mutex, NULL);
     pa_init(self);
 
     return self;
@@ -102,6 +101,44 @@ int pa_init(pa *self)
 {
     pa_clear(self);
 
+    pa_init_context(self);
+    printf( "Object initialized\n");
+    pthread_mutex_init(&self->pa_mutex, NULL);
+
+    // This function connects to the pulse server
+    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
+
+    // This function defines a callback so the server will tell us it's state.
+    // Our callback will wait for the state to be ready.  The callback will
+    // modify the variable to 1 so we know when we have a connection and it's
+    // ready.
+    // If there's an error, the callback will set self->pa_ready to 2
+    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
+    printf("Connected to server\n");
+    return 0;
+}
+
+int pa_init_context(pa *self)
+{
+    self->pa_ready = 0;
+    if (self->pa_op)
+    {
+        pa_operation_unref(self->pa_op);
+        self->pa_op = NULL;
+    }
+    if (self->pa_ctx)
+    {
+        pa_context_disconnect(self->pa_ctx);
+        pa_context_unref(self->pa_ctx);
+        self->pa_ctx = NULL;
+    }
+    if (self->pa_ml)
+    {
+        pa_mainloop_free(self->pa_ml);
+        self->pa_ml = NULL;
+    }
+
+    //new assignment to pulseaudio context
     self->pa_ml = pa_mainloop_new();
     if (!self->pa_ml)
     {
@@ -116,14 +153,14 @@ int pa_init(pa *self)
         return -1;
     }
 
-    self->pa_ctx = pa_context_new(self->pa_mlapi, "dde-pulseaudio");
+    self->pa_ctx = pa_context_new(self->pa_mlapi, "python-pulseaudio");
     if (!self->pa_ctx)
     {
         perror("pa_context_new()");
         return -1;
     }
-
-    printf( "Object initialized\n");
+    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
+    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
     return 0;
 }
 
@@ -159,9 +196,6 @@ void *pa_get_server_info(pa *self)
 {
     int state = 0;
 
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
-
     for (;;)
     {
         if (self->pa_ready == 0)
@@ -177,7 +211,7 @@ void *pa_get_server_info(pa *self)
             self->pa_ctx = NULL;
             self->pa_mlapi = NULL;
             self->pa_ml = NULL;
-            return NULL;
+            pa_init_context(self);
         }
         switch (state)
         {
@@ -189,14 +223,7 @@ void *pa_get_server_info(pa *self)
             if (pa_operation_get_state(self->pa_op) == PA_OPERATION_DONE)
             {
                 pa_operation_unref(self->pa_op);
-                pa_context_disconnect(self->pa_ctx);
-                pa_context_unref(self->pa_ctx);
-                pa_mainloop_free(self->pa_ml);
                 self->pa_op = NULL;
-                self->pa_ctx = NULL;
-                self->pa_mlapi = NULL;
-                self->pa_ml = NULL;
-                pa_init_context(self);
                 return NULL;
             }
             break;
@@ -213,8 +240,6 @@ int pa_subscribe(pa *self)
 {
     int state = 0;
     pthread_mutex_lock(&self->pa_mutex);
-    // This function connects to the pulse server
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
 
     // This function defines a callback so the server will tell us it's state.
     // Our callback will wait for the state to be ready.  The callback will
@@ -246,7 +271,7 @@ int pa_subscribe(pa *self)
             self->pa_mlapi = NULL;
             self->pa_ml = NULL;
             sleep(3);
-            return -1;
+            pa_init_context(self);
         }
         // At this point, we're connected to the server and ready to make
         // requests
@@ -302,9 +327,6 @@ void *pa_get_card_list(pa *self)
 {
     int state = 0;
 
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
-
     for (;;)
     {
         if (self->pa_ready == 0)
@@ -320,7 +342,7 @@ void *pa_get_card_list(pa *self)
             self->pa_ctx = NULL;
             self->pa_mlapi = NULL;
             self->pa_ml = NULL;
-            return  NULL;
+            pa_init_context(self);
         }
         switch (state)
         {
@@ -333,14 +355,7 @@ void *pa_get_card_list(pa *self)
             if (pa_operation_get_state(self->pa_op) == PA_OPERATION_DONE)
             {
                 pa_operation_unref(self->pa_op);
-                pa_context_disconnect(self->pa_ctx);
-                pa_context_unref(self->pa_ctx);
-                pa_mainloop_free(self->pa_ml);
                 self->pa_op = NULL;
-                self->pa_ctx = NULL;
-                self->pa_mlapi = NULL;
-                self->pa_ml = NULL;
-                pa_init_context(self);
                 return NULL;
             }
             break;
@@ -375,18 +390,6 @@ void *pa_get_device_list(pa *self)
         }
     }
 
-    // This function connects to the pulse server
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-
-    // This function defines a callback so the server will tell us it's state.
-    // Our callback will wait for the state to be ready.  The callback will
-    // modify the variable to 1 so we know when we have a connection and it's
-    // ready.
-    // If there's an error, the callback will set self->pa_ready to 2
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
-
-    // Now we'll enter into an infinite loop until we get the data we receive
-    // or if there's an error
     for (;;)
     {
         // We can't do anything until PA is ready, so just iterate the mainloop
@@ -408,7 +411,6 @@ void *pa_get_device_list(pa *self)
             self->pa_ml = NULL;
             pa_init_context(self);
 
-            return NULL;
             //This object has no methods,it needs to be treated just like any
             //other objects with respect to reference counts;
         }
@@ -455,14 +457,7 @@ void *pa_get_device_list(pa *self)
             {
                 // Now we're done, clean up and disconnect and return
                 pa_operation_unref(self->pa_op);
-                pa_context_disconnect(self->pa_ctx);
-                pa_context_unref(self->pa_ctx);
-                pa_mainloop_free(self->pa_ml);
                 self->pa_op = NULL;
-                self->pa_ctx = NULL;
-                self->pa_mlapi = NULL;
-                self->pa_ml = NULL;
-                pa_init_context(self);
                 return NULL;
             }
             break;
@@ -485,18 +480,6 @@ void *pa_get_client_list(pa *self)
     // We'll need these state variables to keep track of our requests
     int state = 0;
 
-    // This function connects to the pulse server
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-
-    // This function defines a callback so the server will tell us it's state.
-    // Our callback will wait for the state to be ready.  The callback will
-    // modify the variable to 1 so we know when we have a connection and it's
-    // ready.
-    // If there's an error, the callback will set self->pa_ready to 2
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
-
-    // Now we'll enter into an infinite loop until we get the data we receive
-    // or if there's an error
     for (;;)
     {
         // We can't do anything until PA is ready, so just iterate the mainloop
@@ -544,14 +527,7 @@ void *pa_get_client_list(pa *self)
             {
                 // Now we're done, clean up and disconnect and return
                 pa_operation_unref(self->pa_op);
-                pa_context_disconnect(self->pa_ctx);
-                pa_context_unref(self->pa_ctx);
-                pa_mainloop_free(self->pa_ml);
                 self->pa_op = NULL;
-                self->pa_ctx = NULL;
-                self->pa_mlapi = NULL;
-                self->pa_ml = NULL;
-                pa_init_context(self);
                 return NULL;
             }
             break;
@@ -573,9 +549,10 @@ void *pa_get_sink_input_list(pa *self)
 {
     int state = 0;
 
-
     pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
+    pa_context_set_state_callback(self->pa_ctx,
+                                  pa_state_cb,
+                                  &self->pa_ready);
 
     for (;;)
     {
@@ -608,14 +585,7 @@ void *pa_get_sink_input_list(pa *self)
             if (pa_operation_get_state(self->pa_op) == PA_OPERATION_DONE)
             {
                 pa_operation_unref(self->pa_op);
-                pa_context_disconnect(self->pa_ctx);
-                pa_context_unref(self->pa_ctx);
-                pa_mainloop_free(self->pa_ml);
                 self->pa_op = NULL;
-                self->pa_ctx = NULL;
-                self->pa_mlapi = NULL;
-                self->pa_ml = NULL;
-                pa_init_context(self);
                 return NULL;
             }
             break;
@@ -695,9 +665,6 @@ int pa_set_card_profile(pa *self, int index, const char *profile)
         fprintf(stderr, "self is NULL pointer !\n");
         return -1;
     }
-
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
 
     for (;;)
     {
@@ -2700,47 +2667,6 @@ void pa_set_sink_input_volume_cb(pa_context *c, int success, void *userdata)
     }
 }
 
-int pa_init_context(pa *self)
-{
-    self->pa_ready = 0;
-    if (self->pa_op)
-    {
-        pa_operation_unref(self->pa_op);
-        self->pa_op = NULL;
-    }
-    if (self->pa_ctx)
-    {
-        pa_context_disconnect(self->pa_ctx);
-        pa_context_unref(self->pa_ctx);
-        self->pa_ctx = NULL;
-    }
-    if (self->pa_ml)
-    {
-        pa_mainloop_free(self->pa_ml);
-        self->pa_ml = NULL;
-    }
-    self->pa_ml = pa_mainloop_new();
-    if (!self->pa_ml)
-    {
-        perror("pa_mainloop_new()");
-        return -1;
-    }
-
-    self->pa_mlapi = pa_mainloop_get_api(self->pa_ml);
-    if (!self->pa_mlapi)
-    {
-        perror("pa_mainloop_get_api()");
-        return -1;
-    }
-
-    self->pa_ctx = pa_context_new(self->pa_mlapi, "python-pulseaudio");
-    if (!self->pa_ctx)
-    {
-        perror("pa_context_new()");
-        return -1;
-    }
-    return 0;
-}
 
 void *pa_dict_from_cvolume(pa_cvolume cv)
 {

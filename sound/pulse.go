@@ -135,10 +135,9 @@ func NewAudio() (*Audio, error) {
 			"unable to connect to the pulseaudio server,exiting\n")
 		os.Exit(-1)
 	}
-	audio.cards = audio.getCards()
-	audio.sinks = audio.getsinks()
-	audio.sources = audio.getSources()
-	fmt.Println("module started\n")
+	//audio.cards = audio.getCards()
+	//audio.sinks = audio.getsinks()
+	//audio.sources = audio.getSources()
 	return audio, nil
 }
 
@@ -493,7 +492,7 @@ func main() {
 		os.Exit(-1)
 	}
 	dbus.InstallOnSession(audio)
-	for i := 0; i < len(audio.cards); i = i + 1 {
+	/*for i := 0; i < len(audio.cards); i = i + 1 {
 		dbus.InstallOnSession(audio.cards[i])
 	}
 	for i := 0; i < len(audio.sinks); i = i + 1 {
@@ -501,7 +500,8 @@ func main() {
 	}
 	for i := 0; i < len(audio.sources); i = i + 1 {
 		dbus.InstallOnSession(audio.sources[i])
-	}
-	C.pa_subscribe(audio.pa)
+	}*/
+	fmt.Println("module started\n")
+	//C.pa_subscribe(audio.pa)
 	select {}
 }
