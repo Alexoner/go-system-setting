@@ -194,7 +194,7 @@ void *pa_get_server_info(pa *self)
 {
     int state = 0;
 
-    //pthread_mutex_lock(&self->pa_mutex);
+    pthread_mutex_lock(&self->pa_mutex);
     for (;;)
     {
         if (self->pa_ready == 0)
@@ -211,8 +211,7 @@ void *pa_get_server_info(pa *self)
             self->pa_mlapi = NULL;
             self->pa_ml = NULL;
             pa_init_context(self);
-            //pthread_mutex_unlock(&self->pa_mutex);
-            usleep(1000);
+            continue;
         }
         switch (state)
         {
@@ -225,6 +224,7 @@ void *pa_get_server_info(pa *self)
             {
                 pa_operation_unref(self->pa_op);
                 self->pa_op = NULL;
+                pthread_mutex_unlock(&self->pa_mutex);
                 return NULL;
             }
             break;
@@ -247,12 +247,12 @@ int pa_subscribe(pa *self)
     {
         // We can't do anything until PA is ready, so just iterate the mainloop
         // and continue
-        fprintf(stderr, "trying to lock the pa_mutex lock\n");
+        /*fprintf(stderr, "trying to lock the pa_mutex lock\n");*/
         pthread_mutex_lock(&self->pa_mutex);
-        fprintf(stderr, "locked the pa_mutex lock\n");
+        /*fprintf(stderr, "locked the pa_mutex lock\n");*/
         if (self->pa_ready == 0)
         {
-            pa_mainloop_iterate(self->pa_ml, 1, NULL);
+            pa_mainloop_iterate(self->pa_ml, 0, NULL);
             pthread_mutex_unlock(&self->pa_mutex);
             continue;
         }
@@ -296,6 +296,7 @@ int pa_subscribe(pa *self)
         case 1:
             pthread_mutex_unlock(&self->pa_mutex);
             usleep(100);
+            pthread_mutex_lock(&self->pa_mutex);
             break;
         case 2:
             // Now we're done, clean up and disconnect and return
@@ -311,7 +312,10 @@ int pa_subscribe(pa *self)
         // Iterate the main loop and go again.  The second argument is whether
         // or not the iteration should block until something is ready to be
         // done.  Set it to zero for non-blocking.
-        pa_mainloop_iterate(self->pa_ml, 1, NULL);
+        /*fprintf(stderr, "case 1,before unlocking\n");*/
+        pa_mainloop_iterate(self->pa_ml, 0, NULL);
+        pthread_mutex_unlock(&self->pa_mutex);
+        /*fprintf(stderr, "case 1,after unlocking\n");*/
     }
     return 0;
 }
@@ -320,7 +324,7 @@ void *pa_get_card_list(pa *self)
 {
     int state = 0;
 
-    //pthread_mutex_lock(&self->pa_mutex);
+    pthread_mutex_lock(&self->pa_mutex);
     for (;;)
     {
         if (self->pa_ready == 0)
@@ -338,6 +342,8 @@ void *pa_get_card_list(pa *self)
             self->pa_ml = NULL;
             fprintf(stderr, "Unable to connect to the PA server,reinitializing\n");
             pa_init_context(self);
+
+            continue;
         }
         switch (state)
         {
@@ -354,8 +360,8 @@ void *pa_get_card_list(pa *self)
             {
                 pa_operation_unref(self->pa_op);
                 self->pa_op = NULL;
-                self->pa_ready = 0;
-                //pthread_mutex_unlock(&self->pa_mutex);
+                /*self->pa_ready = 0;*/
+                pthread_mutex_unlock(&self->pa_mutex);
                 return NULL;
             }
             break;
@@ -390,7 +396,7 @@ void *pa_get_device_list(pa *self)
         }
     }
 
-    //pthread_mutex_lock(&self->pa_mutex);
+    pthread_mutex_lock(&self->pa_mutex);
     for (;;)
     {
         // We can't do anything until PA is ready, so just iterate the mainloop
@@ -461,8 +467,8 @@ void *pa_get_device_list(pa *self)
                 // Now we're done, clean up and disconnect and return
                 pa_operation_unref(self->pa_op);
                 self->pa_op = NULL;
-                self->pa_ready = 0;
-                //pthread_mutex_unlock(&self->pa_mutex);
+                /*self->pa_ready = 0;*/
+                pthread_mutex_unlock(&self->pa_mutex);
                 return NULL;
             }
             break;
@@ -700,14 +706,7 @@ int pa_set_card_profile(pa *self, int index, const char *profile)
             if (pa_operation_get_state(self->pa_op) == PA_OPERATION_DONE)
             {
                 pa_operation_unref(self->pa_op);
-                pa_context_disconnect(self->pa_ctx);
-                pa_context_unref(self->pa_ctx);
-                pa_mainloop_free(self->pa_ml);
                 self->pa_op = NULL;
-                self->pa_ctx = NULL;
-                self->pa_mlapi = NULL;
-                self->pa_ml = NULL;
-                pa_init_context(self);
                 fprintf(stderr, "in state %d\n", state);
                 return 0;
             }
@@ -822,6 +821,7 @@ int pa_set_sink_mute_by_index(pa *self, int index, int mute)
         return -1;
     }
 
+    pthread_mutex_lock(&self->pa_mutex);
     for (;;)
     {
         if (self->pa_ready == 0)
@@ -840,7 +840,7 @@ int pa_set_sink_mute_by_index(pa *self, int index, int mute)
             self->pa_ml = NULL;
             pa_init_context(self);
 
-            return -1;
+            continue;
         }
         switch (state)
         {
@@ -852,15 +852,8 @@ int pa_set_sink_mute_by_index(pa *self, int index, int mute)
             if (pa_operation_get_state(self->pa_op) == PA_OPERATION_DONE)
             {
                 pa_operation_unref(self->pa_op);
-                pa_context_disconnect(self->pa_ctx);
-                pa_context_unref(self->pa_ctx);
-                pa_mainloop_free(self->pa_ml);
                 self->pa_op = NULL;
-                self->pa_ctx = NULL;
-                self->pa_mlapi = NULL;
-                self->pa_ml = NULL;
-                pa_init_context(self);
-                fprintf(stderr, "in state %d\n", state);
+                pthread_mutex_unlock(&self->pa_mutex);
                 return 0;
             }
             break;
@@ -882,8 +875,6 @@ int pa_set_sink_volume_by_index(pa *self, int index, pa_cvolume *cvolume)
         return -1;
     }
 
-
-    //pa_cvolume_set(&cvolume,cvolume.channels,volume);
     if (!pa_cvolume_valid(cvolume))
     {
         fprintf(stderr, "Invalid volume provided\n");
@@ -906,7 +897,8 @@ int pa_set_sink_volume_by_index(pa *self, int index, pa_cvolume *cvolume)
             self->pa_ctx = NULL;
             self->pa_mlapi = NULL;
             self->pa_ml = NULL;
-            return  -1;
+            pa_init_context(self);
+            continue;
         }
         switch (state)
         {
@@ -919,14 +911,8 @@ int pa_set_sink_volume_by_index(pa *self, int index, pa_cvolume *cvolume)
             if (pa_operation_get_state(self->pa_op) == PA_OPERATION_DONE)
             {
                 pa_operation_unref(self->pa_op);
-                pa_context_disconnect(self->pa_ctx);
-                pa_context_unref(self->pa_ctx);
-                pa_mainloop_free(self->pa_ml);
                 self->pa_op = NULL;
-                self->pa_ctx = NULL;
-                self->pa_mlapi = NULL;
-                self->pa_ml = NULL;
-                pa_init_context(self);
+                pthread_mutex_unlock(&self->pa_mutex);
                 return 0;
             }
             break;
@@ -1200,14 +1186,7 @@ int pa_set_source_mute_by_index(pa *self, int index, int mute)
             if (pa_operation_get_state(self->pa_op) == PA_OPERATION_DONE)
             {
                 pa_operation_unref(self->pa_op);
-                pa_context_disconnect(self->pa_ctx);
-                pa_context_unref(self->pa_ctx);
-                pa_mainloop_free(self->pa_ml);
                 self->pa_op = NULL;
-                self->pa_ctx = NULL;
-                self->pa_mlapi = NULL;
-                self->pa_ml = NULL;
-                pa_init_context(self);
                 return 0;
             }
             break;
