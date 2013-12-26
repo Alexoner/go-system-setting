@@ -492,16 +492,16 @@ func main() {
 		os.Exit(-1)
 	}
 	dbus.InstallOnSession(audio)
-	for i := 0; i < len(audio.cards); i = i + 1 {
-		dbus.InstallOnSession(audio.cards[i])
-	}
-	for i := 0; i < len(audio.sinks); i = i + 1 {
-		dbus.InstallOnSession(audio.sinks[i])
-	}
-	for i := 0; i < len(audio.sources); i = i + 1 {
-		dbus.InstallOnSession(audio.sources[i])
-	}
+	//for i := 0; i < len(audio.cards); i = i + 1 {
+	//dbus.InstallOnSession(audio.cards[i])
+	//}
+	//for i := 0; i < len(audio.sinks); i = i + 1 {
+	//dbus.InstallOnSession(audio.sinks[i])
+	//}
+	//for i := 0; i < len(audio.sources); i = i + 1 {
+	//dbus.InstallOnSession(audio.sources[i])
+	//}
 	fmt.Println("module started\n")
-	C.pa_subscribe(audio.pa)
+	//C.pa_subscribe(audio.pa)
 	select {}
 }

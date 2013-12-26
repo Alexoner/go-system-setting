@@ -92,7 +92,6 @@ pa* pa_new()
         return NULL;
     }
     pa_init(self);
-
     return self;
 }
 
@@ -102,19 +101,9 @@ int pa_init(pa *self)
     pa_clear(self);
 
     pa_init_context(self);
-    printf( "Object initialized\n");
+    printf( "PulseAudio context initialized\n");
     pthread_mutex_init(&self->pa_mutex, NULL);
 
-    // This function connects to the pulse server
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-
-    // This function defines a callback so the server will tell us it's state.
-    // Our callback will wait for the state to be ready.  The callback will
-    // modify the variable to 1 so we know when we have a connection and it's
-    // ready.
-    // If there's an error, the callback will set self->pa_ready to 2
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
-    printf("Connected to server\n");
     return 0;
 }
 
@@ -159,8 +148,17 @@ int pa_init_context(pa *self)
         perror("pa_context_new()");
         return -1;
     }
+
+    // This function connects to the pulse server
     pa_context_connect(self->pa_ctx, NULL, 0, NULL);
+
+    // This function defines a callback so the server will tell us it's state.
+    // Our callback will wait for the state to be ready.  The callback will
+    // modify the variable to 1 so we know when we have a connection and it's
+    // ready.
+    // If there's an error, the callback will set self->pa_ready to 2
     pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
+    printf("Connected to server\n");
     return 0;
 }
 
@@ -196,11 +194,12 @@ void *pa_get_server_info(pa *self)
 {
     int state = 0;
 
+    //pthread_mutex_lock(&self->pa_mutex);
     for (;;)
     {
         if (self->pa_ready == 0)
         {
-            pa_mainloop_iterate(self->pa_ml, 0, NULL);
+            pa_mainloop_iterate(self->pa_ml, 1, NULL);
             continue;
         }
         if (self->pa_ready == 2)
@@ -212,6 +211,8 @@ void *pa_get_server_info(pa *self)
             self->pa_mlapi = NULL;
             self->pa_ml = NULL;
             pa_init_context(self);
+            //pthread_mutex_unlock(&self->pa_mutex);
+            usleep(1000);
         }
         switch (state)
         {
@@ -239,7 +240,6 @@ void *pa_get_server_info(pa *self)
 int pa_subscribe(pa *self)
 {
     int state = 0;
-    pthread_mutex_lock(&self->pa_mutex);
 
     // Now we'll enter into an infinite loop until we get the data we receive
     // or if there's an error
@@ -247,9 +247,13 @@ int pa_subscribe(pa *self)
     {
         // We can't do anything until PA is ready, so just iterate the mainloop
         // and continue
+        fprintf(stderr, "trying to lock the pa_mutex lock\n");
+        pthread_mutex_lock(&self->pa_mutex);
+        fprintf(stderr, "locked the pa_mutex lock\n");
         if (self->pa_ready == 0)
         {
             pa_mainloop_iterate(self->pa_ml, 1, NULL);
+            pthread_mutex_unlock(&self->pa_mutex);
             continue;
         }
         // We couldn't get a connection to the server, so exit out
@@ -266,7 +270,7 @@ int pa_subscribe(pa *self)
             pa_init_context(self);
             pthread_mutex_unlock(&self->pa_mutex);
             usleep(1000);
-            pthread_mutex_lock(&self->pa_mutex);
+            continue;
         }
         // At this point, we're connected to the server and ready to make
         // requests
@@ -292,7 +296,6 @@ int pa_subscribe(pa *self)
         case 1:
             pthread_mutex_unlock(&self->pa_mutex);
             usleep(100);
-            pthread_mutex_lock(&self->pa_mutex);
             break;
         case 2:
             // Now we're done, clean up and disconnect and return
@@ -317,11 +320,12 @@ void *pa_get_card_list(pa *self)
 {
     int state = 0;
 
+    //pthread_mutex_lock(&self->pa_mutex);
     for (;;)
     {
         if (self->pa_ready == 0)
         {
-            pa_mainloop_iterate(self->pa_ml, 0, NULL);
+            pa_mainloop_iterate(self->pa_ml, 1, NULL);
             continue;
         }
         if (self->pa_ready == 2)
@@ -332,13 +336,17 @@ void *pa_get_card_list(pa *self)
             self->pa_ctx = NULL;
             self->pa_mlapi = NULL;
             self->pa_ml = NULL;
+            fprintf(stderr, "Unable to connect to the PA server,reinitializing\n");
             pa_init_context(self);
         }
         switch (state)
         {
         case 0:
             self->n_cards = 0;
-            self->pa_op = pa_context_get_card_info_list(self->pa_ctx, pa_get_cards_cb, self);
+            self->pa_op = pa_context_get_card_info_list(
+                              self->pa_ctx,
+                              pa_get_cards_cb,
+                              self);
             state++;
             break;
         case 1:
@@ -346,6 +354,8 @@ void *pa_get_card_list(pa *self)
             {
                 pa_operation_unref(self->pa_op);
                 self->pa_op = NULL;
+                self->pa_ready = 0;
+                //pthread_mutex_unlock(&self->pa_mutex);
                 return NULL;
             }
             break;
@@ -367,7 +377,7 @@ void *pa_get_device_list(pa *self)
     {
         if (!self->sinks)
         {
-            fprintf(stderr, "PyList_New() error\n");
+            fprintf(stderr, "NULL pointer error\n");
             return NULL;
         }
     }
@@ -375,11 +385,12 @@ void *pa_get_device_list(pa *self)
     {
         if (!self->sources)
         {
-            fprintf(stderr, "PyList_New() error\n");
+            fprintf(stderr, "NULL pointer error\n");
             return NULL;
         }
     }
 
+    //pthread_mutex_lock(&self->pa_mutex);
     for (;;)
     {
         // We can't do anything until PA is ready, so just iterate the mainloop
@@ -400,6 +411,8 @@ void *pa_get_device_list(pa *self)
             self->pa_mlapi = NULL;
             self->pa_ml = NULL;
             pa_init_context(self);
+
+            continue;
 
             //This object has no methods,it needs to be treated just like any
             //other objects with respect to reference counts;
@@ -448,6 +461,8 @@ void *pa_get_device_list(pa *self)
                 // Now we're done, clean up and disconnect and return
                 pa_operation_unref(self->pa_op);
                 self->pa_op = NULL;
+                self->pa_ready = 0;
+                //pthread_mutex_unlock(&self->pa_mutex);
                 return NULL;
             }
             break;
@@ -461,7 +476,6 @@ void *pa_get_device_list(pa *self)
         // done.  Set it to zero for non-blocking.
         pa_mainloop_iterate(self->pa_ml, 1, NULL);
     }
-
     return NULL;
 }
 
@@ -2204,6 +2218,7 @@ void pa_get_sinklist_cb(pa_context *c, const pa_sink_info *l, int eol, void *use
     // If eol is set to a positive number, you're at the end of the list
     if (eol > 0)
     {
+        fprintf(stderr, "End of sink list\n");
         return;
     }
     else
@@ -2227,7 +2242,7 @@ void pa_get_sinklist_cb(pa_context *c, const pa_sink_info *l, int eol, void *use
     strncpy(sink->driver, l->driver, strlen(l->driver) + 1);
     strncpy(sink->description, l->description, strlen(l->description) + 1);
     sink->n_ports = l->n_ports;
-    for (i = 0; i < l->n_ports; i++)
+    for (i = 0; i < (int)l->n_ports; i++)
     {
         strncpy( sink->ports[i].name,
                  l->ports[i]->name, sizeof(sink->ports[i].name) - 1);
@@ -2307,7 +2322,7 @@ void pa_get_sourcelist_cb(pa_context *c, const pa_source_info *l, int eol, void 
     int i = 0;
     if (eol > 0)
     {
-        fprintf(stderr, "End of list of sources");
+        fprintf(stderr, "End of source list\n");
         return;
     }
     else
@@ -2560,7 +2575,7 @@ void pa_get_cards_cb(pa_context *c, const pa_card_info*i, int eol, void *userdat
     }
     if (eol > 0)
     {
-        printf("End of source outputs list.\n");
+        printf("End of card list.\n");
         return;
     }
     if (self->n_cards >= MAX_CARDS)
