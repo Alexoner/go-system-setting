@@ -241,13 +241,6 @@ int pa_subscribe(pa *self)
     int state = 0;
     pthread_mutex_lock(&self->pa_mutex);
 
-    // This function defines a callback so the server will tell us it's state.
-    // Our callback will wait for the state to be ready.  The callback will
-    // modify the variable to 1 so we know when we have a connection and it's
-    // ready.
-    // If there's an error, the callback will set pa_ready to 2
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
-
     // Now we'll enter into an infinite loop until we get the data we receive
     // or if there's an error
     for (;;)
@@ -270,8 +263,10 @@ int pa_subscribe(pa *self)
             self->pa_ctx = NULL;
             self->pa_mlapi = NULL;
             self->pa_ml = NULL;
-            sleep(3);
             pa_init_context(self);
+            pthread_mutex_unlock(&self->pa_mutex);
+            usleep(1000);
+            pthread_mutex_lock(&self->pa_mutex);
         }
         // At this point, we're connected to the server and ready to make
         // requests
@@ -295,20 +290,15 @@ int pa_subscribe(pa *self)
             state++;
             break;
         case 1:
+            pthread_mutex_unlock(&self->pa_mutex);
             usleep(100);
+            pthread_mutex_lock(&self->pa_mutex);
             break;
         case 2:
             // Now we're done, clean up and disconnect and return
-            printf("disconnect pulse server\n");
+            printf("subscribing to the server terminated\n");
             pa_operation_unref(self->pa_op);
-            pa_context_disconnect(self->pa_ctx);
-            pa_context_unref(self->pa_ctx);
-            pa_mainloop_free(self->pa_ml);
             self->pa_op = NULL;
-            self->pa_ctx = NULL;
-            self->pa_mlapi = NULL;
-            self->pa_ml = NULL;
-            pa_init_context(self);
             return 0;
         default:
             // We should never see this state
@@ -602,10 +592,6 @@ void *pa_get_source_output_list(pa *self)
 {
     int state = 0;
 
-
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
-
     for (;;)
     {
         if (self->pa_ready == 0)
@@ -758,9 +744,6 @@ int pa_set_sintk_port_by_index(pa *self, int index, const char *port)
         return -1;
     }
 
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
-
     for (;;)
     {
         if (self->pa_ready == 0)
@@ -824,9 +807,6 @@ int pa_set_sink_mute_by_index(pa *self, int index, int mute)
         fprintf(stderr, "self is NULL pointer !\n");
         return -1;
     }
-
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
 
     for (;;)
     {
@@ -896,9 +876,6 @@ int pa_set_sink_volume_by_index(pa *self, int index, pa_cvolume *cvolume)
         return -1;
     }
 
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
-
     for (;;)
     {
         if (self->pa_ready == 0)
@@ -953,10 +930,6 @@ int pa_inc_sink_volume_by_index(pa *self, int index, int volume)
 {
     int state = 0;
     pa_cvolume cvolume;
-
-
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
 
     for (;;)
     {
@@ -1041,8 +1014,6 @@ int pa_dec_sink_volume_by_index(pa *self, int index, int volume)
 
     pa_cvolume cvolume;
     memset(&cvolume, 0, sizeof(cvolume));
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
 
     for (;;)
     {
@@ -1125,9 +1096,6 @@ int pa_set_source_port_by_index(pa *self, int index, const char *port)
 {
     int state = 0;
 
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
-
     for (;;)
     {
         if (self->pa_ready == 0)
@@ -1186,9 +1154,6 @@ int pa_set_source_port_by_index(pa *self, int index, const char *port)
 int pa_set_source_mute_by_index(pa *self, int index, int mute)
 {
     int state = 0;
-
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
 
     for (;;)
     {
@@ -1257,9 +1222,6 @@ int pa_set_source_volume_by_index(pa *self, int index, pa_cvolume *cvolume)
         return -1;
     }
 
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
-
     for (;;)
     {
         if (self->pa_ready == 0)
@@ -1322,10 +1284,6 @@ int pa_inc_source_volume_by_index(pa *self, int index, int volume)
         fprintf(stderr, "Invalid volume!\n");
         return -1;
     }
-
-
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
 
     for (;;)
     {
@@ -1410,8 +1368,6 @@ int pa_dec_source_volume_by_index(pa *self, int index, int volume)
 
     pa_cvolume cvolume;
     memset(&cvolume, 0, sizeof(cvolume));
-    pa_context_connect(self->pa_ctx, NULL, 0, NULL);
-    pa_context_set_state_callback(self->pa_ctx, pa_state_cb, &self->pa_ready);
 
     for (;;)
     {
