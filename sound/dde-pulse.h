@@ -214,10 +214,13 @@ void pa_context_subscribe_cb(pa_context *c, pa_subscription_event_type_t t,
         uint32_t index, void *userdata);
 void pa_get_serverinfo_cb(pa_context *c, const pa_server_info*i, void *userdata);
 void pa_card_info_cb(pa_context *c, const pa_card_info*i, int eol, void *userdata);
+void pa_card_update_info_cb(pa_context *C,const pa_card_info *l,int eol,void *userdata);
 void pa_sink_info_cb(pa_context *c, const pa_sink_info *l, int eol, void *userdata);
+void pa_sink_update_info_cb(pa_context *c,const pa_sink_info *l,int eol,void *userdata);
 void pa_get_sink_volume_cb(pa_context *c, const pa_sink_info *i, int eol, void *userdata);
 void pa_source_info_cb(pa_context *c, const pa_source_info *l,
                           int eol, void *userdata);
+void pa_source_update_info_cb(pa_context *c,const pa_source_info *l,int eol,void *userdata);
 void pa_get_source_volume_cb(pa_context *c,const pa_source_info *l,int eol,void *userdata);
 void pa_get_client_info_cb(pa_context *c, const pa_client_info*i,
                           int eol, void *userdata);
@@ -241,6 +244,9 @@ void pa_context_success_cb(pa_context *c,int success,void *userdata);
 void pa_set_sink_input_mute_cb(pa_context *c,int success,void *userdata);
 void pa_set_sink_input_volume_cb(pa_context *c, int success, void *userdata);
 
+card_t *pa2card(card_t *card,const pa_card_info *l);
+sink_t *pa2sink(sink_t *sink,const pa_sink_info *l);
+source_t *pa2source(source_t *source,const pa_source_info *l);
 
 
 //utils

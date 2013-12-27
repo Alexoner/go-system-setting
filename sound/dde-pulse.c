@@ -2119,9 +2119,11 @@ void pa_context_subscribe_cb(pa_context *c,
         if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_NEW)
         {
             printf("DEBUG card %d new\n", idx);
+            pa_context_get_card_info_by_index(c, idx, pa_card_info_cb, NULL);
         }
         else if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_CHANGE)
         {
+            printf("DEBUG card %d state changed\n", idx);
             pa_context_get_card_info_by_index(c, idx, pa_card_info_cb, NULL);
         }
         else if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_REMOVE)
@@ -2133,16 +2135,16 @@ void pa_context_subscribe_cb(pa_context *c,
         self->n_sinks = 0;
         if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_NEW)
         {
-            printf("DEBUG sink %d new\n", idx);
         }
         else if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_CHANGE)
         {
-            pa_context_get_sink_info_by_index(c, idx, pa_sink_info_cb, NULL);
+            printf("DEBUG sink %d state changed\n", idx);
         }
         else if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_REMOVE)
         {
             printf("DEBUG sink %d removed\n", idx);
         }
+        pa_context_get_sink_info_by_index(c, idx, pa_sink_info_cb, NULL);
         break;
     case PA_SUBSCRIPTION_EVENT_SOURCE :
         self->n_sources = 0;
@@ -2152,12 +2154,13 @@ void pa_context_subscribe_cb(pa_context *c,
         }
         else if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_CHANGE)
         {
-            pa_context_get_source_info_by_index(c, idx, pa_source_info_cb, NULL);
+            printf("DEBUG source %d changed\n", idx);
         }
         else if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_REMOVE)
         {
             printf("DEBUG source %d removed\n", idx);
         }
+        pa_context_get_source_info_by_index(c, idx, pa_source_info_cb, NULL);
         break;
     case PA_SUBSCRIPTION_EVENT_CLIENT:
         self->n_clients = 0;
@@ -2168,8 +2171,8 @@ void pa_context_subscribe_cb(pa_context *c,
         else
         {
             printf("DEBUG client %d inserted\n", idx);
-            pa_context_get_client_info(c, idx, pa_client_info_cb, NULL);
         }
+        pa_context_get_client_info(c, idx, pa_client_info_cb, NULL);
         break;
     case PA_SUBSCRIPTION_EVENT_SERVER:
         printf("DEBUG server\n");
@@ -2210,6 +2213,31 @@ void pa_get_serverinfo_cb(pa_context *c, const pa_server_info*i, void *userdata)
     return;
 }
 
+void pa_card_info_cb(pa_context *c, const pa_card_info*i, int eol, void *userdata)
+{
+    pa *self = userdata;
+    card_t *card;
+    if (!self)
+    {
+        fprintf(stderr, "NULL object pointer\n");
+        return;
+    }
+    if (eol > 0)
+    {
+        printf("End of card list.\n");
+        return;
+    }
+    if (self->n_cards >= MAX_CARDS)
+    {
+        fprintf(stderr, "Too many cards returned,droped due to insufficient array\n");
+        return;
+    }
+    self->n_cards++;
+    card = self->cards + self->n_cards - 1;
+    pa2card(card, i);
+    return;
+}
+
 // pa_mainloop will call this function when it's ready to tell us about a sink.
 // Since we're not threading, there's no need for mutexes on the devicelist
 // structure
@@ -2220,7 +2248,6 @@ void pa_sink_info_cb(pa_context *c,
 {
     pa *self = (pa*)userdata;
     sink_t *sink = NULL;
-    int i = 0;
 
     // If eol is set to a positive number, you're at the end of the list
     if (eol > 0)
@@ -2241,27 +2268,8 @@ void pa_sink_info_cb(pa_context *c,
         }
     }
     sink = self->sinks + self->n_sinks - 1;
-    sink->index = l->index;
-    sink->volume = l->volume;
-    sink->mute = l->mute;
-    sink->nvolumesteps = l->n_volume_steps;
-    strncpy(sink->name, l->name, strlen(l->name) + 1);
-    strncpy(sink->driver, l->driver, strlen(l->driver) + 1);
-    strncpy(sink->description, l->description, strlen(l->description) + 1);
-    sink->n_ports = l->n_ports;
-    for (i = 0; i < (int)l->n_ports; i++)
-    {
-        strncpy( sink->ports[i].name,
-                 l->ports[i]->name, sizeof(sink->ports[i].name) - 1);
-        strncpy(sink->ports[i].description,
-                l->ports[i]->description,
-                sizeof(sink->ports[i].description) - 1);
-        sink->ports[i].available = l->ports[i]->available;
-        if (strcmp(l->ports[i]->name, l->active_port->name) == 0)
-        {
-            sink->active_port = sink->ports + i;
-        }
-    }
+    pa2sink(sink, l);
+
     printf("DEBUG sink changed \n");
     printf("\tindex: %d\n", l->index);
     printf("\tname: %s\n", l->name);
@@ -2301,7 +2309,6 @@ void pa_source_info_cb(pa_context *c, const pa_source_info *l, int eol, void *us
     pa *self = userdata;
     source_t *source = NULL;
 
-    int i = 0;
     if (eol > 0)
     {
         fprintf(stderr, "End of source list\n");
@@ -2321,30 +2328,7 @@ void pa_source_info_cb(pa_context *c, const pa_source_info *l, int eol, void *us
     }
 
     source = self->sources + self->n_sources - 1;
-    source->nvolumesteps = l->n_volume_steps;
-    source->card = l->card;
-    source->index = l->index;
-    source->mute = l->mute;
-    source->volume = l->volume;
-    strncpy(source->name, l->name, sizeof(source->name) - 1);
-    strncpy(source->driver, l->driver, sizeof(source->driver) - 1);
-    strncpy(source->description, l->description, sizeof(source->description) - 1);
-    source->n_ports = l->n_ports;
-    for (i = 0; i < l->n_ports; i++)
-    {
-        strncpy(source->ports[i].name,
-                l->ports[i]->name,
-                sizeof(source->ports[i].name - 1));
-        strncpy(source->ports[i].description,
-                l->ports[i]->description,
-                sizeof(source->ports[i].description) - 1);
-        source->ports[i].available = l->ports[i]->available;
-        if (strcmp(l->ports[i]->name,
-                   l->active_port->name) == 0)
-        {
-            source->active_port = source->ports + i;
-        }
-    }
+    pa2source(source, l);
 
     printf("source %s------------------------------\n", l->name);
 }
@@ -2545,50 +2529,6 @@ void pa_get_source_output_volume_cb(pa_context *c,
     return;
 }
 
-void pa_card_info_cb(pa_context *c, const pa_card_info*i, int eol, void *userdata)
-{
-    pa *self = userdata;
-    card_t *card;
-    int j = 0;
-    if (!self)
-    {
-        fprintf(stderr, "NULL object pointer\n");
-        return;
-    }
-    if (eol > 0)
-    {
-        printf("End of card list.\n");
-        return;
-    }
-    if (self->n_cards >= MAX_CARDS)
-    {
-        fprintf(stderr, "Too many cards returned,droped due to insufficient array\n");
-        return;
-    }
-    self->n_cards++;
-    card = self->cards + self->n_cards - 1;
-    card->index = i->index;
-    strncpy(card->name, i->name, strlen(i->name) + 1);
-    card->owner_module = i->owner_module;
-    strncpy(card->driver, i->driver, strlen(i->driver) + 1);
-    card->n_profiles = i->n_profiles;
-    for (j = 0; j < i->n_profiles; j++)
-    {
-        strncpy(card->profiles[j].name,
-                i->profiles[j].name,
-                sizeof(card->profiles[j].name));
-        strncpy(card->profiles[j].description,
-                i->profiles[j].description,
-                sizeof(card->profiles[j].name) - 1);
-        if (strcmp(i->profiles[j].name,
-                   i->active_profile->name) == 0)
-        {
-            card->active_profile = card->profiles + j;
-        }
-    }
-    return;
-}
-
 void pa_context_success_cb(pa_context *c, int success, void *userdata)
 {
     if (!success)
@@ -2620,18 +2560,89 @@ void pa_set_sink_input_volume_cb(pa_context *c, int success, void *userdata)
     }
 }
 
-
-void *pa_dict_from_cvolume(pa_cvolume cv)
+card_t* pa2card(card_t *card, const pa_card_info *i)
 {
-
-    pa_cvolume *c = &cv;
-    int i, l = c->channels;
-    char key[MAX_KEY];
-    for (i = 0; i < l; i++)
+    if (!card || !i)
     {
-        sprintf(key, "channel %d", i);
+        fprintf(stderr, "NULL pointer error\n");
+        return NULL;
     }
-    return NULL;
+    int j;
+    card->index = i->index;
+    strncpy(card->name, i->name, strlen(i->name) + 1);
+    card->owner_module = i->owner_module;
+    strncpy(card->driver, i->driver, strlen(i->driver) + 1);
+    card->n_profiles = i->n_profiles;
+    for (j = 0; j < i->n_profiles; j++)
+    {
+        strncpy(card->profiles[j].name,
+                i->profiles[j].name,
+                sizeof(card->profiles[j].name));
+        strncpy(card->profiles[j].description,
+                i->profiles[j].description,
+                sizeof(card->profiles[j].name) - 1);
+        if (strcmp(i->profiles[j].name,
+                   i->active_profile->name) == 0)
+        {
+            card->active_profile = card->profiles + j;
+        }
+    }
+    return card;
 }
 
+sink_t *pa2sink(sink_t *sink, const pa_sink_info *l)
+{
+    int i;
+    sink->index = l->index;
+    sink->volume = l->volume;
+    sink->mute = l->mute;
+    sink->nvolumesteps = l->n_volume_steps;
+    strncpy(sink->name, l->name, strlen(l->name) + 1);
+    strncpy(sink->driver, l->driver, strlen(l->driver) + 1);
+    strncpy(sink->description, l->description, strlen(l->description) + 1);
+    sink->n_ports = l->n_ports;
+    for (i = 0; i < (int)l->n_ports; i++)
+    {
+        strncpy( sink->ports[i].name,
+                 l->ports[i]->name, sizeof(sink->ports[i].name) - 1);
+        strncpy(sink->ports[i].description,
+                l->ports[i]->description,
+                sizeof(sink->ports[i].description) - 1);
+        sink->ports[i].available = l->ports[i]->available;
+        if (strcmp(l->ports[i]->name, l->active_port->name) == 0)
+        {
+            sink->active_port = sink->ports + i;
+        }
+    }
+    return sink;
+}
 
+source_t *pa2source(source_t *source, const pa_source_info *l)
+{
+    int i;
+    source->nvolumesteps = l->n_volume_steps;
+    source->card = l->card;
+    source->index = l->index;
+    source->mute = l->mute;
+    source->volume = l->volume;
+    strncpy(source->name, l->name, sizeof(source->name) - 1);
+    strncpy(source->driver, l->driver, sizeof(source->driver) - 1);
+    strncpy(source->description, l->description, sizeof(source->description) - 1);
+    source->n_ports = l->n_ports;
+    for (i = 0; i < (int)l->n_ports; i++)
+    {
+        strncpy(source->ports[i].name,
+                l->ports[i]->name,
+                sizeof(source->ports[i].name - 1));
+        strncpy(source->ports[i].description,
+                l->ports[i]->description,
+                sizeof(source->ports[i].description) - 1);
+        source->ports[i].available = l->ports[i]->available;
+        if (strcmp(l->ports[i]->name,
+                   l->active_port->name) == 0)
+        {
+            source->active_port = source->ports + i;
+        }
+    }
+    return source;
+}

@@ -159,11 +159,46 @@ func (audio *Audio) getServerInfo() *Audio {
 	return audio
 }
 
+func (audio *Audio) updateCard(index int32, event C.pa_subscription_event_type) {
+	switch event {
+	case PA_SUBSCRIPTION_EVENT_NEW:
+	case PA_SUBSCRIPTION_EVENT_CHANGE:
+		for i := 0; i < len(audio.cards); i = i + 1 {
+			if audio.cards[i].Index == audio.pa.cards[0].index {
+				audio.cards[i] = getCardFromC(audio.pa.cards[0])
+				break
+			}
+		}
+	case PA_SUBSCRITPTION_EVENT_REMOVE:
+	}
+}
+
+func (audio *Audio) updateSink(index int32, event C.pa_subscription_event_type) {
+	switch event {
+	case PA_SUBSCRIPTION_EVENT_NEW:
+	case PA_SUBSCRIPTION_EVENT_CHANGE:
+		for i := 0; i < len(audio.sinks); i = i + 1 {
+			if audio.sinks[i].Index == audio.pa.sinks[0].index {
+				audio.sinks[i] = getSinkFromC()
+			}
+		}
+	case PA_SUBSCRITPTION_EVENT_REMOVE:
+	}
+}
+
+func (audio *Audio) updateSource(index int32, event C.pa_subscription_event_type) {
+	switch event {
+	case PA_SUBSCRIPTION_EVENT_NEW:
+	case PA_SUBSCRIPTION_EVENT_CHANGE:
+	case PA_SUBSCRITPTION_EVENT_REMOVE:
+	}
+}
+
 func (audio *Audio) GetServerInfo() *Audio {
 	return audio.getServerInfo()
 }
 
-func (audio *Audio) getCardFromC(_card C.card_t) *Card {
+func getCardFromC(_card C.card_t) *Card {
 	card := &Card{}
 	card.Index = int32(_card.index)
 	card.Name = C.GoString(&_card.name[0])
