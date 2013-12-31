@@ -19,10 +19,10 @@ type Audio struct {
 	pa        *C.pa
 	HostName  string
 	UserName  string
-	cards     []*Card
-	sinks     []*Sink
-	sources   []*Source
-	clients   []*Client
+	cards     map[int]*Card
+	sinks     map[int]*Sink
+	sources   map[int]*Source
+	clients   map[int]*Client
 	//Change func(int32)
 }
 
@@ -127,6 +127,93 @@ type Volume struct {
 	Values   [320]uint32
 }
 
+func getCardFromC(_card C.card_t) *Card {
+	card := &Card{}
+	card.Index = int32(_card.index)
+	card.Name = C.GoString(&_card.name[0])
+	card.Driver = C.GoString(&_card.driver[0])
+	card.Owner_module = int32(_card.owner_module)
+	card.NProfiles = int32(_card.n_profiles)
+
+	card.Profiles = make([]CardProfileInfo, card.NProfiles)
+	for j := 0; j < int(card.NProfiles); j = j + 1 {
+		card.Profiles[j].Name = C.GoString(&_card.profiles[j].name[0])
+		card.Profiles[j].Description = C.GoString(&_card.profiles[j].description[0])
+		ret := C.strcmp((*C.char)(&_card.active_profile.name[0]),
+			(*C.char)(&_card.profiles[j].name[0]))
+		if ret == 0 {
+			card.ActiveProfile = &card.Profiles[j]
+		}
+	}
+	return card
+}
+
+func getSinkFromC(_sink C.sink_t) *Sink {
+	sink := &Sink{}
+	sink.Index = int32(_sink.index)
+	sink.Card = int32(_sink.card)
+	sink.Description =
+		C.GoString((*C.char)(unsafe.Pointer(&_sink.description[0])))
+	sink.Driver = C.GoString(&_sink.driver[0])
+	sink.Name = C.GoString(&_sink.name[0])
+	sink.Cvolume.Channels = uint32(_sink.volume.channels)
+	for j := 0; j < int(sink.Cvolume.Channels); j = j + 1 {
+		sink.Cvolume.Values[j] =
+			*((*uint32)(unsafe.Pointer(&_sink.volume.values[j])))
+	}
+	sink.NPorts = int32(_sink.n_ports)
+	sink.Ports = make([]SinkPortInfo, sink.NPorts)
+	for j := 0; j < int(sink.NPorts); j = j + 1 {
+		sink.Ports[j].Available = int32(_sink.ports[j].available)
+		sink.Ports[j].Name = C.GoString(&_sink.ports[j].name[0])
+		sink.Ports[j].Description = C.GoString(&_sink.ports[j].description[0])
+		ret := C.strcmp((*C.char)(&_sink.ports[j].name[0]),
+			(*C.char)(&_sink.active_port.name[0]))
+		if ret == 0 {
+			sink.ActivePort = &sink.Ports[j]
+		}
+	}
+	if sink.NPorts == 0 {
+		sink.ActivePort = &SinkPortInfo{"", "", 0}
+	}
+	fmt.Println("Index: " + strconv.Itoa(int((sink.Index))) + " Card:" + strconv.Itoa(int(sink.Card)))
+	return sink
+}
+
+func getSourceFromC(_source C.source_t) *Source {
+	source := &Source{}
+	source.Index = int32(_source.index)
+	source.Card = int32(_source.card)
+	source.Mute = int32(_source.mute)
+	source.Name = C.GoString((*C.char)(unsafe.Pointer(&_source.name[0])))
+	source.Description = C.GoString(&_source.description[0])
+
+	source.Cvolume.Channels = uint32(_source.volume.channels)
+	for j := uint32(0); j < source.Cvolume.Channels; j = j + 1 {
+		source.Cvolume.Values[j] =
+			*((*uint32)(unsafe.Pointer(&_source.volume.values[j])))
+	}
+
+	source.NPorts = int32(_source.n_ports)
+
+	source.Ports = make([]SourcePortInfo, source.NPorts)
+	for j := 0; j < int(source.NPorts); j = j + 1 {
+		source.Ports[j].Available = int32(_source.ports[j].available)
+		source.Ports[j].Name = C.GoString(&_source.ports[j].name[0])
+		source.Ports[j].Description = C.GoString(&_source.ports[j].description[0])
+		ret := C.strcmp(&_source.ports[j].name[0],
+			&_source.active_port.name[0])
+		if ret == 0 {
+			source.ActivePort = &source.Ports[j]
+		}
+	}
+	if source.NPorts == 0 {
+		source.ActivePort = &SourcePortInfo{"", "", 0}
+	}
+
+	return source
+}
+
 func NewAudio() (*Audio, error) {
 	audio = &Audio{}
 	audio.pa = C.pa_new()
@@ -135,6 +222,9 @@ func NewAudio() (*Audio, error) {
 			"unable to connect to the pulseaudio server,exiting\n")
 		os.Exit(-1)
 	}
+	audio.cards = make(map[int]*Card)
+	audio.sinks = make(map[int]*Sink)
+	audio.sources = make(map[int]*Source)
 	audio.cards = audio.getCards()
 	audio.sinks = audio.getsinks()
 	audio.sources = audio.getSources()
@@ -159,38 +249,85 @@ func (audio *Audio) getServerInfo() *Audio {
 	return audio
 }
 
-func (audio *Audio) updateCard(index int32, event C.pa_subscription_event_type) {
+//export updateCard
+func updateCard(index int,
+	event C.pa_subscription_event_type_t) {
 	switch event {
-	case PA_SUBSCRIPTION_EVENT_NEW:
-	case PA_SUBSCRIPTION_EVENT_CHANGE:
-		for i := 0; i < len(audio.cards); i = i + 1 {
-			if audio.cards[i].Index == audio.pa.cards[0].index {
-				audio.cards[i] = getCardFromC(audio.pa.cards[0])
-				break
-			}
-		}
-	case PA_SUBSCRITPTION_EVENT_REMOVE:
+	case C.PA_SUBSCRIPTION_EVENT_NEW:
+		//i := int32(audio.pa.cards[0].index)
+		audio.cards[index] = getCardFromC(audio.pa.cards[0])
+		dbus.InstallOnSession(audio.cards[index])
+		break
+	case C.PA_SUBSCRIPTION_EVENT_CHANGE:
+		audio.cards[index] = getCardFromC(audio.pa.cards[0])
+		dbus.InstallOnSession(audio.cards[index])
+		//for i := 0; i < len(audio.cards); i = i + 1 {
+		//if audio.cards[i].Index == int32(audio.pa.cards[0].index) {
+		//audio.cards[i] = getCardFromC(audio.pa.cards[0])
+		//fmt.Print("updating card property: " + audio.cards[i].ActiveProfile.Name)
+		//dbus.InstallOnSession(audio.cards[i])
+		//break
+		//}
+		//}
+		break
+	case C.PA_SUBSCRIPTION_EVENT_REMOVE:
+		dbus.UnInstallObject(audio.cards[index])
+		delete(audio.cards, index)
+		break
 	}
 }
 
-func (audio *Audio) updateSink(index int32, event C.pa_subscription_event_type) {
+//export updateSink
+func updateSink(index int,
+	event C.pa_subscription_event_type_t) {
 	switch event {
-	case PA_SUBSCRIPTION_EVENT_NEW:
-	case PA_SUBSCRIPTION_EVENT_CHANGE:
-		for i := 0; i < len(audio.sinks); i = i + 1 {
-			if audio.sinks[i].Index == audio.pa.sinks[0].index {
-				audio.sinks[i] = getSinkFromC()
-			}
-		}
-	case PA_SUBSCRITPTION_EVENT_REMOVE:
+	case C.PA_SUBSCRIPTION_EVENT_NEW:
+		audio.sinks[index] = getSinkFromC(audio.pa.sinks[0])
+		dbus.InstallOnSession(audio.sinks[index])
+		break
+	case C.PA_SUBSCRIPTION_EVENT_CHANGE:
+		//for i := 0; i < len(audio.sinks); i = i + 1 {
+		//if audio.sinks[i].Index == int32(audio.pa.sinks[0].index) {
+		//audio.sinks[i] = getSinkFromC(audio.pa.sinks[0])
+		//dbus.InstallOnSession(audio.sinks[i])
+		//}
+		//}
+		audio.sinks[index] = getSinkFromC(audio.pa.sinks[0])
+		dbus.InstallOnSession(audio.sinks[index])
+
+	case C.PA_SUBSCRIPTION_EVENT_REMOVE:
+		dbus.UnInstallObject(audio.sinks[index])
+		delete(audio.sinks, index)
+		break
 	}
 }
 
-func (audio *Audio) updateSource(index int32, event C.pa_subscription_event_type) {
+//export updateSource
+func updateSource(index int,
+	event C.pa_subscription_event_type_t) {
+	fmt.Print("Updating source property:")
 	switch event {
-	case PA_SUBSCRIPTION_EVENT_NEW:
-	case PA_SUBSCRIPTION_EVENT_CHANGE:
-	case PA_SUBSCRITPTION_EVENT_REMOVE:
+	case C.PA_SUBSCRIPTION_EVENT_NEW:
+		audio.sources[index] = getSourceFromC(audio.pa.sources[0])
+		dbus.InstallOnSession(audio.sources[index])
+		break
+	case C.PA_SUBSCRIPTION_EVENT_CHANGE:
+		//for i, _ := range audio.sources {
+		//if audio.sources[i].Index == int32(audio.pa.sources[0].index) {
+		//audio.sources[i] = getSourceFromC(audio.pa.sources[0])
+		//dbus.InstallOnSession(audio.sources[i])
+		//break
+		//}
+		//}
+		audio.sources[index] = getSourceFromC(audio.pa.sources[0])
+		dbus.InstallOnSession(audio.sources[index])
+		break
+	case C.PA_SUBSCRIPTION_EVENT_REMOVE:
+		if audio.sources[index] != nil {
+			dbus.UnInstallObject(audio.sources[index])
+		}
+		delete(audio.sources, index)
+		break
 	}
 }
 
@@ -198,150 +335,60 @@ func (audio *Audio) GetServerInfo() *Audio {
 	return audio.getServerInfo()
 }
 
-func getCardFromC(_card C.card_t) *Card {
-	card := &Card{}
-	card.Index = int32(_card.index)
-	card.Name = C.GoString(&_card.name[0])
-	card.Driver = C.GoString(&_card.driver[0])
-	card.Owner_module = int32(_card.owner_module)
-	card.NProfiles = int32(_card.n_profiles)
-
-	card.Profiles = make([]CardProfileInfo, card.NProfiles)
-	for j := 0; j < int(card.NProfiles); j = j + 1 {
-		card.Profiles[j].Name = C.GoString(&_card.profiles[j].name[0])
-		card.Profiles[j].Description = C.GoString(&_card.profiles[j].description[0])
-		ret := C.strcmp((*C.char)(&_card.active_profile.name[0]),
-			(*C.char)(&_card.profiles[j].name[0]))
-		if ret == 0 {
-			card.ActiveProfile = &card.Profiles[j]
-		}
-		fmt.Println(card.Profiles[j].Name)
-	}
-	return card
-}
-
 func (audio *Audio) getCard() *Card {
 	card := &Card{}
 	return card
 }
 
-func (audio *Audio) getCards() []*Card {
+func (audio *Audio) getCards() map[int]*Card {
 	C.pa_get_card_list(audio.pa)
 	n := int(audio.pa.n_cards)
-	audio.cards = make([]*Card, n)
-	for i := 0; i < n; i = i + 1 {
-		audio.cards[i] = audio.getCardFromC(audio.pa.cards[i])
-		//audio.cards[i] = &Card{}
-		//audio.cards[i].Index = int32(audio.pa.cards[i].index)
-		//audio.cards[i].Name = C.GoString(&audio.pa.cards[i].name[0])
-		//audio.cards[i].Driver = C.GoString(&audio.pa.cards[i].driver[0])
-		//audio.cards[i].Owner_module = int32(audio.pa.cards[i].owner_module)
-		//audio.cards[i].NProfiles = int32(audio.pa.cards[i].n_profiles)
+	//audio.cards = make([]*Card, n)
 
-		//audio.cards[i].Profiles = make([]CardProfileInfo, audio.cards[i].NProfiles)
-		//for j := 0; j < int(audio.cards[i].NProfiles); j = j + 1 {
-		//audio.cards[i].Profiles[j].Name = C.GoString(&audio.pa.cards[i].profiles[j].name[0])
-		//audio.cards[i].Profiles[j].Description = C.GoString(&audio.pa.cards[i].profiles[j].description[0])
-		//ret := C.strcmp((*C.char)(&audio.pa.cards[i].active_profile.name[0]),
-		//(*C.char)(&audio.pa.cards[i].profiles[j].name[0]))
-		//if ret == 0 {
-		//audio.cards[i].ActiveProfile = &audio.cards[i].Profiles[j]
-		//}
-		//fmt.Println(audio.cards[i].Profiles[j].Name)
-		//}
+	for i := 0; i < n; i = i + 1 {
+		index := int(audio.pa.cards[i].index)
+		audio.cards[index] = getCardFromC(audio.pa.cards[i])
 	}
 	return audio.cards
 }
 
-func (audio *Audio) GetCards() []*Card {
-	return audio.getCards()
-}
+//func (audio *Audio) GetCards() []*Card {
+//return audio.getCards()
+//}
 
-func (audio *Audio) getsinks() []*Sink {
+func (audio *Audio) getsinks() map[int]*Sink {
 	C.pa_get_device_list(audio.pa)
 	n := int(audio.pa.n_sinks)
-	sinks := make([]*Sink, n)
+	//sinks := make([]*Sink, n)
+
 	for i := 0; i < n; i = i + 1 {
-		sinks[i] = &Sink{}
-		sinks[i].Index = int32(audio.pa.sinks[i].index)
-		sinks[i].Card = int32(audio.pa.sinks[i].card)
-		sinks[i].Description =
-			C.GoString((*C.char)(unsafe.Pointer(&audio.pa.sinks[i].description[0])))
-		sinks[i].Driver = C.GoString(&audio.pa.sinks[i].driver[0])
-		sinks[i].Name = C.GoString(&audio.pa.sinks[i].name[0])
-		sinks[i].Cvolume.Channels = uint32(audio.pa.sinks[i].volume.channels)
-		for j := 0; j < int(sinks[i].Cvolume.Channels); j = j + 1 {
-			sinks[i].Cvolume.Values[j] =
-				*((*uint32)(unsafe.Pointer(&audio.pa.sinks[i].volume.values[j])))
-		}
-		sinks[i].NPorts = int32(audio.pa.sinks[i].n_ports)
-		sinks[i].Ports = make([]SinkPortInfo, sinks[i].NPorts)
-		for j := 0; j < int(sinks[i].NPorts); j = j + 1 {
-			sinks[i].Ports[j].Available = int32(audio.pa.sinks[i].ports[j].available)
-			sinks[i].Ports[j].Name = C.GoString(&audio.pa.sinks[i].ports[j].name[0])
-			sinks[i].Ports[j].Description = C.GoString(&audio.pa.sinks[i].ports[j].description[0])
-			ret := C.strcmp((*C.char)(&audio.pa.sinks[i].ports[j].name[0]),
-				(*C.char)(&audio.pa.sinks[i].active_port.name[0]))
-			if ret == 0 {
-				sinks[i].ActivePort = &sinks[i].Ports[j]
-			}
-		}
-		if sinks[i].NPorts == 0 {
-			sinks[i].ActivePort = &SinkPortInfo{"", "", 0}
-		}
-		fmt.Println("Index: " + strconv.Itoa(int((sinks[i].Index))) + " Card:" + strconv.Itoa(int(sinks[i].Card)))
+		index := int(audio.pa.sinks[i].index)
+		audio.sinks[index] = getSinkFromC(audio.pa.sinks[i])
 	}
 
-	return sinks
+	return audio.sinks
 
 }
 
-func (audio *Audio) GetSinks() []*Sink {
-	return audio.getsinks()
-}
+//func (audio *Audio) GetSinks() []*Sink {
+//return audio.getsinks()
+//}
 
-func (audio *Audio) getSources() []*Source {
+func (audio *Audio) getSources() map[int]*Source {
 	C.pa_get_device_list(audio.pa)
 	n := int(audio.pa.n_sources)
-	sources := make([]*Source, n)
+	//sources := make([]*Source, n)
 
 	for i := 0; i < n; i = i + 1 {
-		sources[i] = &Source{}
-		sources[i].Index = int32(audio.pa.sources[i].index)
-		sources[i].Card = int32(audio.pa.sources[i].card)
-		sources[i].Mute = int32(audio.pa.sources[i].mute)
-		sources[i].Name = C.GoString((*C.char)(unsafe.Pointer(&audio.pa.sources[i].name[0])))
-		sources[i].Description = C.GoString(&audio.pa.sources[i].description[0])
-
-		sources[i].Cvolume.Channels = uint32(audio.pa.sources[i].volume.channels)
-		for j := uint32(0); j < sources[i].Cvolume.Channels; j = j + 1 {
-			sources[i].Cvolume.Values[j] =
-				*((*uint32)(unsafe.Pointer(&audio.pa.sources[i].volume.values[j])))
-		}
-
-		sources[i].NPorts = int32(audio.pa.sources[i].n_ports)
-
-		sources[i].Ports = make([]SourcePortInfo, sources[i].NPorts)
-		for j := 0; j < int(sources[i].NPorts); j = j + 1 {
-			sources[i].Ports[j].Available = int32(audio.pa.sources[i].ports[j].available)
-			sources[i].Ports[j].Name = C.GoString(&audio.pa.sources[i].ports[j].name[0])
-			sources[i].Ports[j].Description = C.GoString(&audio.pa.sources[i].ports[j].description[0])
-			ret := C.strcmp(&audio.pa.sources[i].ports[j].name[0],
-				&audio.pa.sources[i].active_port.name[0])
-			if ret == 0 {
-				sources[i].ActivePort = &sources[i].Ports[j]
-			}
-		}
-		if sources[i].NPorts == 0 {
-			sources[i].ActivePort = &SourcePortInfo{"", "", 0}
-		}
+		index := int(audio.pa.sources[i].index)
+		audio.sources[index] = getSourceFromC(audio.pa.sources[i])
 	}
-	return sources
+	return audio.sources
 }
 
-func (audio *Audio) GetSources() []*Source {
-	return audio.getSources()
-}
+//func (audio *Audio) GetSources() []*Source {
+//return audio.getSources()
+//}
 
 func (audio *Audio) getSinkInputs() []*SinkInput {
 	C.pa_get_sink_input_list(audio.pa)
@@ -592,13 +639,13 @@ func main() {
 		os.Exit(-1)
 	}
 	dbus.InstallOnSession(audio)
-	for i := 0; i < len(audio.cards); i = i + 1 {
+	for i := range audio.cards {
 		dbus.InstallOnSession(audio.cards[i])
 	}
-	for i := 0; i < len(audio.sinks); i = i + 1 {
+	for i := range audio.sinks {
 		dbus.InstallOnSession(audio.sinks[i])
 	}
-	for i := 0; i < len(audio.sources); i = i + 1 {
+	for i, _ := range audio.sources {
 		dbus.InstallOnSession(audio.sources[i])
 	}
 	fmt.Println("module started\n")

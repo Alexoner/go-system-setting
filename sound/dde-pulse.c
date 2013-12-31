@@ -240,6 +240,7 @@ void *pa_get_server_info(pa *self)
 int pa_subscribe(pa *self)
 {
     int state = 0;
+    int ret = 0;
 
     // Now we'll enter into an infinite loop until we get the data we receive
     // or if there's an error
@@ -247,12 +248,22 @@ int pa_subscribe(pa *self)
     {
         // We can't do anything until PA is ready, so just iterate the mainloop
         // and continue
-        /*fprintf(stderr, "trying to lock the pa_mutex lock\n");*/
         pthread_mutex_lock(&self->pa_mutex);
-        /*fprintf(stderr, "locked the pa_mutex lock\n");*/
         if (self->pa_ready == 0)
         {
-            pa_mainloop_iterate(self->pa_ml, 0, NULL);
+            ret = pa_mainloop_iterate(self->pa_ml, 0, NULL);
+            if (ret < 0)
+            {
+                if (ret == -2)
+                {
+                    //mainloop quit indicated
+                    pa_init_context(self);
+                    pthread_mutex_unlock(&self->pa_mutex);
+                    usleep(1000);
+                    fprintf(stderr, "mainloop quit indicated\n");
+                }
+                continue;
+            }
             pthread_mutex_unlock(&self->pa_mutex);
             continue;
         }
@@ -261,12 +272,6 @@ int pa_subscribe(pa *self)
         {
             printf("fail to connect to pulse server\n");
             /* wait for a while to reconnect to pulse server */
-            pa_context_disconnect(self->pa_ctx);
-            pa_context_unref(self->pa_ctx);
-            pa_mainloop_free(self->pa_ml);
-            self->pa_ctx = NULL;
-            self->pa_mlapi = NULL;
-            self->pa_ml = NULL;
             pa_init_context(self);
             pthread_mutex_unlock(&self->pa_mutex);
             usleep(1000);
@@ -2111,6 +2116,7 @@ void pa_context_subscribe_cb(pa_context *c,
                              void *userdata)
 {
     pa* self = userdata;
+    self->subscription_event = t;
     printf("subscribe_cb type: %d, idx: %d\n", t, idx);
     switch (t & PA_SUBSCRIPTION_EVENT_FACILITY_MASK)
     {
@@ -2119,48 +2125,62 @@ void pa_context_subscribe_cb(pa_context *c,
         if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_NEW)
         {
             printf("DEBUG card %d new\n", idx);
-            pa_context_get_card_info_by_index(c, idx, pa_card_info_cb, NULL);
+            pa_context_get_card_info_by_index(c, idx,
+                                              pa_card_update_info_cb, self);
         }
         else if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_CHANGE)
         {
             printf("DEBUG card %d state changed\n", idx);
-            pa_context_get_card_info_by_index(c, idx, pa_card_info_cb, NULL);
+            pa_context_get_card_info_by_index(c, idx,
+                                              pa_card_update_info_cb, self);
         }
         else if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_REMOVE)
         {
             printf("DEBUG card %d removed\n", idx);
+            updateCard(idx, t & PA_SUBSCRIPTION_EVENT_TYPE_MASK);
         }
         break;
     case PA_SUBSCRIPTION_EVENT_SINK:
         self->n_sinks = 0;
         if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_NEW)
         {
+            printf("DEBUG sink %d new\n", idx);
+            pa_context_get_sink_info_by_index(c, idx,
+                                              pa_sink_update_info_cb, self);
         }
         else if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_CHANGE)
         {
             printf("DEBUG sink %d state changed\n", idx);
+            pa_context_get_sink_info_by_index(c, idx,
+                                              pa_sink_update_info_cb, self);
         }
         else if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_REMOVE)
         {
             printf("DEBUG sink %d removed\n", idx);
+            updateSink(idx, t & PA_SUBSCRIPTION_EVENT_TYPE_MASK);
         }
-        pa_context_get_sink_info_by_index(c, idx, pa_sink_info_cb, NULL);
         break;
     case PA_SUBSCRIPTION_EVENT_SOURCE :
         self->n_sources = 0;
         if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_NEW)
         {
             printf("DEBUG source %d new\n", idx);
+            pa_context_get_source_info_by_index(c, idx,
+                                                pa_source_update_info_cb,
+                                                self);
         }
         else if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_CHANGE)
         {
             printf("DEBUG source %d changed\n", idx);
+            pa_context_get_source_info_by_index(c, idx,
+                                                pa_source_update_info_cb,
+                                                self);
         }
         else if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) == PA_SUBSCRIPTION_EVENT_REMOVE)
         {
             printf("DEBUG source %d removed\n", idx);
+            updateSource(idx, t & PA_SUBSCRIPTION_EVENT_TYPE_MASK);
         }
-        pa_context_get_source_info_by_index(c, idx, pa_source_info_cb, NULL);
         break;
     case PA_SUBSCRIPTION_EVENT_CLIENT:
         self->n_clients = 0;
@@ -2171,8 +2191,8 @@ void pa_context_subscribe_cb(pa_context *c,
         else
         {
             printf("DEBUG client %d inserted\n", idx);
+            pa_context_get_client_info(c, idx, pa_client_info_cb, self);
         }
-        pa_context_get_client_info(c, idx, pa_client_info_cb, NULL);
         break;
     case PA_SUBSCRIPTION_EVENT_SERVER:
         printf("DEBUG server\n");
@@ -2213,7 +2233,8 @@ void pa_get_serverinfo_cb(pa_context *c, const pa_server_info*i, void *userdata)
     return;
 }
 
-void pa_card_info_cb(pa_context *c, const pa_card_info*i, int eol, void *userdata)
+void pa_card_info_cb(pa_context *c, const pa_card_info*i,
+                     int eol, void *userdata)
 {
     pa *self = userdata;
     card_t *card;
@@ -2234,8 +2255,29 @@ void pa_card_info_cb(pa_context *c, const pa_card_info*i, int eol, void *userdat
     }
     self->n_cards++;
     card = self->cards + self->n_cards - 1;
-    pa2card(card, i);
+    if (i)
+    {
+        pa2card(card, i);
+    }
+    print_card(i);
     return;
+}
+
+void pa_card_update_info_cb(pa_context *c, const pa_card_info *l,
+                            int eol, void *userdata)
+{
+    pa *self = userdata;
+    if (l)
+    {
+        pa_card_info_cb(c, l, eol, userdata);
+        updateCard(l->index,
+                   self->subscription_event  & PA_SUBSCRIPTION_EVENT_TYPE_MASK);
+    }
+    else
+    {
+        fprintf(stderr, "NULL pointer\n");
+        return;;
+    }
 }
 
 // pa_mainloop will call this function when it's ready to tell us about a sink.
@@ -2267,21 +2309,30 @@ void pa_sink_info_cb(pa_context *c,
             return;
         }
     }
-    sink = self->sinks + self->n_sinks - 1;
-    pa2sink(sink, l);
-
-    printf("DEBUG sink changed \n");
-    printf("\tindex: %d\n", l->index);
-    printf("\tname: %s\n", l->name);
-    printf("\tdescription: %s\n", l->description);
-    printf("\tmute: %d\n", l->mute);
-    printf("\tvolume: channels:%d, min:%d, max:%d\n",
-           l->volume.channels,
-           pa_cvolume_min(&l->volume),
-           pa_cvolume_max(&l->volume));
-    if (l->active_port)
+    if (l)
     {
-        printf("\tactive port: name: %s\t description: %s\n", l->active_port->name, l->active_port->description);
+        sink = self->sinks + self->n_sinks - 1;
+        pa2sink(sink, l);
+        print_sink(l);
+    }
+}
+
+void pa_sink_update_info_cb(pa_context *c,
+                            const pa_sink_info *l,
+                            int eol,
+                            void *userdata)
+{
+    pa* self = userdata;
+    if (l)
+    {
+        pa_sink_info_cb(c, l, eol, userdata);
+        updateSink(l->index,
+                   self->subscription_event & PA_SUBSCRIPTION_EVENT_TYPE_MASK);
+    }
+    else
+    {
+        fprintf(stderr, "NULL pointer\n");
+        return;
     }
 }
 
@@ -2304,7 +2355,8 @@ void pa_get_sink_volume_cb(pa_context *c, const pa_sink_info *i, int eol, void *
 }
 
 // See above.  This callback is pretty much identical to the previous
-void pa_source_info_cb(pa_context *c, const pa_source_info *l, int eol, void *userdata)
+void pa_source_info_cb(pa_context *c, const pa_source_info *l,
+                       int eol, void *userdata)
 {
     pa *self = userdata;
     source_t *source = NULL;
@@ -2328,9 +2380,28 @@ void pa_source_info_cb(pa_context *c, const pa_source_info *l, int eol, void *us
     }
 
     source = self->sources + self->n_sources - 1;
-    pa2source(source, l);
+    if (l)
+    {
+        pa2source(source, l);
+    }
+}
 
-    printf("source %s------------------------------\n", l->name);
+void pa_source_update_info_cb(pa_context *c, const pa_source_info *l,
+                              int eol, void *userdata)
+{
+    pa *self = userdata;
+    pa_source_info_cb(c, l, eol, userdata);
+    if (l)
+    {
+        print_source(l);
+        updateSource(l->index,
+                     self->subscription_event & PA_SUBSCRIPTION_EVENT_TYPE_MASK);
+    }
+    else
+    {
+        fprintf(stderr, "source is NULL pointer\n");
+        return;
+    }
 }
 
 void pa_get_source_volume_cb(pa_context *c, const pa_source_info *i, int eol, void *userdata)
@@ -2560,6 +2631,53 @@ void pa_set_sink_input_volume_cb(pa_context *c, int success, void *userdata)
     }
 }
 
+int print_card(pa_card_info *l)
+{
+    if (l)
+    {
+        printf("card:\n");
+        printf("\tindex: %d\n ", l->index);
+        printf("\tactive_profile: %s\n", l->active_profile->name);
+        return 0;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+int print_sink(pa_sink_info *l)
+{
+    if (l)
+    {
+        printf("\tindex: %d\n", l->index);
+        printf("\tname: %s\n", l->name);
+        printf("\tdescription: %s\n", l->description);
+        printf("\tmute: %d\n", l->mute);
+        printf("\tvolume: channels:%d, min:%d, max:%d\n",
+               l->volume.channels,
+               pa_cvolume_min(&l->volume),
+               pa_cvolume_max(&l->volume));
+        if (l->active_port)
+        {
+            printf("\tactive port: name: %s\t description: %s\n", l->active_port->name, l->active_port->description);
+        }
+    }
+    return 0;
+}
+
+int print_source(pa_source_info *l)
+{
+    if (l)
+    {
+        printf("source:\n");
+        printf("\tindex: %d\n", l->index);
+        printf("\tname: %s\n", l->name);
+        printf("\tdescription: %s\n", l->description);
+    }
+    return 0;
+}
+
 card_t* pa2card(card_t *card, const pa_card_info *i)
 {
     if (!card || !i)
@@ -2584,6 +2702,7 @@ card_t* pa2card(card_t *card, const pa_card_info *i)
         if (strcmp(i->profiles[j].name,
                    i->active_profile->name) == 0)
         {
+            fprintf(stderr, "new active profile: %s\n", i->active_profile->name);
             card->active_profile = card->profiles + j;
         }
     }
