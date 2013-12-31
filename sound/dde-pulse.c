@@ -833,13 +833,6 @@ int pa_set_sink_mute_by_index(pa *self, int index, int mute)
         }
         if (self->pa_ready == 2)
         {
-            pa_context_disconnect(self->pa_ctx);
-            pa_context_unref(self->pa_ctx);
-            pa_mainloop_free(self->pa_ml);
-            self->pa_op = NULL;
-            self->pa_ctx = NULL;
-            self->pa_mlapi = NULL;
-            self->pa_ml = NULL;
             pa_init_context(self);
 
             continue;
@@ -847,7 +840,8 @@ int pa_set_sink_mute_by_index(pa *self, int index, int mute)
         switch (state)
         {
         case 0:
-            self->pa_op = pa_context_set_sink_mute_by_index(self->pa_ctx, index, mute, pa_context_success_cb, self);
+            self->pa_op = pa_context_set_sink_mute_by_index(self->pa_ctx,
+                          index, mute, pa_context_success_cb, self);
             state++;
             break;
         case 1:
@@ -883,6 +877,7 @@ int pa_set_sink_volume_by_index(pa *self, int index, pa_cvolume *cvolume)
         return -1;
     }
 
+    pthread_mutex_lock(&self->pa_mutex);
     for (;;)
     {
         if (self->pa_ready == 0)
@@ -892,13 +887,6 @@ int pa_set_sink_volume_by_index(pa *self, int index, pa_cvolume *cvolume)
         }
         if (self->pa_ready == 2)
         {
-            pa_context_disconnect(self->pa_ctx);
-            pa_context_unref(self->pa_ctx);
-            pa_mainloop_free(self->pa_ml);
-            self->pa_op = NULL;
-            self->pa_ctx = NULL;
-            self->pa_mlapi = NULL;
-            self->pa_ml = NULL;
             pa_init_context(self);
             continue;
         }
@@ -933,6 +921,7 @@ int pa_inc_sink_volume_by_index(pa *self, int index, int volume)
     int state = 0;
     pa_cvolume cvolume;
 
+    pthread_mutex_lock(&self->pa_mutex);
     for (;;)
     {
         if (self->pa_ready == 0)
@@ -967,20 +956,16 @@ int pa_inc_sink_volume_by_index(pa *self, int index, int volume)
                 {
                     fprintf(stderr, "Invalid increased volume\n");
                     pa_operation_unref(self->pa_op);
-                    pa_context_disconnect(self->pa_ctx);
-                    pa_context_unref(self->pa_ctx);
-                    pa_mainloop_free(self->pa_ml);
                     self->pa_op = NULL;
                     self->pa_ctx = NULL;
-                    self->pa_ml = NULL;
-                    self->pa_mlapi = NULL;
-                    pa_init_context(self);
                     return 0;
                 }
                 else
                 {
-                    pa_context_set_sink_volume_by_index(self->pa_ctx, index, &cvolume,
-                                                        pa_set_sink_input_volume_cb, self);
+                    pa_context_set_sink_volume_by_index(self->pa_ctx, index,
+                                                        &cvolume,
+                                                        pa_set_sink_input_volume_cb,
+                                                        self);
                     state++;
                     break;
                 }
@@ -990,14 +975,8 @@ int pa_inc_sink_volume_by_index(pa *self, int index, int volume)
             if (pa_operation_get_state(self->pa_op) == PA_OPERATION_DONE)
             {
                 pa_operation_unref(self->pa_op);
-                pa_context_disconnect(self->pa_ctx);
-                pa_context_unref(self->pa_ctx);
-                pa_mainloop_free(self->pa_ml);
                 self->pa_op = NULL;
-                self->pa_ctx = NULL;
-                self->pa_mlapi = NULL;
-                self->pa_ml = NULL;
-                pa_init_context(self);
+                pthread_mutex_unlock(&self->pa_mutex);
                 return 0;
             }
             break;
@@ -1017,6 +996,7 @@ int pa_dec_sink_volume_by_index(pa *self, int index, int volume)
     pa_cvolume cvolume;
     memset(&cvolume, 0, sizeof(cvolume));
 
+    pthread_mutex_lock(&self->pa_mutex);
     for (;;)
     {
         if (self->pa_ready == 0)
@@ -1026,13 +1006,6 @@ int pa_dec_sink_volume_by_index(pa *self, int index, int volume)
         }
         if (self->pa_ready == 2)
         {
-            pa_context_disconnect(self->pa_ctx);
-            pa_context_unref(self->pa_ctx);
-            pa_mainloop_free(self->pa_ml);
-            self->pa_op = NULL;
-            self->pa_ctx = NULL;
-            self->pa_mlapi = NULL;
-            self->pa_ml = NULL;
             pa_init_context(self);
             return -1;
         }
@@ -1051,13 +1024,7 @@ int pa_dec_sink_volume_by_index(pa *self, int index, int volume)
                 {
                     fprintf(stderr, "Invalid decreased volume\n");
                     pa_operation_unref(self->pa_op);
-                    pa_context_disconnect(self->pa_ctx);
-                    pa_context_unref(self->pa_ctx);
-                    pa_mainloop_free(self->pa_ml);
                     self->pa_op = NULL;
-                    self->pa_ctx = NULL;
-                    self->pa_ml = NULL;
-                    self->pa_mlapi = NULL;
                     pa_init_context(self);
                     return -1;
                 }
@@ -1074,14 +1041,8 @@ int pa_dec_sink_volume_by_index(pa *self, int index, int volume)
             if (pa_operation_get_state(self->pa_op) == PA_OPERATION_DONE)
             {
                 pa_operation_unref(self->pa_op);
-                pa_context_disconnect(self->pa_ctx);
-                pa_context_unref(self->pa_ctx);
-                pa_mainloop_free(self->pa_ml);
                 self->pa_op = NULL;
-                self->pa_ctx = NULL;
-                self->pa_mlapi = NULL;
-                self->pa_ml = NULL;
-                pa_init_context(self);
+                pthread_mutex_unlock(&self->pa_mutex);
                 return -1;
             }
             break;
@@ -1108,13 +1069,6 @@ int pa_set_source_port_by_index(pa *self, int index, const char *port)
         }
         if (self->pa_ready == 2)
         {
-            pa_context_disconnect(self->pa_ctx);
-            pa_context_unref(self->pa_ctx);
-            pa_mainloop_free(self->pa_ml);
-            self->pa_op = NULL;
-            self->pa_ctx = NULL;
-            self->pa_mlapi = NULL;
-            self->pa_ml = NULL;
             pa_init_context(self);
 
             continue;
@@ -1152,6 +1106,7 @@ int pa_set_source_mute_by_index(pa *self, int index, int mute)
 {
     int state = 0;
 
+    pthread_mutex_lock(&self->pa_mutex);
     for (;;)
     {
         if (self->pa_ready == 0)
@@ -1161,16 +1116,9 @@ int pa_set_source_mute_by_index(pa *self, int index, int mute)
         }
         if (self->pa_ready == 2)
         {
-            pa_context_disconnect(self->pa_ctx);
-            pa_context_unref(self->pa_ctx);
-            pa_mainloop_free(self->pa_ml);
-            self->pa_op = NULL;
-            self->pa_ctx = NULL;
-            self->pa_mlapi = NULL;
-            self->pa_ml = NULL;
             pa_init_context(self);
 
-            return -1;
+            continue;
         }
         switch (state)
         {
@@ -1184,6 +1132,7 @@ int pa_set_source_mute_by_index(pa *self, int index, int mute)
             {
                 pa_operation_unref(self->pa_op);
                 self->pa_op = NULL;
+                pthread_mutex_unlock(&self->pa_mutex);
                 return 0;
             }
             break;
@@ -1212,6 +1161,7 @@ int pa_set_source_volume_by_index(pa *self, int index, pa_cvolume *cvolume)
         return -1;
     }
 
+    pthread_mutex_lock(&self->pa_mutex);
     for (;;)
     {
         if (self->pa_ready == 0)
@@ -1241,14 +1191,8 @@ int pa_set_source_volume_by_index(pa *self, int index, pa_cvolume *cvolume)
             if (pa_operation_get_state(self->pa_op) == PA_OPERATION_DONE)
             {
                 pa_operation_unref(self->pa_op);
-                pa_context_disconnect(self->pa_ctx);
-                pa_context_unref(self->pa_ctx);
-                pa_mainloop_free(self->pa_ml);
                 self->pa_op = NULL;
-                self->pa_ctx = NULL;
-                self->pa_mlapi = NULL;
-                self->pa_ml = NULL;
-                pa_init_context(self);
+                pthread_mutex_unlock(&self->pa_mutex);
                 return 0;
             }
             break;
@@ -2715,7 +2659,7 @@ sink_t *pa2sink(sink_t *sink, const pa_sink_info *l)
     sink->index = l->index;
     sink->volume = l->volume;
     sink->mute = l->mute;
-    sink->nvolumesteps = l->n_volume_steps;
+    sink->n_volume_steps = l->n_volume_steps;
     strncpy(sink->name, l->name, strlen(l->name) + 1);
     strncpy(sink->driver, l->driver, strlen(l->driver) + 1);
     strncpy(sink->description, l->description, strlen(l->description) + 1);
@@ -2739,7 +2683,7 @@ sink_t *pa2sink(sink_t *sink, const pa_sink_info *l)
 source_t *pa2source(source_t *source, const pa_source_info *l)
 {
     int i;
-    source->nvolumesteps = l->n_volume_steps;
+    source->n_volume_steps = l->n_volume_steps;
     source->card = l->card;
     source->index = l->index;
     source->mute = l->mute;
@@ -2752,7 +2696,7 @@ source_t *pa2source(source_t *source, const pa_source_info *l)
     {
         strncpy(source->ports[i].name,
                 l->ports[i]->name,
-                sizeof(source->ports[i].name - 1));
+                sizeof(source->ports[i].name) - 1);
         strncpy(source->ports[i].description,
                 l->ports[i]->description,
                 sizeof(source->ports[i].description) - 1);
