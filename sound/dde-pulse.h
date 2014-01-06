@@ -250,6 +250,10 @@ card_t *pa2card(card_t *card, const pa_card_info *l);
 sink_t *pa2sink(sink_t *sink, const pa_sink_info *l);
 source_t *pa2source(source_t *source, const pa_source_info *l);
 
+int print_card(pa_card_info *l);
+int print_sink(pa_sink_info *l);
+int print_source(pa_source_info *l);
+
 
 //utils
 int pa_init_context(pa *self);
