@@ -2114,6 +2114,30 @@ void pa_context_subscribe_cb(pa_context *c,
         }
         break;
     case PA_SUBSCRIPTION_EVENT_SOURCE_OUTPUT:
+        self->n_source_outputs = 0;
+        if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) ==
+                PA_SUBSCRIPTION_EVENT_NEW)
+        {
+            printf("DEBUG source output %d new\n", idx);
+            pa_context_get_source_output_info(c, idx,
+                                              pa_source_output_update_info_cb,
+                                              self);
+        }
+        else if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) ==
+                 PA_SUBSCRIPTION_EVENT_CHANGE)
+        {
+            printf("DEBUG source output %d changed\n", idx);
+            pa_context_get_source_output_info(c, idx,
+                                              pa_source_output_update_info_cb,
+                                              self);
+        }
+        else if ((t & PA_SUBSCRIPTION_EVENT_TYPE_MASK) ==
+                 PA_SUBSCRIPTION_EVENT_REMOVE)
+        {
+            printf("DEBUG source output %d removed\n", idx);
+            updateSinkInput(idx,
+                            t & PA_SUBSCRIPTION_EVENT_TYPE_MASK);
+        }
         break;
     }
 }
@@ -2537,7 +2561,8 @@ void pa_source_output_update_info_cb(pa_context *c,
     if (o)
     {
         pa_source_output_info_cb(c, o, eol, userdata);
-        updateSourceOutput(o->index, self->subscription_event);
+        updateSourceOutput(o->index,
+                           self->subscription_event & PA_SUBSCRIPTION_EVENT_TYPE_MASK);
     }
     else
     {
