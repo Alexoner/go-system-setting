@@ -282,11 +282,13 @@ func NewAudio() (*Audio, error) {
 	audio.cards = make(map[int]*Card)
 	audio.sinks = make(map[int]*Sink)
 	audio.sources = make(map[int]*Source)
-	audio.cards = audio.getCards()
-	audio.sinks = audio.getsinks()
-	audio.sources = audio.getSources()
-	audio.sinkInputs = audio.getSinkInputs()
-	audio.sourceOutputs = audio.getSourceOutputs()
+
+	audio.getServerInfo()
+	audio.getCards()
+	audio.getsinks()
+	audio.getSources()
+	audio.getSinkInputs()
+	audio.getSourceOutputs()
 	return audio, nil
 }
 
@@ -658,7 +660,8 @@ func (source *Source) SetSourceMute(mute int32) int32 {
 func (sinkInput *SinkInput) GetDBusInfo() dbus.DBusInfo {
 	return dbus.DBusInfo{
 		"com.deepin.daemon.Audio",
-		"/com/deepin/daemon/Audio/Application" + strconv.FormatInt(int64(sinkInput.Index), 10),
+		"/com/deepin/daemon/Audio/Application" +
+			strconv.FormatInt(int64(sinkInput.Index), 10),
 		"com.deepin.daemon.Audio.Application",
 	}
 }
@@ -673,7 +676,7 @@ func (sinkInput *SinkInput) setSinkInputVolume(cvolume *C.pa_cvolume) int32 {
 		cvolume))
 }
 
-func (sinkInput *SinkInput) SetSinkInputVolume(volume int32) int32 {
+func (sinkInput *SinkInput) SetVolume(volume int32) int32 {
 	var cvolume C.pa_cvolume
 	cvolume.channels = C.uint8_t(2)
 	for i := 0; i < 2; i = i + 1 {
@@ -687,7 +690,7 @@ func (sinkInput *SinkInput) setSinkInputMute(mute int32) int32 {
 		C.int(sinkInput.Index), C.int(mute)))
 }
 
-func (sinkInput *SinkInput) SetSinkInputMute(mute int32) int32 {
+func (sinkInput *SinkInput) SetMute(mute int32) int32 {
 	return sinkInput.setSinkInputMute(mute)
 }
 
@@ -710,7 +713,7 @@ func (sourceOutput *SourceOutput) setSourceOutputVolume(cvolume *C.pa_cvolume) i
 		cvolume))
 }
 
-func (sourceOutput *SourceOutput) SetSourceOutputVolume(volume int32) int32 {
+func (sourceOutput *SourceOutput) SetVolume(volume int32) int32 {
 	var cvolume C.pa_cvolume
 	cvolume.channels = C.uint8_t(2)
 	for i := 0; i < 2; i = i + 1 {
@@ -719,7 +722,7 @@ func (sourceOutput *SourceOutput) SetSourceOutputVolume(volume int32) int32 {
 	return sourceOutput.setSourceOutputVolume(&cvolume)
 }
 
-func (sourceOutput *SourceOutput) SetSourceOutputMute(mute int32) int32 {
+func (sourceOutput *SourceOutput) SetMute(mute int32) int32 {
 	return 1
 }
 
