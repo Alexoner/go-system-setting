@@ -105,8 +105,8 @@ func (p *Power) GetDBusInfo() dbus.DBusInfo {
 }
 
 func (power *Power) getGsettingsProperty() int32 {
-	power.CurrentPlan = property.NewGSettingsStringProperty(
-		power, "CurrentPlan", power.powerSettings, "current-plan")
+	//power.CurrentPlan = property.NewGSettingsStringProperty(
+	//power, "CurrentPlan", power.powerSettings, "current-plan")
 	power.ButtonHibernate = property.NewGSettingsStringProperty(
 		power, "ButtonHibernate", power.powerSettings, "button-hibernate")
 	power.ButtonPower = property.NewGSettingsStringProperty(
@@ -122,8 +122,8 @@ func (power *Power) getGsettingsProperty() int32 {
 		power, "LidCloseAction", power.powerSettings, "lid-close-ac-action")
 	power.LidCloseBatteryAction = property.NewGSettingsStringProperty(
 		power, "LidCloseBatteryAction", power.powerSettings, "lid-close-battery-action")
-	power.ShowTray = property.NewGSettingsBoolProperty(
-		power, "ShowTray", power.powerSettings, "show-tray")
+	//power.ShowTray = property.NewGSettingsBoolProperty(
+	//power, "ShowTray", power.powerSettings, "show-tray")
 	power.SleepInactiveAcTimeout = property.NewGSettingsIntProperty(
 		power, "SleepInactiveAcTimeout", power.powerSettings, "sleep-inactive-ac-timeout")
 	power.SleepInactiveBatteryTimeout = property.NewGSettingsIntProperty(

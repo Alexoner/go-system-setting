@@ -26,8 +26,6 @@ type Audio struct {
 
 	HostName string
 	UserName string
-	Cards    map[int]string
-	//Change func(int32)
 }
 
 type CardProfileInfo struct {
@@ -38,13 +36,11 @@ type CardProfileInfo struct {
 type Card struct {
 	Index         int32
 	Name          string
-	Owner_module  int32
-	Driver        string
+	owner_module  int32
+	driver        string
 	NProfiles     int32
 	Profiles      []CardProfileInfo
 	ActiveProfile *CardProfileInfo
-	Inputs        string
-	Outputs       string
 }
 
 type SinkPortInfo struct {
@@ -57,7 +53,7 @@ type Sink struct {
 	Index       int32
 	Name        string
 	Description string
-	Driver      string
+	driver      string
 	Mute        int32
 	Card        int32
 	Volume      int32
@@ -81,7 +77,7 @@ type Source struct {
 	Index       int32
 	Name        string
 	Description string
-	Driver      string
+	driver      string
 	Mute        int32
 	//NVolumeSteps int32
 	Card       int32
@@ -97,11 +93,11 @@ type Source struct {
 type SinkInput struct {
 	Index           int32
 	Name            string
-	Owner_module    int32
+	owner_module    int32
 	Client          int32
 	Sink            int32
 	Volume          int32
-	Driver          string
+	driver          string
 	Mute            int32
 	Has_volume      int32
 	Volume_writable int32
@@ -112,11 +108,11 @@ type SinkInput struct {
 type SourceOutput struct {
 	Index           int32
 	Name            string
-	Owner_module    int32
+	owner_module    int32
 	Client          int32
 	Source          int32
 	Volume          int32
-	Driver          string
+	driver          string
 	Mute            int32
 	Has_volume      int32
 	Volume_writable int32
@@ -127,8 +123,8 @@ type SourceOutput struct {
 type Client struct {
 	Index        int32
 	Name         string
-	Owner_module int32
-	Driver       string
+	owner_module int32
+	driver       string
 	//pa_proplist *proplist
 	Prop map[string]string
 }
@@ -142,8 +138,8 @@ func getCardFromC(_card C.card_t) *Card {
 	card := &Card{}
 	card.Index = int32(_card.index)
 	card.Name = C.GoString(&_card.name[0])
-	card.Driver = C.GoString(&_card.driver[0])
-	card.Owner_module = int32(_card.owner_module)
+	card.driver = C.GoString(&_card.driver[0])
+	card.owner_module = int32(_card.owner_module)
 	card.NProfiles = int32(_card.n_profiles)
 
 	card.Profiles = make([]CardProfileInfo, card.NProfiles)
@@ -165,7 +161,7 @@ func getSinkFromC(_sink C.sink_t) *Sink {
 	sink.Card = int32(_sink.card)
 	sink.Description =
 		C.GoString((*C.char)(unsafe.Pointer(&_sink.description[0])))
-	sink.Driver = C.GoString(&_sink.driver[0])
+	sink.driver = C.GoString(&_sink.driver[0])
 	sink.Mute = int32(_sink.mute)
 	sink.Name = C.GoString(&_sink.name[0])
 	sink.Volume = int32(C.pa_cvolume_avg(&_sink.volume) * 100 / C.PA_VOLUME_NORM)
@@ -261,10 +257,10 @@ func getSourceOutputFromC(_source_output C.source_output_t) *SourceOutput {
 	sourceOutput := &SourceOutput{}
 	sourceOutput.Index = int32(_source_output.index)
 	sourceOutput.Name = C.GoString(&_source_output.name[0])
-	sourceOutput.Owner_module = int32(_source_output.owner_module)
+	sourceOutput.owner_module = int32(_source_output.owner_module)
 	sourceOutput.Client = int32(_source_output.client)
 	sourceOutput.Source = int32(_source_output.source)
-	sourceOutput.Driver = C.GoString(&_source_output.driver[0])
+	sourceOutput.driver = C.GoString(&_source_output.driver[0])
 	sourceOutput.Mute = int32(_source_output.mute)
 	//sourceOutputs[i].Cvolume.Channels = uint32(audio.pa.source_outputs[i].volume.channels)
 
@@ -563,9 +559,9 @@ func (audio *Audio) GetClients() []*Client {
 	for i := 0; i < n; i = i + 1 {
 		clients[i] = &Client{}
 		clients[i].Index = int32(audio.pa.clients[i].index)
-		clients[i].Owner_module = int32(audio.pa.clients[i].owner_module)
+		clients[i].owner_module = int32(audio.pa.clients[i].owner_module)
 		clients[i].Name = C.GoString((*C.char)(unsafe.Pointer(&audio.pa.clients[i].name[0])))
-		clients[i].Driver = C.GoString((*C.char)(unsafe.Pointer(&audio.pa.clients[i].driver[0])))
+		clients[i].driver = C.GoString((*C.char)(unsafe.Pointer(&audio.pa.clients[i].driver[0])))
 	}
 	return clients
 }
@@ -594,7 +590,8 @@ func (card *Card) SetCardProfile(port string) int32 {
 }
 
 func (card *Card) GetSinks() []*Sink {
-	var sinks []*Sink
+	n := len(audio.sinks)
+	var sinks []*Sink = make([]*Sink, n)
 	j := 0
 	for _, sink := range audio.sinks {
 		if sink.Card == card.Index {
@@ -602,17 +599,18 @@ func (card *Card) GetSinks() []*Sink {
 			j = j + 1
 		}
 	}
-	return sinks
+	return sinks[0:j]
 }
 
 func (card *Card) GetSources() []*Source {
-	var sources []*Source
+	n := len(audio.sources)
+	var sources []*Source = make([]*Source, n)
 	j := 0
 	for _, source := range audio.sources {
 		sources[j] = source
 		j = j + 1
 	}
-	return sources
+	return sources[0:j]
 }
 
 func (sink *Sink) setSinkPort(port *C.char) int32 {
