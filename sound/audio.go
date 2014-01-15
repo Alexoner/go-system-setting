@@ -46,7 +46,7 @@ type Card struct {
 type SinkPortInfo struct {
 	Name        string
 	Description string
-	Available   int32
+	Available   int32 //0:unknown,1:no,2:yes
 }
 
 type Sink struct {
@@ -60,7 +60,7 @@ type Sink struct {
 
 	//NVolumeSteps int32
 
-	NPorts     int32
+	nports     int32
 	Ports      []SinkPortInfo
 	ActivePort *SinkPortInfo
 }
@@ -80,12 +80,11 @@ type Source struct {
 	driver      string
 	Mute        int32
 	//NVolumeSteps int32
-	Card       int32
-	C_ports    int32
-	N_formates int32
-	Volume     int32
+	Card int32
+	//N_formates int32
+	Volume int32
 
-	NPorts     int32
+	nports     int32
 	Ports      []SourcePortInfo
 	ActivePort *SourcePortInfo
 }
@@ -171,9 +170,9 @@ func getSinkFromC(_sink C.sink_t) *Sink {
 	//sink.Cvolume.Values[j] =
 	//*((*uint32)(unsafe.Pointer(&_sink.volume.values[j])))
 	//}
-	sink.NPorts = int32(_sink.n_ports)
-	sink.Ports = make([]SinkPortInfo, sink.NPorts)
-	for j := 0; j < int(sink.NPorts); j = j + 1 {
+	sink.nports = int32(_sink.n_ports)
+	sink.Ports = make([]SinkPortInfo, sink.nports)
+	for j := 0; j < int(sink.nports); j = j + 1 {
 		sink.Ports[j].Available = int32(_sink.ports[j].available)
 		sink.Ports[j].Name = C.GoString(&_sink.ports[j].name[0])
 		sink.Ports[j].Description = C.GoString(&_sink.ports[j].description[0])
@@ -183,7 +182,7 @@ func getSinkFromC(_sink C.sink_t) *Sink {
 			sink.ActivePort = &sink.Ports[j]
 		}
 	}
-	if sink.NPorts == 0 {
+	if sink.nports == 0 {
 		sink.ActivePort = &SinkPortInfo{"", "", 0}
 	}
 	fmt.Println("Index: " + strconv.Itoa(int((sink.Index))) + " Card:" + strconv.Itoa(int(sink.Card)))
@@ -206,9 +205,9 @@ func getSourceFromC(_source C.source_t) *Source {
 	//*((*uint32)(unsafe.Pointer(&_source.volume.values[j])))
 	//}
 
-	source.NPorts = int32(_source.n_ports)
-	source.Ports = make([]SourcePortInfo, source.NPorts)
-	for j := 0; j < int(source.NPorts); j = j + 1 {
+	source.nports = int32(_source.n_ports)
+	source.Ports = make([]SourcePortInfo, source.nports)
+	for j := 0; j < int(source.nports); j = j + 1 {
 		source.Ports[j].Available = int32(_source.ports[j].available)
 		source.Ports[j].Name = C.GoString(&_source.ports[j].name[0])
 		source.Ports[j].Description = C.GoString(&_source.ports[j].description[0])
@@ -218,7 +217,7 @@ func getSourceFromC(_source C.source_t) *Source {
 			source.ActivePort = &source.Ports[j]
 		}
 	}
-	if source.NPorts == 0 {
+	if source.nports == 0 {
 		source.ActivePort = &SourcePortInfo{"", "", 0}
 	}
 
