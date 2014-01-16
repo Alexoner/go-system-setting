@@ -1,7 +1,7 @@
 CFLAGS=-g -Wall
 LDFLAGS=-lpulse
 
-sound:audio.go
+sound:audio.go libdde-pulse.so
 	$(MAKE) libdde-pulse.so
 	go build
 libdde-pulse.so:dde-pulse.c dde-pulse.h
