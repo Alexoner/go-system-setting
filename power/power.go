@@ -180,7 +180,7 @@ func getUpowerDeviceObjectPath(devices []dbus.ObjectPath) []dbus.ObjectPath {
 		panic(err)
 	}
 	linePattern, err := regexp.Compile(
-		"org/freedesktop/UPower/devices/line_power_ADP[[:digit:]]+")
+		"/org/freedesktop/UPower/devices/line_power_ADP[[:digit:]]+")
 	if err != nil {
 		panic(err)
 	}

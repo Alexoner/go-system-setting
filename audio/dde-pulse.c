@@ -2188,7 +2188,7 @@ void pa_card_info_cb(pa_context *c, const pa_card_info*i,
     }
     if (eol > 0)
     {
-        printf("End of card list.\n");
+        /*printf("End of card list.\n");*/
         return;
     }
     if (self->n_cards >= MAX_CARDS)
@@ -2237,7 +2237,7 @@ void pa_sink_info_cb(pa_context *c,
     // If eol is set to a positive number, you're at the end of the list
     if (eol > 0)
     {
-        fprintf(stderr, "End of sink list\n");
+        /*fprintf(stderr, "End of sink list\n");*/
         return;
     }
     else
@@ -2379,7 +2379,7 @@ void pa_get_client_info_cb(pa_context *c, const pa_client_info *i,
 
     if (eol > 0)
     {
-        printf("End of clients\n");
+        /*printf("End of clients\n");*/
         return;
     }
     else
@@ -2424,7 +2424,7 @@ void pa_sink_input_info_cb(pa_context *c,
     }
     if (eol > 0)
     {
-        printf("End of sink inputs list.\n");
+        /*printf("End of sink inputs list.\n");*/
         return;
     }
     else
@@ -2505,7 +2505,7 @@ void pa_source_output_info_cb(pa_context *c,
     }
     if (eol > 0)
     {
-        printf("End of source outputs list.\n");
+        /*printf("End of source outputs list.\n");*/
         return;
     }
     else
