@@ -400,7 +400,7 @@ void *pa_get_device_list(pa *self)
     {
         if (!self->sinks)
         {
-            fprintf(stderr, "NULL pointer error\n");
+            /*fprintf(stderr, "NULL pointer error\n");*/
             return NULL;
         }
     }
@@ -408,7 +408,7 @@ void *pa_get_device_list(pa *self)
     {
         if (!self->sources)
         {
-            fprintf(stderr, "NULL pointer error\n");
+            /*fprintf(stderr, "NULL pointer error\n");*/
             return NULL;
         }
     }
@@ -666,7 +666,7 @@ int pa_set_card_profile_by_index(pa *self, int index, const char *profile)
 
     if (!self)
     {
-        fprintf(stderr, "self is NULL pointer !\n");
+        /*fprintf(stderr, "self is NULL pointer !\n");*/
         return -1;
     }
 
@@ -745,7 +745,7 @@ int pa_set_sink_port_by_index(pa *self, int index, const char *port)
 
     if (!self)
     {
-        fprintf(stderr, "self is NULL pointer !\n");
+        /*fprintf(stderr, "self is NULL pointer !\n");*/
         return -1;
     }
 
@@ -804,7 +804,7 @@ int pa_set_sink_mute_by_index(pa *self, int index, int mute)
 
     if (!self)
     {
-        fprintf(stderr, "self is NULL pointer !\n");
+        /*fprintf(stderr, "self is NULL pointer !\n");*/
         return -1;
     }
 
@@ -2147,7 +2147,7 @@ void pa_get_serverinfo_cb(pa_context *c, const pa_server_info*i, void *userdata)
     pa *self = userdata;
     if ( self == NULL)
     {
-        fprintf(stderr, "NULL pointer passed\n");
+        /*fprintf(stderr, "NULL pointer passed\n");*/
         return;
     }
     else
@@ -2218,7 +2218,7 @@ void pa_card_update_info_cb(pa_context *c, const pa_card_info *l,
     }
     else
     {
-        fprintf(stderr, "NULL pointer\n");
+        /*fprintf(stderr, "NULL pointer\n");*/
         return;;
     }
 }
@@ -2274,7 +2274,7 @@ void pa_sink_update_info_cb(pa_context *c,
     }
     else
     {
-        fprintf(stderr, "NULL pointer\n");
+        /*fprintf(stderr, "NULL pointer\n");*/
         return;
     }
 }
@@ -2306,7 +2306,7 @@ void pa_source_info_cb(pa_context *c, const pa_source_info *l,
 
     if (eol > 0)
     {
-        fprintf(stderr, "End of source list\n");
+        /*fprintf(stderr, "End of source list\n");*/
         return;
     }
     else
@@ -2343,7 +2343,7 @@ void pa_source_update_info_cb(pa_context *c, const pa_source_info *l,
     }
     else
     {
-        fprintf(stderr, "source is NULL pointer\n");
+        /*fprintf(stderr, "source is NULL pointer\n");*/
         return;
     }
 }
@@ -2500,7 +2500,7 @@ void pa_source_output_info_cb(pa_context *c,
     source_output_t *source_output = NULL;
     if (!self)
     {
-        fprintf(stderr, "NULL pointer!\n");
+        /*fprintf(stderr, "NULL pointer!\n");*/
         return;
     }
     if (eol > 0)
@@ -2678,7 +2678,7 @@ card_t* pa2card(card_t *card, const pa_card_info *i)
 {
     if (!card || !i)
     {
-        fprintf(stderr, "NULL pointer error\n");
+        /*fprintf(stderr, "NULL pointer error\n");*/
         return NULL;
     }
     int j;

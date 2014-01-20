@@ -128,8 +128,8 @@ func (power *Power) getGsettingsProperty() int32 {
 		power, "SleepInactiveAcTimeout", power.powerSettings, "sleep-inactive-ac-timeout")
 	power.SleepInactiveBatteryTimeout = property.NewGSettingsIntProperty(
 		power, "SleepInactiveBatteryTimeout", power.powerSettings, "sleep-inactive-battery-timeout")
-	power.SleepDisplayAc = property.NewGSettingsIntProperty(
-		power, "SleepDisplayAc", power.powerSettings, "sleep-display-ac")
+	//power.SleepDisplayAc = property.NewGSettingsIntProperty(
+	//power, "SleepDisplayAc", power.powerSettings, "sleep-display-ac")
 	power.SleepDisplayBattery = property.NewGSettingsIntProperty(
 		power, "SleepDisplayBattery", power.powerSettings, "sleep-display-battery")
 
