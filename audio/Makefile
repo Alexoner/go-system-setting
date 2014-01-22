@@ -1,8 +1,8 @@
 CFLAGS=-g -Wall
 LDFLAGS=-lpulse
 
-audio:audio.go libdde-pulse.so
-	$(MAKE) libdde-pulse.so
+audio:audio.go dde-pulse.c dde-pulse.h
+	#$(MAKE) libdde-pulse.so
 	go build
 libdde-pulse.so:dde-pulse.c dde-pulse.h
 	$(CC) -fPIC -shared -o $@ $^ $(LDFLAGS) $(CFLAGS)
