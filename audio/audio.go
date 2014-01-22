@@ -139,16 +139,6 @@ type Client struct {
 	Prop map[string]string
 }
 
-//type Volume struct {
-//Channels uint32
-//Values   [320]uint32
-//}
-
-//func compare(x, y interface{}) bool {
-
-//return true
-//}
-
 func getDiffProperty(x, y interface{}) map[string]interface{} {
 
 	if x == nil || y == nil {

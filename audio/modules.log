@@ -1,0 +1,215 @@
+4 module(s) loaded.                                                                                                                                                                            
+    index: 0                                                                                                                                                                                    
+        name: <module-device-restore>                                                                                                                                                           
+        argument: <>                                                                                                                                                                            
+        used: -1                                                                                                                                                                                
+        load once: yes
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "Automatically restore the volume/mute state of devices"
+                module.version = "4.0"
+    index: 1
+        name: <module-stream-restore>
+        argument: <>
+        used: -1
+        load once: yes
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "Automatically restore the volume/mute/device state of streams"
+                module.version = "4.0"
+    index: 2
+        name: <module-card-restore>
+        argument: <>
+        used: -1
+        load once: yes
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "Automatically restore profile of cards"
+                module.version = "4.0"
+    index: 3
+        name: <module-augment-properties>
+        argument: <>
+        used: -1
+        load once: yes
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "Augment the property sets of streams with additional static information"
+                module.version = "4.0"
+    index: 4
+        name: <module-switch-on-port-available>
+        argument: <>
+        used: -1
+        load once: no
+        properties:
+
+    index: 5
+        name: <module-alsa-card>
+        argument: <device_id="0" name="pci-0000_00_1b.0" card_name="alsa_card.pci-0000_00_1b.0" namereg_fail=false tsched=yes fixed_latency_range=no ignore_dB=no deferred_volume=yes use_ucm=yes card_properties="module-udev-detect.discovered=1">
+        used: 0
+        load once: no
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "ALSA Card"
+                module.version = "4.0"
+    index: 6
+        name: <module-udev-detect>
+        argument: <>
+        used: -1
+        load once: yes
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "Detect available audio hardware and load matching drivers"
+                module.version = "4.0"
+    index: 7
+        name: <module-native-protocol-unix>
+        argument: <>
+        used: -1
+        load once: no
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "Native protocol (UNIX sockets)"
+                module.version = "4.0"
+    index: 8
+        name: <module-default-device-restore>
+        argument: <>
+        used: -1
+        load once: yes
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "Automatically restore the default sink and source"
+                module.version = "4.0"
+    index: 9
+        name: <module-rescue-streams>
+        argument: <>
+        used: -1
+        load once: yes
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "When a sink/source is removed, try to move their streams to the default sink/source"
+                module.version = "4.0"
+    index: 10
+        name: <module-always-sink>
+        argument: <>
+        used: -1
+        load once: yes
+        properties:
+                module.author = "Colin Guthrie"
+                module.description = "Always keeps at least one sink loaded even if it's a null one"
+                module.version = "4.0"
+    index: 11
+        name: <module-intended-roles>
+        argument: <>
+        used: -1
+        load once: yes
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "Automatically set device of streams based of intended roles of devices"
+                module.version = "4.0"
+    index: 12
+        name: <module-suspend-on-idle>
+        argument: <>
+        used: -1
+        load once: yes
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "When a sink/source is idle for too long, suspend it"
+                module.version = "4.0"
+    index: 13
+        name: <module-systemd-login>
+        argument: <>
+        used: -1
+        load once: yes
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "Create a client for each login session of this user"
+                module.version = "4.0"
+    index: 14
+        name: <module-position-event-sounds>
+        argument: <>
+        used: -1
+        load once: yes
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "Position event sounds between L and R depending on the position on screen of the widget triggering them."
+                module.version = "4.0"
+    index: 15
+        name: <module-filter-heuristics>
+        argument: <>
+        used: -1
+        load once: yes
+        properties:
+                module.author = "Colin Guthrie"
+                module.description = "Detect when various filters are desirable"
+                module.version = "4.0"
+    index: 16
+        name: <module-filter-apply>
+        argument: <>
+        used: -1
+        load once: yes
+        properties:
+                module.author = "Colin Guthrie"
+                module.description = "Load filter sinks automatically when needed"
+                module.version = "4.0"
+    index: 18
+        name: <module-device-manager>
+        argument: <do_routing=1>
+        used: -1
+        load once: yes
+        properties:
+                module.author = "Colin Guthrie"
+                module.description = "Keep track of devices (and their descriptions) both past and present and prioritise by role"
+                module.version = "4.0"
+    index: 23
+        name: <module-cli-protocol-unix>
+        argument: <>
+        used: -1
+        load once: no
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "Command line interface protocol (UNIX sockets)"
+                module.version = "4.0"
+    index: 24
+        name: <module-cli-protocol-tcp>
+        argument: <>
+        used: -1
+        load once: no
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "Command line interface protocol (TCP sockets)"
+                module.version = "4.0"
+    index: 29
+        name: <module-x11-publish>
+        argument: <display=:0>
+        used: -1
+        load once: no
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "X11 credential publisher"
+                module.version = "4.0"
+    index: 30
+        name: <module-x11-bell>
+        argument: <display=:0 sample=bell.ogg>
+        used: -1
+        load once: no
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "X11 bell interceptor"
+                module.version = "4.0"
+    index: 31
+        name: <module-x11-cork-request>
+        argument: <display=:0>
+        used: -1
+        load once: no
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "Synthesize X11 media key events when cork/uncork is requested"
+                module.version = "4.0"
+    index: 32
+        name: <module-x11-xsmp>
+        argument: <display=:0 session_manager=local/administrator-Aspire-4752:@/tmp/.ICE-unix/10550,unix/administrator-Aspire-4752:/tmp/.ICE-unix/10550>
+        used: -1
+        load once: no
+        properties:
+                module.author = "Lennart Poettering"
+                module.description = "X11 session management"
+                module.version = "4.0"

@@ -26,7 +26,7 @@
 #include <pulse/mainloop.h>
 
 #include "dde-pulse.h"
-
+#include "_cgo_export.h"
 
 #define MAX_KEY 32
 
@@ -654,8 +654,9 @@ void *pa_get_source_output_list(pa *self)
         {
         case 0:
             self->n_source_outputs = 0;
-            self->pa_op = pa_context_get_source_output_info_list(self->pa_ctx,
-                          pa_source_output_info_cb, self);
+            self->pa_op = pa_context_get_source_output_info_list(
+                              self->pa_ctx,
+                              pa_source_output_info_cb, self);
             state++;
             break;
         case 1:
