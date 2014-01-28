@@ -4,13 +4,15 @@ package main
 
 import (
 	"dlib"
+	"dlib/gio-2.0"
 	"fmt"
 )
 
 func TestGSettings() {
 	go dlib.StartLoop() //gtk_main()
 
-	s := dlib.NewSettings("org.gnome.settings-daemon.plugins.power")
+	//s := dlib.NewSettings("org.gnome.settings-daemon.plugins.power")
+	s := gio.NewSettings("com.deepin.daemon.power")
 	fmt.Println(s.ListKeys())
 	v := s.GetBoolean("active")
 	defer func() {
