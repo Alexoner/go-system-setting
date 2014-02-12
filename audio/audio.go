@@ -32,8 +32,8 @@ type Audio struct {
 	Cards         []*Card
 	Sinks         []*Sink
 	Sources       []*Source
-	DefaultSink   int32
-	DefaultSource int32
+	DefaultSink   int32 `access:"readwrite"`
+	DefaultSource int32 `access:"readwrite"`
 
 	//signals
 	DeviceAdded   func(string)
@@ -383,6 +383,7 @@ func NewAudio() (*Audio, error) {
 	audio.getSources()
 	//audio.getSinkInputs()
 	//audio.getSourceOutputs()
+	audio.setDefaultDevice()
 
 	audio.updateCards()
 	audio.updateSinks()
@@ -594,7 +595,8 @@ func (audio *Audio) setDefaultDevice() int32 {
 	for key, value := range audio.Sources {
 		if value.monitorOfSink == C.PA_INVALID_INDEX {
 			//set the default source
-
+			C.pa_set_default_source(audio.pa,
+				(*C.char)(C.CString(value.Name)))
 			audio.DefaultSource = int32(key)
 			break
 		}
@@ -611,7 +613,8 @@ func (audio *Audio) setDefaultDevice() int32 {
 				ret := analogPattern.FindString(port.Name)
 				if ret != "" {
 					//set the default sink which has analog ports
-
+					C.pa_set_default_sink(audio.pa,
+						(*C.char)(C.CString(value.Name)))
 					audio.DefaultSink = int32(key)
 					break
 				}
@@ -622,6 +625,16 @@ func (audio *Audio) setDefaultDevice() int32 {
 	}
 
 	return 0
+}
+
+func (audio *Audio) setDefaultSink(name string) int32 {
+	return int32(C.pa_set_default_sink(audio.pa,
+		(*C.char)(C.CString(name))))
+}
+
+func (audio *Audio) setDefaultSource(name string) int32 {
+	return int32(C.pa_set_default_source(audio.pa,
+		(*C.char)(C.CString(name))))
 }
 
 //export updateSinkInput
@@ -695,6 +708,39 @@ func (audio *Audio) getServerInfo() *Audio {
 	//fmt.Print("go: " + C.GoString((audio.pa.server_info.host_name)) + "\n")
 
 	return audio
+}
+
+func (audio *Audio) OnPropertiesChanged(name string, oldv interface{}) {
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Print(err)
+		}
+	}()
+	switch name {
+	case "DefaultSink":
+		fmt.Printf("%v changed: %v\n", name, oldv)
+		if oldv == audio.DefaultSink {
+			break
+		}
+		if audio.DefaultSink < 0 ||
+			int(audio.DefaultSink) >= len(audio.Sinks) {
+			audio.DefaultSink = oldv.(int32)
+			break
+		}
+		audio.setDefaultSink(audio.Sinks[audio.DefaultSink].Name)
+		break
+	case "DefaultSource":
+		if oldv == audio.DefaultSource {
+			break
+		}
+
+		if audio.DefaultSource < 0 ||
+			int(audio.DefaultSource) >= len(audio.Sources) {
+			audio.DefaultSource = oldv.(int32)
+			break
+		}
+		audio.setDefaultSource(audio.Sources[audio.DefaultSource].Name)
+	}
 }
 
 func (audio *Audio) GetCards() []*Card {
@@ -1174,7 +1220,7 @@ func main() {
 	for i := range audio.sinks {
 		dbus.InstallOnSession(audio.sinks[i])
 	}
-	for i, value := range audio.sources {
+	for i, _ := range audio.sources {
 		//if value.monitorOfSink == C.PA_INVALID_INDEX {
 		dbus.InstallOnSession(audio.sources[i])
 		//}
