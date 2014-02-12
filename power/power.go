@@ -1,5 +1,11 @@
 package main
 
+// #cgo amd64 386 CFLAGS: -g -Wall
+// #cgo pkg-config:glib-2.0 x11 xext gtk+-3.0 gdk-3.0
+// #define GNOME_DESKTOP_USE_UNSTABLE_API
+// #include "gnome-idle-monitor.h"
+import "C"
+
 import (
 	"dbus/org/freedesktop/upower"
 	"dlib"

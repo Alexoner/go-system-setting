@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"os"
 	"reflect"
+	"regexp"
 	"strconv"
 	"unsafe"
 )
@@ -26,11 +27,13 @@ type Audio struct {
 	sourceOutputs map[int]*SourceOutput
 
 	//exported properties
-	HostName string
-	UserName string
-	Cards    []*Card
-	Sinks    []*Sink
-	Sources  []*Source
+	HostName      string
+	UserName      string
+	Cards         []*Card
+	Sinks         []*Sink
+	Sources       []*Source
+	DefaultSink   int32
+	DefaultSource int32
 
 	//signals
 	DeviceAdded   func(string)
@@ -96,8 +99,8 @@ type Source struct {
 	Mute          bool `access:"readwrite"`
 	monitorOfSink uint32
 	card          int32
-	Volume        uint32 `access:"readwrite"`
-	Balance       float64
+	Volume        uint32  `access:"readwrite"`
+	Balance       float64 `access:"readwrite"`
 	//N_formates int32
 	//NVolumeSteps int32
 
@@ -416,6 +419,7 @@ func updateCard(_index C.int,
 				for key, v := range changes {
 					audio.DeviceChanged(key, v)
 					fmt.Printf("\t %v: %v\n", key, v)
+					dbus.NotifyChange(audio.cards[index], key)
 				}
 				break
 			}
@@ -468,8 +472,8 @@ func updateSink(_index C.int,
 				fmt.Printf("updating sink property:\n")
 				for key, v := range changes {
 					audio.DeviceChanged(key, v)
-					//dbus.NotifyChange(audio.sinks[i], key)
 					fmt.Printf("\t%v: %v\n", key, v)
+					dbus.NotifyChange(audio.sinks[i], key)
 				}
 				break
 			}
@@ -502,10 +506,10 @@ func updateSource(_index C.int,
 	switch event {
 	case C.PA_SUBSCRIPTION_EVENT_NEW:
 		audio.sources[index] = getSourceFromC(audio.pa.sources[0])
-		if audio.sources[index].monitorOfSink == C.PA_INVALID_INDEX {
-			audio.DeviceAdded(audio.sources[index].GetDBusInfo().Dest)
-			dbus.InstallOnSession(audio.sources[index])
-		}
+		//if audio.sources[index].monitorOfSink == C.PA_INVALID_INDEX {
+		audio.DeviceAdded(audio.sources[index].GetDBusInfo().Dest)
+		dbus.InstallOnSession(audio.sources[index])
+		//}
 		break
 	case C.PA_SUBSCRIPTION_EVENT_CHANGE:
 		newsource := getSourceFromC(audio.pa.sources[0])
@@ -517,9 +521,9 @@ func updateSource(_index C.int,
 				audio.sources[i] = newsource
 				fmt.Print("updating source property:\n")
 				for key, _ := range changes {
-					//dbus.NotifyChange(audio.sources[i], key)
 					audio.DeviceChanged(key, changes[key])
 					fmt.Printf("\t%v: %v\n", key, changes[key])
+					dbus.NotifyChange(audio.sources[i], key)
 				}
 				dbus.InstallOnSession(audio.sources[i])
 				break
@@ -527,11 +531,11 @@ func updateSource(_index C.int,
 		}
 		if isnewsource != 0 {
 			audio.sources[index] = newsource
-			if audio.sources[index].monitorOfSink == C.PA_INVALID_INDEX {
-				audio.sources[index] = getSourceFromC(audio.pa.sources[0])
-				dbus.InstallOnSession(audio.sources[index])
-				audio.DeviceAdded(audio.sources[index].GetDBusInfo().Dest)
-			}
+			//if audio.sources[index].monitorOfSink == C.PA_INVALID_INDEX {
+			audio.sources[index] = getSourceFromC(audio.pa.sources[0])
+			dbus.InstallOnSession(audio.sources[index])
+			audio.DeviceAdded(audio.sources[index].GetDBusInfo().Dest)
+			//}
 			fmt.Printf("installed new souce %v\n", index)
 		}
 		break
@@ -576,13 +580,47 @@ func (audio *Audio) updateSources() int32 {
 	s := make([]*Source, n)
 	i := 0
 	for _, value := range audio.sources {
-		if value.monitorOfSink == C.PA_INVALID_INDEX {
-			s[i] = value
-			i++
-		}
+		//if value.monitorOfSink == C.PA_INVALID_INDEX {
+		s[i] = value
+		i++
+		//}
 	}
 	audio.Sources = s[0:i]
 	dbus.NotifyChange(audio, "Sources")
+	return 0
+}
+
+func (audio *Audio) setDefaultDevice() int32 {
+	for key, value := range audio.Sources {
+		if value.monitorOfSink == C.PA_INVALID_INDEX {
+			//set the default source
+
+			audio.DefaultSource = int32(key)
+			break
+		}
+	}
+
+	length := len(audio.Sinks)
+	if length >= 2 {
+		analogPattern, err := regexp.Compile(".*analog.*")
+		if err != nil {
+			panic(err)
+		}
+		for key, value := range audio.Sinks {
+			for _, port := range value.Ports {
+				ret := analogPattern.FindString(port.Name)
+				if ret != "" {
+					//set the default sink which has analog ports
+
+					audio.DefaultSink = int32(key)
+					break
+				}
+			}
+		}
+	} else {
+		audio.DefaultSink = 0
+	}
+
 	return 0
 }
 
@@ -1137,9 +1175,9 @@ func main() {
 		dbus.InstallOnSession(audio.sinks[i])
 	}
 	for i, value := range audio.sources {
-		if value.monitorOfSink == C.PA_INVALID_INDEX {
-			dbus.InstallOnSession(audio.sources[i])
-		}
+		//if value.monitorOfSink == C.PA_INVALID_INDEX {
+		dbus.InstallOnSession(audio.sources[i])
+		//}
 	}
 	for i, _ := range audio.sinkInputs {
 		dbus.InstallOnSession(audio.sinkInputs[i])
