@@ -2809,6 +2809,7 @@ idle_configure (GsdPowerManager *manager)
                                     &is_idle_inhibited))
     {
         /* Session isn't available yet, postpone */
+        g_debug("Session isn't available yet,postpone\n");
         return;
     }
 
@@ -2871,6 +2872,7 @@ idle_configure (GsdPowerManager *manager)
     clear_idle_watch (manager->priv->idle_monitor,
                       &manager->priv->idle_sleep_warning_id);
 
+    g_debug ("setting up sleep callback %is", timeout_sleep);
     if (timeout_sleep != 0)
     {
         g_debug ("setting up sleep callback %is", timeout_sleep);
