@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
-  <schema path="/com/deepin/daemon/power/" id="com.deepin.daemon.power" gettext-domain="deepin-settings-daemon">
+    <schema path="/com/deepin/daemon/power/"
+         id="com.deepin.daemon.power" gettext-domain="deepin">
+    <key type="s" name="current-profile">
+      <default>'Default'</default>
+      <summary>Current Profile</summary>
+      <description>Describes the current profile</description>
+    </key>
+    <key type="as" name="existing-profiles">
+      <default>['Default']</default>
+      <summary>Existing Profiles</summary>
+      <description>Profiles available for the GSettings backend to use</description>
+    </key>
+  </schema>
+  <schema  id="com.deepin.daemon.power.settings"
+        gettext-domain="deepin">
     <key type="b" name="active">
       <default>true</default>
       <summary>Activation of this plugin</summary>

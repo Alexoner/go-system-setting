@@ -61,7 +61,9 @@
 #define UPOWER_DBUS_INTERFACE                   "org.freedesktop.UPower"
 #define UPOWER_DBUS_INTERFACE_KBDBACKLIGHT      "org.freedesktop.UPower.KbdBacklight"
 
-#define GSD_POWER_SETTINGS_SCHEMA               "org.gnome.settings-daemon.plugins.power"
+/*#define GSD_POWER_SETTINGS_SCHEMA             "org.gnome.settings-daemon.plugins.power"*/
+#define DEEPIN_POWER_SETTINGS_SCHEMA            "com.deepin.daemon.power.settings"
+#define DEEPIN_POWER_SETTINGS_PATH              "/com/deepin/daemon/power/profiles/Default/"
 #define GSD_XRANDR_SETTINGS_SCHEMA              "org.gnome.settings-daemon.plugins.xrandr"
 
 #define GSD_POWER_DBUS_NAME                     GSD_DBUS_NAME ".Power"
@@ -3689,7 +3691,10 @@ gsd_power_manager_start (GsdPowerManager *manager,
     manager->priv->kbd_brightness_old = -1;
     manager->priv->kbd_brightness_pre_dim = -1;
     manager->priv->pre_dim_brightness = -1;
-    manager->priv->settings = g_settings_new (GSD_POWER_SETTINGS_SCHEMA);
+    /*manager->priv->settings = g_settings_new(GSD_POWER_SETTINGS_SCHEMA);*/
+    manager->priv->settings = g_settings_new_with_path(DEEPIN_POWER_SETTINGS_SCHEMA,
+                              DEEPIN_POWER_SETTINGS_PATH);
+    g_debug("created new setttings with path :%s\n", DEEPIN_POWER_SETTINGS_PATH);
     g_signal_connect (manager->priv->settings, "changed",
                       G_CALLBACK (engine_settings_key_changed_cb), manager);
     manager->priv->settings_screensaver = g_settings_new ("org.gnome.desktop.screensaver");
@@ -3792,7 +3797,6 @@ gsd_power_manager_start (GsdPowerManager *manager,
 
     /* coldplug the engine */
     engine_coldplug (manager);
-    g_debug("gsd_power_manager_start()\n");
     idle_configure (manager);
 
     manager->priv->xscreensaver_watchdog_timer_id = gsd_power_enable_screensaver_watchdog ();
