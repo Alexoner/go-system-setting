@@ -2973,7 +2973,7 @@ main_battery_or_ups_low_changed (GsdPowerManager *manager,
     if (is_low == manager->priv->battery_is_low)
         return;
     manager->priv->battery_is_low = is_low;
-    g_debug("main_battery_or_ups-low_changed():\n");
+    g_debug("main_battery_or_ups_low_changed():\n");
     idle_configure (manager);
 }
 
