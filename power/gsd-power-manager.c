@@ -380,6 +380,9 @@ engine_get_warning_csr (GsdPowerManager *manager, UpDevice *device)
     return WARNING_NONE;
 }
 
+/**
+ * get the warning based on the percentage
+ */
 static GsdPowerManagerWarning
 engine_get_warning_percentage (GsdPowerManager *manager, UpDevice *device)
 {
@@ -1809,6 +1812,7 @@ engine_charge_action (GsdPowerManager *manager, UpDevice *device)
     }
     else if (kind == UP_DEVICE_KIND_UPS)
     {
+        //Uninterruptible power supply
         /* TRANSLATORS: UPS is really, really, low */
         title = _("UPS critically low");
 
@@ -1879,6 +1883,9 @@ out:
     g_free (message);
 }
 
+/**
+ * callback for upower device changes,such as power percentage drops
+ */
 static void
 engine_device_changed_cb (UpClient *client, UpDevice *device, GsdPowerManager *manager)
 {
@@ -1932,7 +1939,8 @@ engine_device_changed_cb (UpClient *client, UpDevice *device, GsdPowerManager *m
     /* check the warning state has not changed */
     warning_old = GPOINTER_TO_INT(g_object_get_data (G_OBJECT(device), "engine-warning-old"));
     warning = engine_get_warning (manager, device);
-    if (warning != warning_old)
+    /*if (warning != warning_old)*/
+    if (1)
     {
         if (warning == WARNING_LOW)
         {
@@ -2771,7 +2779,10 @@ idle_is_session_inhibited (GsdPowerManager  *manager,
 
     /* not yet connected to gnome-session */
     if (manager->priv->session == NULL)
+    {
+        g_debug("not yet connected to gnome-session");
         return FALSE;
+    }
 
     variant = g_dbus_proxy_get_cached_property (manager->priv->session,
               "InhibitedActions");

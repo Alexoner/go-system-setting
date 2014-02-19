@@ -7,10 +7,11 @@ gsd-power-manager:gsd-power-manager.c \
 	gsd-backlight-linux.c\
 	gsd-power-plugin.c\
 	gsd-input-helper.c\
+	gnome-settings-session.c\
 	func.c\
 	gsd-power-main.c
 
-	$(CC) -o $@ $^ $(CFLAGS) 
+	$(CC) -o $@ $^ $(CFLAGS)
 
 .PHONY:clean
 
