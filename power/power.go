@@ -1,7 +1,9 @@
 package main
 
+// #cgo CFLAGS: -DLIBEXECDIR=""
 // #cgo amd64 386 CFLAGS: -g -Wall
-// #cgo pkg-config:glib-2.0 x11 xext gtk+-3.0 gdk-3.0
+// #cgo pkg-config:glib-2.0 gtk+-3.0 x11 xext xtst xi gnome-desktop-3.0 upower-glib libnotify libcanberra-gtk3 gudev-1.0
+// #cgo LDFLAGS: -lm
 // #define GNOME_DESKTOP_USE_UNSTABLE_API
 // #include "gnome-idle-monitor.h"
 import "C"
@@ -29,7 +31,7 @@ const (
 	schema_gsettings_power               = "com.deepin.daemon.power"
 	schema_gsettings_power_settings_id   = "com.deepin.daemon.power.settings"
 	schema_gsettings_power_settings_path = "/com/deepin/daemon/power/profiles/"
-	//schema_gsettings_screensaver = "org.gnome.desktop.screensaver"
+	schema_gsettings_screensaver         = "org.gnome.desktop.screensaver"
 )
 
 type Power struct {
@@ -82,10 +84,14 @@ func NewPower() (*Power, error) {
 	power := Power{}
 
 	power.powerProfile = gio.NewSettings(schema_gsettings_power)
-	power.CurrentProfile = property.NewGSettingsStringProperty(power,
-		"CurrentProfile", power.powerProfile, "current-profile")
+	power.CurrentProfile = property.NewGSettingsStringProperty(
+		&power, "CurrentProfile", power.powerProfile,
+		"current-profile")
 
-	power.powerSettings = gio.NewSettings(schema_gsettings_power + power.CurrentProfile + "/")
+	power.powerSettings = gio.NewSettingsWithPath(
+		schema_gsettings_power_settings_id,
+		string(schema_gsettings_power_settings_path)+
+			power.CurrentProfile.Get()+"/")
 	power.screensaverSettings = gio.NewSettings(schema_gsettings_screensaver)
 	power.getGsettingsProperty()
 
