@@ -1,4 +1,4 @@
-cscope 15 $HOME/Documents/go/src/github.com/Alexoner/system-settings/power               0000968874
+cscope 15 $HOME/Documents/go/src/github.com/Alexoner/system-settings/power               0000970975
 	@config.h
 
 5 
@@ -14007,15 +14007,15 @@ deviûid
 
 	@gsd-power-enums-update.c
 
-1 
+2 
 	~<glib-objeù.h
 >
 
-2 
+3 
 	~<gsd-pow”-’ums.h
 >
 
-5 
+6 
 	$ouut_’um_v®ues
  (
 GTy³
@@ -14023,19 +14023,19 @@ GTy³
 şass_ty³
 )
 
-7 
+8 
 GEnumCÏss
  *
 eşass
 ;
 
-8 
+9 
 gušt
  
 i
 ;
 
-10 
+11 
 eşass
  = 
 	`G_ENUM_CLASS
@@ -14045,15 +14045,15 @@ eşass
 şass_ty³
 ));
 
-11 
+12 
 i
  = 0; i < 
 eşass
 ->
 n_v®ues
-; i++) {
+; i++)
 
-12 
+14 
 GEnumV®ue
  *
 v®ue
@@ -14065,7 +14065,7 @@ v®ues
 i
 ]);
 
-13 
+15 
 	`g_´št
  ("% ğ%d;\n", 
 v®ue
@@ -14073,11 +14073,11 @@ v®ue
 v®ue_Çme
 , value->value);
 
-15 
+17 
 	}
 }
 
-18 
+20 
 	$ouut_æags_v®ues
  (
 GTy³
@@ -14085,19 +14085,19 @@ GTy³
 şass_ty³
 )
 
-20 
+22 
 GFÏgsCÏss
  *
 fşass
 ;
 
-21 
+23 
 gušt
  
 i
 ;
 
-23 
+25 
 fşass
  = 
 	`G_FLAGS_CLASS
@@ -14107,15 +14107,15 @@ fşass
 şass_ty³
 ));
 
-24 
+26 
 i
  = 0; i < 
 fşass
 ->
 n_v®ues
-; i++) {
+; i++)
 
-25 
+28 
 GFÏgsV®ue
  *
 v®ue
@@ -14127,7 +14127,7 @@ v®ues
 i
 ]);
 
-26 
+29 
 	`g_´št
  ("% ğ%d;\n", 
 v®ue
@@ -14135,11 +14135,11 @@ v®ue
 v®ue_Çme
 , value->value);
 
-28 
+31 
 	}
 }
 
-31 
+34 
 	$maš
  (
 ¬gc
@@ -14147,31 +14147,31 @@ v®ue_Çme
 ¬gv
 )
 
-33 
-	`g_ty³_şass_»f
- (
-GSD_POWER_TYPE_INHIBITOR_FLAG
-);
-
-34 
-	`g_ty³_şass_»f
- (
-GSD_POWER_TYPE_PRESENCE_STATUS
-);
-
-35 
-	`ouut_æags_v®ues
- (
-GSD_POWER_TYPE_INHIBITOR_FLAG
-);
-
 36 
-	`ouut_’um_v®ues
+	`g_ty³_şass_»f
+ (
+GSD_POWER_TYPE_INHIBITOR_FLAG
+);
+
+37 
+	`g_ty³_şass_»f
  (
 GSD_POWER_TYPE_PRESENCE_STATUS
 );
 
 38 
+	`ouut_æags_v®ues
+ (
+GSD_POWER_TYPE_INHIBITOR_FLAG
+);
+
+39 
+	`ouut_’um_v®ues
+ (
+GSD_POWER_TYPE_PRESENCE_STATUS
+);
+
+41 
 	}
 }
 
@@ -14435,7 +14435,11 @@ FALSE
 	}
 }
 
-71 
+71 #ifdeà
+MAIN
+
+
+72 
 	$maš
 (
 ¬gc
@@ -14443,7 +14447,7 @@ FALSE
 ¬gv
 )
 
-73 
+74 
 GsdPow”Mªag”
  *
 mªag”
@@ -14451,7 +14455,7 @@ mªag”
 	`gsd_pow”_mªag”_Ãw
 ();
 
-75 
+76 
 GE¼Ü
  *
 ”rÜ
@@ -14459,7 +14463,7 @@ GE¼Ü
 NULL
 ;
 
-76 
+77 
 	`·r£_¬gs
 (&
 ¬gc
@@ -14467,7 +14471,7 @@ NULL
 ¬gv
 );
 
-77 
+78 
 	`gtk_š™
 (&
 ¬gc
@@ -14475,7 +14479,7 @@ NULL
 ¬gv
 );
 
-78 
+79 
 	`gsd_pow”_mªag”_¡¬t
 (
 mªag”
@@ -14483,11 +14487,15 @@ mªag”
 ”rÜ
 );
 
-79 
+80 
+	`nÙify_š™
+("gsd-power-manager");
+
+81 
 	`gtk_maš
 ();
 
-81 
+83 
 	}
 }
 
@@ -21649,23 +21657,17 @@ mªag”
 deviû
 );
 
-1942 ià(
-w¬nšg
- !ğ
-w¬nšg_Şd
-)
-
-1944 ià(
+1945 ià(
 w¬nšg
  =ğ
 WARNING_LOW
 )
 
-1946 
+1947 
 	`g_debug
  ("** EMIT: charge-low");
 
-1947 
+1948 
 	`’gše_ch¬ge_low
  (
 mªag”
@@ -21673,17 +21675,17 @@ mªag”
 deviû
 );
 
-1949 ià(
+1950 ià(
 w¬nšg
  =ğ
 WARNING_CRITICAL
 )
 
-1951 
+1952 
 	`g_debug
  ("** EMIT: charge-critical");
 
-1952 
+1953 
 	`’gše_ch¬ge_ü™iÿl
  (
 mªag”
@@ -21691,17 +21693,17 @@ mªag”
 deviû
 );
 
-1954 ià(
+1955 ià(
 w¬nšg
  =ğ
 WARNING_ACTION
 )
 
-1956 
+1957 
 	`g_debug
  ("charge-action");
 
-1957 
+1958 
 	`’gše_ch¬ge_aùiÚ
  (
 mªag”
@@ -21709,7 +21711,7 @@ mªag”
 deviû
 );
 
-1960 
+1961 
 	`g_objeù_£t_d©a
  (
 	`G_OBJECT
@@ -21721,21 +21723,21 @@ deviû
 w¬nšg
 ));
 
-1963 
+1964 
 	`’gše_»ÿlcuÏ‹_¡©e
  (
 mªag”
 );
 
-1964 
+1965 
 	}
 }
 
-1966 
+1967 
 UpDeviû
  *
 
-1967 
+1968 
 	$’gše_g‘_´im¬y_deviû
  (
 GsdPow”Mªag”
@@ -21743,13 +21745,13 @@ GsdPow”Mªag”
 mªag”
 )
 
-1969 
+1970 
 gušt
  
 i
 ;
 
-1970 
+1971 
 UpDeviû
  *
 deviû
@@ -21757,31 +21759,31 @@ deviû
 NULL
 ;
 
-1971 
+1972 
 UpDeviû
  *
 deviû_tmp
 ;
 
-1972 
+1973 
 UpDeviûKšd
  
 kšd
 ;
 
-1973 
+1974 
 UpDeviûS‹
  
 ¡©e
 ;
 
-1974 
+1975 
 gboŞ—n
  
 is_´e£Á
 ;
 
-1976 
+1977 
 i
  = 0; i < 
 mªag”
@@ -21793,7 +21795,7 @@ deviûs_¬¿y
 Ën
 ; i++)
 
-1978 
+1979 
 deviû_tmp
  = 
 	`g_±r_¬¿y_šdex
@@ -21807,45 +21809,45 @@ deviûs_¬¿y
 i
 );
 
-1981 
+1982 
 	`g_objeù_g‘
  (
 deviû_tmp
 ,
 
-1982 "kšd", &
+1983 "kšd", &
 kšd
 ,
 
-1983 "¡©e", &
+1984 "¡©e", &
 ¡©e
 ,
 
-1984 "is-´e£Á", &
+1985 "is-´e£Á", &
 is_´e£Á
 ,
 
-1985 
+1986 
 NULL
 );
 
-1988 ià(!
+1989 ià(!
 is_´e£Á
 )
 
-1992 ià(
+1993 ià(
 ¡©e
  !ğ
 UP_DEVICE_STATE_DISCHARGING
 )
 
-1996 ià(
+1997 ià(
 kšd
  !ğ
 UP_DEVICE_KIND_BATTERY
 )
 
-2000 
+2001 
 deviû
  = 
 	`g_objeù_»f
@@ -21857,15 +21859,15 @@ mªag”
 deviû_tmp
 ));
 
-2003  
+2004  
 deviû
 ;
 
-2004 
+2005 
 	}
 }
 
-2007 
+2008 
 	$gnome_£ssiÚ_shutdown_cb
  (
 GObjeù
@@ -21873,25 +21875,25 @@ GObjeù
 sourû_objeù
 ,
 
-2008 
+2009 
 GAsyncResuÉ
  *
 »s
 ,
 
-2009 
+2010 
 gpoš‹r
  
 u£r_d©a
 )
 
-2011 
+2012 
 GV¬ŸÁ
  *
 »suÉ
 ;
 
-2012 
+2013 
 GE¼Ü
  *
 ”rÜ
@@ -21899,7 +21901,7 @@ GE¼Ü
 NULL
 ;
 
-2014 
+2015 
 »suÉ
  = 
 	`g_dbus_´oxy_ÿÎ_fšish
@@ -21909,47 +21911,47 @@ NULL
 sourû_objeù
 ),
 
-2015 
+2016 
 »s
 ,
 
-2016 &
+2017 &
 ”rÜ
 );
 
-2017 ià(
+2018 ià(
 »suÉ
  =ğ
 NULL
 )
 
-2019 
+2020 
 	`g_w¬nšg
  ("couldn't shutdown using gnome-session: %s",
 
-2020 
+2021 
 ”rÜ
 ->
 mes§ge
 );
 
-2021 
+2022 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-2025 
+2026 
 	`g_v¬ŸÁ_uÄef
  (
 »suÉ
 );
 
-2027 
+2028 
 	}
 }
 
-2030 
+2031 
 	$gnome_£ssiÚ_shutdown
  (
 GsdPow”Mªag”
@@ -21957,7 +21959,7 @@ GsdPow”Mªag”
 mªag”
 )
 
-2032 
+2033 
 	`g_dbus_´oxy_ÿÎ
  (
 mªag”
@@ -21967,29 +21969,29 @@ mªag”
 £ssiÚ
 ,
 
-2034 
+2035 
 NULL
 ,
 
-2035 
+2036 
 G_DBUS_CALL_FLAGS_NONE
 ,
 
-2036 -1, 
+2037 -1, 
 NULL
 ,
 
-2037 
+2038 
 gnome_£ssiÚ_shutdown_cb
 , 
 NULL
 );
 
-2038 
+2039 
 	}
 }
 
-2041 
+2042 
 	$gnome_£ssiÚ_logout_cb
  (
 GObjeù
@@ -21997,25 +21999,25 @@ GObjeù
 sourû_objeù
 ,
 
-2042 
+2043 
 GAsyncResuÉ
  *
 »s
 ,
 
-2043 
+2044 
 gpoš‹r
  
 u£r_d©a
 )
 
-2045 
+2046 
 GV¬ŸÁ
  *
 »suÉ
 ;
 
-2046 
+2047 
 GE¼Ü
  *
 ”rÜ
@@ -22023,7 +22025,7 @@ GE¼Ü
 NULL
 ;
 
-2048 
+2049 
 »suÉ
  = 
 	`g_dbus_´oxy_ÿÎ_fšish
@@ -22033,47 +22035,47 @@ NULL
 sourû_objeù
 ),
 
-2049 
+2050 
 »s
 ,
 
-2050 &
+2051 &
 ”rÜ
 );
 
-2051 ià(
+2052 ià(
 »suÉ
  =ğ
 NULL
 )
 
-2053 
+2054 
 	`g_w¬nšg
  ("couldn't†og out using gnome-session: %s",
 
-2054 
+2055 
 ”rÜ
 ->
 mes§ge
 );
 
-2055 
+2056 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-2059 
+2060 
 	`g_v¬ŸÁ_uÄef
  (
 »suÉ
 );
 
-2061 
+2062 
 	}
 }
 
-2064 
+2065 
 	$gnome_£ssiÚ_logout
  (
 GsdPow”Mªag”
@@ -22081,13 +22083,13 @@ GsdPow”Mªag”
 mªag”
 ,
 
-2065 
+2066 
 gušt
  
 logout_mode
 )
 
-2067 
+2068 
 	`g_dbus_´oxy_ÿÎ
  (
 mªag”
@@ -22097,31 +22099,31 @@ mªag”
 £ssiÚ
 ,
 
-2069 
+2070 
 	`g_v¬ŸÁ_Ãw
  ("(u)", 
 logout_mode
 ),
 
-2070 
+2071 
 G_DBUS_CALL_FLAGS_NONE
 ,
 
-2071 -1, 
+2072 -1, 
 NULL
 ,
 
-2072 
+2073 
 gnome_£ssiÚ_logout_cb
 , 
 NULL
 );
 
-2073 
+2074 
 	}
 }
 
-2076 
+2077 
 	$aùiÚ_pow”off
  (
 GsdPow”Mªag”
@@ -22129,7 +22131,7 @@ GsdPow”Mªag”
 mªag”
 )
 
-2078 ià(
+2079 ià(
 mªag”
 ->
 ´iv
@@ -22139,11 +22141,11 @@ logšd_´oxy
 NULL
 )
 
-2080 
+2081 
 	`g_w¬nšg
  ("no systemd support");
 
-2083 
+2084 
 	`g_dbus_´oxy_ÿÎ
  (
 mªag”
@@ -22153,22 +22155,18 @@ mªag”
 logšd_´oxy
 ,
 
-2085 
+2086 
 	`g_v¬ŸÁ_Ãw
  ("(b)", 
 FALSE
 ),
 
-2086 
+2087 
 G_DBUS_CALL_FLAGS_NONE
 ,
 
-2087 
-G_MAXINT
-,
-
 2088 
-NULL
+G_MAXINT
 ,
 
 2089 
@@ -22177,13 +22175,17 @@ NULL
 
 2090 
 NULL
-);
+,
 
 2091 
+NULL
+);
+
+2092 
 	}
 }
 
-2094 
+2095 
 	$aùiÚ_su¥’d
  (
 GsdPow”Mªag”
@@ -22191,7 +22193,7 @@ GsdPow”Mªag”
 mªag”
 )
 
-2096 ià(
+2097 ià(
 mªag”
 ->
 ´iv
@@ -22201,11 +22203,11 @@ logšd_´oxy
 NULL
 )
 
-2098 
+2099 
 	`g_w¬nšg
  ("no systemd support");
 
-2101 
+2102 
 	`g_dbus_´oxy_ÿÎ
  (
 mªag”
@@ -22215,22 +22217,18 @@ mªag”
 logšd_´oxy
 ,
 
-2103 
+2104 
 	`g_v¬ŸÁ_Ãw
  ("(b)", 
 FALSE
 ),
 
-2104 
+2105 
 G_DBUS_CALL_FLAGS_NONE
 ,
 
-2105 
-G_MAXINT
-,
-
 2106 
-NULL
+G_MAXINT
 ,
 
 2107 
@@ -22239,13 +22237,17 @@ NULL
 
 2108 
 NULL
-);
+,
 
 2109 
+NULL
+);
+
+2110 
 	}
 }
 
-2112 
+2113 
 	$aùiÚ_hib”Ç‹
  (
 GsdPow”Mªag”
@@ -22253,7 +22255,7 @@ GsdPow”Mªag”
 mªag”
 )
 
-2114 ià(
+2115 ià(
 mªag”
 ->
 ´iv
@@ -22263,11 +22265,11 @@ logšd_´oxy
 NULL
 )
 
-2116 
+2117 
 	`g_w¬nšg
  ("no systemd support");
 
-2119 
+2120 
 	`g_dbus_´oxy_ÿÎ
  (
 mªag”
@@ -22277,22 +22279,18 @@ mªag”
 logšd_´oxy
 ,
 
-2121 
+2122 
 	`g_v¬ŸÁ_Ãw
  ("(b)", 
 FALSE
 ),
 
-2122 
+2123 
 G_DBUS_CALL_FLAGS_NONE
 ,
 
-2123 
-G_MAXINT
-,
-
 2124 
-NULL
+G_MAXINT
 ,
 
 2125 
@@ -22301,13 +22299,17 @@ NULL
 
 2126 
 NULL
-);
+,
 
 2127 
+NULL
+);
+
+2128 
 	}
 }
 
-2130 
+2131 
 	$backlight_’abË
  (
 GsdPow”Mªag”
@@ -22315,13 +22317,13 @@ GsdPow”Mªag”
 mªag”
 )
 
-2132 
+2133 
 gboŞ—n
  
 »t
 ;
 
-2133 
+2134 
 GE¼Ü
  *
 ”rÜ
@@ -22329,7 +22331,7 @@ GE¼Ü
 NULL
 ;
 
-2135 
+2136 
 »t
  = 
 	`gnome_¼_sü“n_£t_dpms_mode
@@ -22341,43 +22343,43 @@ mªag”
 ¼_sü“n
 ,
 
-2136 
+2137 
 GNOME_RR_DPMS_ON
 ,
 
-2137 &
+2138 &
 ”rÜ
 );
 
-2138 ià(!
+2139 ià(!
 »t
 )
 
-2140 
+2141 
 	`g_w¬nšg
  ("failedournhe…anel on: %s",
 
-2141 
+2142 
 ”rÜ
 ->
 mes§ge
 );
 
-2142 
+2143 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-2145 
+2146 
 	`g_debug
  ("TESTSUITE: Unblanked screen");
 
-2146 
+2147 
 	}
 }
 
-2149 
+2150 
 	$backlight_di§bË
  (
 GsdPow”Mªag”
@@ -22385,13 +22387,13 @@ GsdPow”Mªag”
 mªag”
 )
 
-2151 
+2152 
 gboŞ—n
  
 »t
 ;
 
-2152 
+2153 
 GE¼Ü
  *
 ”rÜ
@@ -22399,7 +22401,7 @@ GE¼Ü
 NULL
 ;
 
-2154 
+2155 
 »t
  = 
 	`gnome_¼_sü“n_£t_dpms_mode
@@ -22411,43 +22413,43 @@ mªag”
 ¼_sü“n
 ,
 
-2155 
+2156 
 GNOME_RR_DPMS_OFF
 ,
 
-2156 &
+2157 &
 ”rÜ
 );
 
-2157 ià(!
+2158 ià(!
 »t
 )
 
-2159 
+2160 
 	`g_w¬nšg
  ("failedournhe…anel off: %s",
 
-2160 
+2161 
 ”rÜ
 ->
 mes§ge
 );
 
-2161 
+2162 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-2163 
+2164 
 	`g_debug
  ("TESTSUITE: Blanked screen");
 
-2164 
+2165 
 	}
 }
 
-2167 
+2168 
 	$do_pow”_aùiÚ_ty³
  (
 GsdPow”Mªag”
@@ -22455,75 +22457,75 @@ GsdPow”Mªag”
 mªag”
 ,
 
-2168 
+2169 
 GsdPow”AùiÚTy³
  
 aùiÚ_ty³
 )
 
-2170 
+2171 
 aùiÚ_ty³
 )
 
-2172 
+2173 
 GSD_POWER_ACTION_SUSPEND
 :
 
-2173 
+2174 
 	`aùiÚ_su¥’d
  (
 mªag”
 );
 
-2175 
+2176 
 GSD_POWER_ACTION_INTERACTIVE
 :
 
-2176 
+2177 
 	`gnome_£ssiÚ_shutdown
  (
 mªag”
 );
 
-2178 
+2179 
 GSD_POWER_ACTION_HIBERNATE
 :
 
-2179 
+2180 
 	`aùiÚ_hib”Ç‹
  (
 mªag”
 );
 
-2181 
+2182 
 GSD_POWER_ACTION_SHUTDOWN
 :
 
-2185 
+2186 
 	`aùiÚ_pow”off
  (
 mªag”
 );
 
-2187 
+2188 
 GSD_POWER_ACTION_BLANK
 :
 
-2188 
+2189 
 	`backlight_di§bË
  (
 mªag”
 );
 
-2190 
+2191 
 GSD_POWER_ACTION_NOTHING
 :
 
-2192 
+2193 
 GSD_POWER_ACTION_LOGOUT
 :
 
-2193 
+2194 
 	`gnome_£ssiÚ_logout
  (
 mªag”
@@ -22531,15 +22533,15 @@ mªag”
 GSM_MANAGER_LOGOUT_MODE_FORCE
 );
 
-2196 
+2197 
 	}
 }
 
-2198 
+2199 
 GsmInhib™ÜFÏg
 
 
-2199 
+2200 
 	$g‘_idË_šhib™Üs_fÜ_aùiÚ
  (
 GsdPow”AùiÚTy³
@@ -22547,59 +22549,59 @@ GsdPow”AùiÚTy³
 aùiÚ_ty³
 )
 
-2201 
+2202 
 aùiÚ_ty³
 )
 
-2203 
+2204 
 GSD_POWER_ACTION_BLANK
 :
 
-2204 
+2205 
 GSD_POWER_ACTION_SHUTDOWN
 :
 
-2205 
+2206 
 GSD_POWER_ACTION_INTERACTIVE
 :
 
-2206  
+2207  
 GSM_INHIBITOR_FLAG_IDLE
 ;
 
-2207 
+2208 
 GSD_POWER_ACTION_HIBERNATE
 :
 
-2208 
+2209 
 GSD_POWER_ACTION_SUSPEND
 :
 
-2209  
+2210  
 GSM_INHIBITOR_FLAG_SUSPEND
 ;
 
-2210 
+2211 
 GSD_POWER_ACTION_NOTHING
 :
 
-2212 
+2213 
 GSD_POWER_ACTION_LOGOUT
 :
 
-2213  
+2214  
 GSM_INHIBITOR_FLAG_LOGOUT
 ;
 
-2216 
+2217 
 	}
 }
 
-2218 
+2219 
 gboŞ—n
 
 
-2219 
+2220 
 	$is_aùiÚ_šhib™ed
  (
 GsdPow”Mªag”
@@ -22611,19 +22613,19 @@ GsdPow”AùiÚTy³
 aùiÚ_ty³
 )
 
-2221 
+2222 
 GsmInhib™ÜFÏg
  
 æag
 ;
 
-2222 
+2223 
 gboŞ—n
  
 is_šhib™ed
 ;
 
-2224 
+2225 
 æag
  = 
 	`g‘_idË_šhib™Üs_fÜ_aùiÚ
@@ -22631,41 +22633,41 @@ is_šhib™ed
 aùiÚ_ty³
 );
 
-2225 ià(!
+2226 ià(!
 æag
 )
 
-2226  
+2227  
 FALSE
 ;
 
-2227 
+2228 
 	`idË_is_£ssiÚ_šhib™ed
  (
 mªag”
 ,
 
-2228 
+2229 
 æag
 ,
 
-2229 &
+2230 &
 is_šhib™ed
 );
 
-2230  
+2231  
 is_šhib™ed
 ;
 
-2231 
+2232 
 	}
 }
 
-2233 
+2234 
 gboŞ—n
 
 
-2234 
+2235 
 	$upow”_kbd_£t_brighŠess
  (
 GsdPow”Mªag”
@@ -22681,13 +22683,13 @@ GE¼Ü
 ”rÜ
 )
 
-2236 
+2237 
 GV¬ŸÁ
  *
 »tv®
 ;
 
-2239 ià(
+2240 ià(
 mªag”
 ->
 ´iv
@@ -22697,11 +22699,11 @@ kbd_brighŠess_now
 v®ue
 )
 
-2240  
+2241  
 TRUE
 ;
 
-2243 
+2244 
 »tv®
  = 
 	`g_dbus_´oxy_ÿÎ_sync
@@ -22713,7 +22715,7 @@ mªag”
 upow”_kdb_´oxy
 ,
 
-2245 
+2246 
 	`g_v¬ŸÁ_Ãw
  ("(i)", (
 gšt
@@ -22721,29 +22723,29 @@ gšt
 v®ue
 ),
 
-2246 
+2247 
 G_DBUS_CALL_FLAGS_NONE
 ,
 
-2248 
+2249 
 NULL
 ,
 
-2249 
+2250 
 ”rÜ
 );
 
-2250 ià(
+2251 ià(
 »tv®
  =ğ
 NULL
 )
 
-2251  
+2252  
 FALSE
 ;
 
-2254 
+2255 
 mªag”
 ->
 ´iv
@@ -22753,25 +22755,25 @@ kbd_brighŠess_now
 v®ue
 ;
 
-2255 
+2256 
 	`g_v¬ŸÁ_uÄef
  (
 »tv®
 );
 
-2256  
+2257  
 TRUE
 ;
 
-2257 
+2258 
 	}
 }
 
-2259 
+2260 
 gboŞ—n
 
 
-2260 
+2261 
 	$upow”_kbd_toggË
  (
 GsdPow”Mªag”
@@ -22779,19 +22781,19 @@ GsdPow”Mªag”
 mªag”
 ,
 
-2261 
+2262 
 GE¼Ü
  **
 ”rÜ
 )
 
-2263 
+2264 
 gboŞ—n
  
 »t
 ;
 
-2265 ià(
+2266 ià(
 mªag”
 ->
 ´iv
@@ -22799,11 +22801,11 @@ mªag”
 kbd_brighŠess_Şd
  >= 0)
 
-2267 
+2268 
 	`g_debug
  ("keyboardoggle off");
 
-2268 
+2269 
 »t
  = 
 	`upow”_kbd_£t_brighŠess
@@ -22811,7 +22813,7 @@ kbd_brighŠess_Şd
 mªag”
 ,
 
-2269 
+2270 
 mªag”
 ->
 ´iv
@@ -22819,15 +22821,15 @@ mªag”
 kbd_brighŠess_Şd
 ,
 
-2270 
+2271 
 ”rÜ
 );
 
-2271 ià(
+2272 ià(
 »t
 )
 
-2274 
+2275 
 mªag”
 ->
 ´iv
@@ -22835,11 +22837,11 @@ mªag”
 kbd_brighŠess_Şd
  = -1;
 
-2279 
+2280 
 	`g_debug
  ("keyboardoggle on");
 
-2281 
+2282 
 mªag”
 ->
 ´iv
@@ -22849,7 +22851,7 @@ kbd_brighŠess_Şd
 kbd_brighŠess_now
 ;
 
-2282 
+2283 
 »t
  = 
 	`upow”_kbd_£t_brighŠess
@@ -22859,11 +22861,11 @@ mªag”
 ”rÜ
 );
 
-2283 ià(!
+2284 ià(!
 »t
 )
 
-2286 
+2287 
 mªag”
 ->
 ´iv
@@ -22871,19 +22873,19 @@ mªag”
 kbd_brighŠess_Şd
  = -1;
 
-2290  
+2291  
 »t
 ;
 
-2291 
+2292 
 	}
 }
 
-2293 
+2294 
 gboŞ—n
 
 
-2294 
+2295 
 	$su¥’d_Ú_lid_şo£
  (
 GsdPow”Mªag”
@@ -22891,13 +22893,13 @@ GsdPow”Mªag”
 mªag”
 )
 
-2296 
+2297 
 GsdX¿ndrBoÙBehaviour
  
 v®
 ;
 
-2298 ià(!
+2299 ià(!
 	`ex‹º®_mÚ™Ü_is_cÚÃùed
  (
 mªag”
@@ -22907,11 +22909,11 @@ mªag”
 ¼_sü“n
 ))
 
-2299  
+2300  
 TRUE
 ;
 
-2301 
+2302 
 v®
  = 
 	`g_£‰šgs_g‘_’um
@@ -22923,21 +22925,21 @@ mªag”
 £‰šgs_x¿ndr
 , "default-monitors-setup");
 
-2302  
+2303  
 v®
  =ğ
 GSD_XRANDR_BOOT_BEHAVIOUR_DO_NOTHING
 ;
 
-2303 
+2304 
 	}
 }
 
-2305 
+2306 
 gboŞ—n
 
 
-2306 
+2307 
 	$šhib™_lid_sw™ch_tim”_cb
  (
 GsdPow”Mªag”
@@ -22945,23 +22947,23 @@ GsdPow”Mªag”
 mªag”
 )
 
-2308 ià(
+2309 ià(
 	`su¥’d_Ú_lid_şo£
  (
 mªag”
 ))
 
-2310 
+2311 
 	`g_debug
  ("noƒxternal monitors for‡ while; uninhibiting†id close");
 
-2311 
+2312 
 	`unšhib™_lid_sw™ch
  (
 mªag”
 );
 
-2312 
+2313 
 mªag”
 ->
 ´iv
@@ -22969,23 +22971,23 @@ mªag”
 šhib™_lid_sw™ch_tim”_id
  = 0;
 
-2313  
+2314  
 G_SOURCE_REMOVE
 ;
 
-2316 
+2317 
 	`g_debug
  ("external monitor stillhere;rying‡gain†ater");
 
-2317  
+2318  
 G_SOURCE_CONTINUE
 ;
 
-2318 
+2319 
 	}
 }
 
-2325 
+2326 
 	$£tup_šhib™_lid_sw™ch_tim”
  (
 GsdPow”Mªag”
@@ -22993,7 +22995,7 @@ GsdPow”Mªag”
 mªag”
 )
 
-2327 ià(
+2328 ià(
 mªag”
 ->
 ´iv
@@ -23001,15 +23003,15 @@ mªag”
 šhib™_lid_sw™ch_tim”_id
  != 0)
 
-2329 
+2330 
 	`g_debug
  ("lid close safetyimer‡lready set up");
 
-2333 
+2334 
 	`g_debug
  ("setting up†id close safetyimer");
 
-2335 
+2336 
 mªag”
 ->
 ´iv
@@ -23021,17 +23023,17 @@ mªag”
 GSD_POWER_MANAGER_LID_CLOSE_SAFETY_TIMEOUT
 ,
 
-2336 (
+2337 (
 GSourûFunc
 è
 šhib™_lid_sw™ch_tim”_cb
 ,
 
-2337 
+2338 
 mªag”
 );
 
-2338 
+2339 
 	`g_sourû_£t_Çme_by_id
  (
 mªag”
@@ -23041,11 +23043,11 @@ mªag”
 šhib™_lid_sw™ch_tim”_id
 , "[GsdPowerManager]†id close safetyimer");
 
-2339 
+2340 
 	}
 }
 
-2342 
+2343 
 	$»¡¬t_šhib™_lid_sw™ch_tim”
  (
 GsdPow”Mªag”
@@ -23053,7 +23055,7 @@ GsdPow”Mªag”
 mªag”
 )
 
-2344 ià(
+2345 ià(
 mªag”
 ->
 ´iv
@@ -23061,11 +23063,11 @@ mªag”
 šhib™_lid_sw™ch_tim”_id
  != 0)
 
-2346 
+2347 
 	`g_debug
  ("restarting†id close safetyimer");
 
-2347 
+2348 
 	`g_sourû_»move
  (
 mªag”
@@ -23075,7 +23077,7 @@ mªag”
 šhib™_lid_sw™ch_tim”_id
 );
 
-2348 
+2349 
 mªag”
 ->
 ´iv
@@ -23083,17 +23085,17 @@ mªag”
 šhib™_lid_sw™ch_tim”_id
  = 0;
 
-2349 
+2350 
 	`£tup_šhib™_lid_sw™ch_tim”
  (
 mªag”
 );
 
-2351 
+2352 
 	}
 }
 
-2354 
+2355 
 	$do_lid_İ’_aùiÚ
  (
 GsdPow”Mªag”
@@ -23101,35 +23103,35 @@ GsdPow”Mªag”
 mªag”
 )
 
-2357 
+2358 
 	`ÿ_cÚ‹xt_¶ay
  (
 	`ÿ_gtk_cÚ‹xt_g‘
  (), 0,
 
-2358 
+2359 
 CA_PROP_EVENT_ID
 , "lid-open",
 
-2360 
+2361 
 CA_PROP_EVENT_DESCRIPTION
 , 
 	`_
 ("Lid has been opened"),
 
-2361 
+2362 
 NULL
 );
 
-2365 
+2366 
 	`»£t_idËtime
  ();
 
-2366 
+2367 
 	}
 }
 
-2369 
+2370 
 	$lock_sü“n§v”
  (
 GsdPow”Mªag”
@@ -23137,13 +23139,13 @@ GsdPow”Mªag”
 mªag”
 )
 
-2371 
+2372 
 gboŞ—n
  
 do_lock
 ;
 
-2373 
+2374 
 do_lock
  = 
 	`g_£‰šgs_g‘_boŞ—n
@@ -23155,11 +23157,11 @@ mªag”
 £‰šgs_sü“n§v”
 ,
 
-2375 ià(!
+2376 ià(!
 do_lock
 )
 
-2377 
+2378 
 	`g_dbus_´oxy_ÿÎ_sync
  (
 mªag”
@@ -23169,21 +23171,21 @@ mªag”
 sü“n§v”_´oxy
 ,
 
-2379 
+2380 
 	`g_v¬ŸÁ_Ãw
  ("(b)", 
 TRUE
 ),
 
-2380 
+2381 
 G_DBUS_CALL_FLAGS_NONE
 ,
 
-2381 -1, 
+2382 -1, 
 NULL
 , NULL);
 
-2385 
+2386 
 	`g_dbus_´oxy_ÿÎ_sync
  (
 mªag”
@@ -23193,23 +23195,23 @@ mªag”
 sü“n§v”_´oxy
 ,
 
-2387 
+2388 
 NULL
 ,
 
-2388 
+2389 
 G_DBUS_CALL_FLAGS_NONE
 ,
 
-2389 -1, 
+2390 -1, 
 NULL
 , NULL);
 
-2390 
+2391 
 	}
 }
 
-2393 
+2394 
 	$do_lid_şo£d_aùiÚ
  (
 GsdPow”Mªag”
@@ -23217,27 +23219,27 @@ GsdPow”Mªag”
 mªag”
 )
 
-2396 
+2397 
 	`ÿ_cÚ‹xt_¶ay
  (
 	`ÿ_gtk_cÚ‹xt_g‘
  (), 0,
 
-2397 
+2398 
 CA_PROP_EVENT_ID
 , "lid-close",
 
-2399 
+2400 
 CA_PROP_EVENT_DESCRIPTION
 , 
 	`_
 ("Lid has been closed"),
 
-2400 
+2401 
 NULL
 );
 
-2403 
+2404 
 	`gnome_¼_sü“n_»äesh
  (
 mªag”
@@ -23249,57 +23251,57 @@ mªag”
 NULL
 );
 
-2405 
+2406 
 	`»¡¬t_šhib™_lid_sw™ch_tim”
  (
 mªag”
 );
 
-2407 ià(
+2408 ià(
 	`su¥’d_Ú_lid_şo£
  (
 mªag”
 ))
 
-2409 
+2410 
 gboŞ—n
  
 is_šhib™ed
 ;
 
-2411 
+2412 
 	`idË_is_£ssiÚ_šhib™ed
  (
 mªag”
 ,
 
-2412 
+2413 
 GSM_INHIBITOR_FLAG_SUSPEND
 ,
 
-2413 &
+2414 &
 is_šhib™ed
 );
 
-2414 ià(
+2415 ià(
 is_šhib™ed
 )
 
-2416 
+2417 
 	`g_debug
  ("Suspend is inhibited but†id is closed,†ockinghe screen");
 
-2419 
+2420 
 	`lock_sü“n§v”
  (
 mªag”
 );
 
-2422 
+2423 
 	}
 }
 
-2425 
+2426 
 	$up_ş›Á_chªged_cb
  (
 UpCl›Á
@@ -23311,19 +23313,19 @@ GsdPow”Mªag”
 mªag”
 )
 
-2427 
+2428 
 gboŞ—n
  
 tmp
 ;
 
-2429 ià(!
+2430 ià(!
 	`up_ş›Á_g‘_Ú_b©‹ry
  (
 ş›Á
 ))
 
-2432 
+2433 
 	`¶ay_loİ_¡İ
  (&
 mªag”
@@ -23333,7 +23335,7 @@ mªag”
 ü™iÿl_®”t_timeout_id
 );
 
-2433 
+2434 
 	`nÙify_şo£_if_showšg
  (&
 mªag”
@@ -23343,7 +23345,7 @@ mªag”
 nÙifiÿtiÚ_low
 );
 
-2434 
+2435 
 	`maš_b©‹ry_Ü_ups_low_chªged
  (
 mªag”
@@ -23351,7 +23353,7 @@ mªag”
 FALSE
 );
 
-2438 
+2439 
 tmp
  = 
 	`up_ş›Á_g‘_lid_is_şo£d
@@ -23363,7 +23365,7 @@ mªag”
 up_ş›Á
 );
 
-2439 ià(
+2440 ià(
 mªag”
 ->
 ´iv
@@ -23373,7 +23375,7 @@ lid_is_şo£d
 tmp
 )
 
-2441 
+2442 
 mªag”
 ->
 ´iv
@@ -23383,13 +23385,13 @@ lid_is_şo£d
 tmp
 ;
 
-2442 
+2443 
 	`g_debug
  ("u°chªged:†id i now %s", 
 tmp
  ? "closed" : "open");
 
-2444 ià(
+2445 ià(
 mªag”
 ->
 ´iv
@@ -23397,27 +23399,27 @@ mªag”
 lid_is_şo£d
 )
 
-2445 
+2446 
 	`do_lid_şo£d_aùiÚ
  (
 mªag”
 );
 
-2447 
+2448 
 	`do_lid_İ’_aùiÚ
  (
 mªag”
 );
 
-2448 
+2449 
 	}
 }
 
-2450 cÚ¡ 
+2451 cÚ¡ 
 gch¬
  *
 
-2451 
+2452 
 	$idË_mode_to_¡ršg
  (
 GsdPow”IdËMode
@@ -23425,35 +23427,35 @@ GsdPow”IdËMode
 mode
 )
 
-2453 ià(
+2454 ià(
 mode
  =ğ
 GSD_POWER_IDLE_MODE_NORMAL
 )
 
-2455 ià(
+2456 ià(
 mode
  =ğ
 GSD_POWER_IDLE_MODE_DIM
 )
 
-2457 ià(
+2458 ià(
 mode
  =ğ
 GSD_POWER_IDLE_MODE_BLANK
 )
 
-2459 ià(
+2460 ià(
 mode
  =ğ
 GSD_POWER_IDLE_MODE_SLEEP
 )
 
-2462 
+2463 
 	}
 }
 
-2465 
+2466 
 	$idË_w©ch_id_to_¡ršg
  (
 GsdPow”Mªag”
@@ -23465,7 +23467,7 @@ gušt
 id
 )
 
-2467 ià(
+2468 ià(
 id
  =ğ
 mªag”
@@ -23475,7 +23477,7 @@ mªag”
 idË_dim_id
 )
 
-2469 ià(
+2470 ià(
 id
  =ğ
 mªag”
@@ -23485,7 +23487,7 @@ mªag”
 idË_bÏnk_id
 )
 
-2471 ià(
+2472 ià(
 id
  =ğ
 mªag”
@@ -23495,7 +23497,7 @@ mªag”
 idË_¦“p_id
 )
 
-2473 ià(
+2474 ià(
 id
  =ğ
 mªag”
@@ -23505,15 +23507,15 @@ mªag”
 idË_¦“p_w¬nšg_id
 )
 
-2475  
+2476  
 NULL
 ;
 
-2476 
+2477 
 	}
 }
 
-2479 
+2480 
 	$backlight_em™_chªged
  (
 GsdPow”Mªag”
@@ -23521,13 +23523,13 @@ GsdPow”Mªag”
 mªag”
 )
 
-2481 
+2482 
 gboŞ—n
  
 »t
 ;
 
-2482 
+2483 
 GE¼Ü
  *
 ”rÜ
@@ -23535,7 +23537,7 @@ GE¼Ü
 NULL
 ;
 
-2485 ià(
+2486 ià(
 mªag”
 ->
 ´iv
@@ -23545,7 +23547,7 @@ cÚÃùiÚ
 NULL
 )
 
-2487 
+2488 
 »t
  = 
 	`g_dbus_cÚÃùiÚ_em™_sigÇl
@@ -23557,31 +23559,31 @@ mªag”
 cÚÃùiÚ
 ,
 
-2488 
-NULL
-,
-
 2489 
-GSD_POWER_DBUS_PATH
+NULL
 ,
 
 2490 
+GSD_POWER_DBUS_PATH
+,
+
+2491 
 GSD_POWER_DBUS_INTERFACE_SCREEN
 ,
 
-2492 
+2493 
 NULL
 ,
 
-2493 &
+2494 &
 ”rÜ
 );
 
-2494 ià(!
+2495 ià(!
 »t
 )
 
-2496 
+2497 
 	`g_w¬nšg
  ("çedØem™ Chªged: %s", 
 ”rÜ
@@ -23589,21 +23591,21 @@ NULL
 mes§ge
 );
 
-2497 
+2498 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-2499 
+2500 
 	}
 }
 
-2501 
+2502 
 gboŞ—n
 
 
-2502 
+2503 
 	$di¥Ïy_backlight_dim
  (
 GsdPow”Mªag”
@@ -23611,43 +23613,43 @@ GsdPow”Mªag”
 mªag”
 ,
 
-2503 
+2504 
 gšt
  
 idË_³rûÁage
 ,
 
-2504 
+2505 
 GE¼Ü
  **
 ”rÜ
 )
 
-2506 
+2507 
 gšt
  
 mš
 ;
 
-2507 
+2508 
 gšt
  
 max
 ;
 
-2508 
+2509 
 gšt
  
 now
 ;
 
-2509 
+2510 
 gšt
  
 idË
 ;
 
-2510 
+2511 
 gboŞ—n
  
 »t
@@ -23655,7 +23657,7 @@ gboŞ—n
 FALSE
 ;
 
-2512 ià(!
+2513 ià(!
 mªag”
 ->
 ´iv
@@ -23663,11 +23665,11 @@ mªag”
 backlight_avaabË
 )
 
-2513  
+2514  
 TRUE
 ;
 
-2515 
+2516 
 now
  = 
 	`backlight_g‘_abs
@@ -23681,15 +23683,15 @@ mªag”
 ”rÜ
 );
 
-2516 ià(
+2517 ià(
 now
  < 0)
 
-2518 
+2519 
 out
 ;
 
-2523 
+2524 
 mš
  = 
 	`backlight_g‘_mš
@@ -23701,7 +23703,7 @@ mªag”
 ¼_sü“n
 );
 
-2524 
+2525 
 max
  = 
 	`backlight_g‘_max
@@ -23715,15 +23717,15 @@ mªag”
 ”rÜ
 );
 
-2525 ià(
+2526 ià(
 max
  < 0)
 
-2527 
+2528 
 out
 ;
 
-2529 
+2530 
 idË
  = 
 	`PERCENTAGE_TO_ABS
@@ -23735,17 +23737,17 @@ max
 idË_³rûÁage
 );
 
-2530 ià(
+2531 ià(
 idË
  > 
 now
 )
 
-2532 
+2533 
 	`g_debug
  ("brightness‡lready‚ow %i/%i, so "
 
-2534 
+2535 
 now
 , 
 max
@@ -23753,17 +23755,17 @@ max
 idË
 , max);
 
-2535 
+2536 
 »t
  = 
 TRUE
 ;
 
-2536 
+2537 
 out
 ;
 
-2538 
+2539 
 »t
  = 
 	`backlight_£t_abs
@@ -23775,23 +23777,23 @@ mªag”
 ¼_sü“n
 ,
 
-2539 
+2540 
 idË
 ,
 
-2540 
+2541 
 ”rÜ
 );
 
-2541 ià(!
+2542 ià(!
 »t
 )
 
-2543 
+2544 
 out
 ;
 
-2547 
+2548 
 mªag”
 ->
 ´iv
@@ -23801,23 +23803,23 @@ mªag”
 now
 ;
 
-2549 
+2550 
 out
 :
 
-2550  
+2551  
 »t
 ;
 
-2551 
+2552 
 	}
 }
 
-2553 
+2554 
 gboŞ—n
 
 
-2554 
+2555 
 	$kbd_backlight_dim
  (
 GsdPow”Mªag”
@@ -23825,43 +23827,43 @@ GsdPow”Mªag”
 mªag”
 ,
 
-2555 
+2556 
 gšt
  
 idË_³rûÁage
 ,
 
-2556 
+2557 
 GE¼Ü
  **
 ”rÜ
 )
 
-2558 
+2559 
 gboŞ—n
  
 »t
 ;
 
-2559 
+2560 
 gšt
  
 idË
 ;
 
-2560 
+2561 
 gšt
  
 max
 ;
 
-2561 
+2562 
 gšt
  
 now
 ;
 
-2563 ià(
+2564 ià(
 mªag”
 ->
 ´iv
@@ -23871,11 +23873,11 @@ upow”_kdb_´oxy
 NULL
 )
 
-2564  
+2565  
 TRUE
 ;
 
-2566 
+2567 
 now
  = 
 mªag”
@@ -23885,7 +23887,7 @@ mªag”
 kbd_brighŠess_now
 ;
 
-2567 
+2568 
 max
  = 
 mªag”
@@ -23895,7 +23897,7 @@ mªag”
 kbd_brighŠess_max
 ;
 
-2568 
+2569 
 idË
  = 
 	`PERCENTAGE_TO_ABS
@@ -23905,17 +23907,17 @@ max
 idË_³rûÁage
 );
 
-2569 ià(
+2570 ià(
 idË
  > 
 now
 )
 
-2571 
+2572 
 	`g_debug
  ("kbd brightness‡lready‚ow %i/%i, so "
 
-2573 
+2574 
 now
 , 
 max
@@ -23923,11 +23925,11 @@ max
 idË
 , max);
 
-2574  
+2575  
 TRUE
 ;
 
-2576 
+2577 
 »t
  = 
 	`upow”_kbd_£t_brighŠess
@@ -23939,15 +23941,15 @@ idË
 ”rÜ
 );
 
-2577 ià(!
+2578 ià(!
 »t
 )
 
-2578  
+2579  
 FALSE
 ;
 
-2581 
+2582 
 mªag”
 ->
 ´iv
@@ -23957,19 +23959,19 @@ kbd_brighŠess_´e_dim
 now
 ;
 
-2582  
+2583  
 TRUE
 ;
 
-2583 
+2584 
 	}
 }
 
-2585 
+2586 
 gboŞ—n
 
 
-2586 
+2587 
 	$is_£ssiÚ_aùive
  (
 GsdPow”Mªag”
@@ -23977,13 +23979,13 @@ GsdPow”Mªag”
 mªag”
 )
 
-2588 
+2589 
 GV¬ŸÁ
  *
 v¬ŸÁ
 ;
 
-2589 
+2590 
 gboŞ—n
  
 is_£ssiÚ_aùive
@@ -23991,7 +23993,7 @@ is_£ssiÚ_aùive
 FALSE
 ;
 
-2591 
+2592 
 v¬ŸÁ
  = 
 	`g_dbus_´oxy_g‘_ÿched_´İ”ty
@@ -24003,11 +24005,11 @@ mªag”
 £ssiÚ
 ,
 
-2593 ià(
+2594 ià(
 v¬ŸÁ
 )
 
-2595 
+2596 
 is_£ssiÚ_aùive
  = 
 	`g_v¬ŸÁ_g‘_boŞ—n
@@ -24015,21 +24017,21 @@ is_£ssiÚ_aùive
 v¬ŸÁ
 );
 
-2596 
+2597 
 	`g_v¬ŸÁ_uÄef
  (
 v¬ŸÁ
 );
 
-2599  
+2600  
 is_£ssiÚ_aùive
 ;
 
-2600 
+2601 
 	}
 }
 
-2603 
+2604 
 	$idË_£t_mode
  (
 GsdPow”Mªag”
@@ -24041,7 +24043,7 @@ GsdPow”IdËMode
 mode
 )
 
-2605 
+2606 
 gboŞ—n
  
 »t
@@ -24049,7 +24051,7 @@ gboŞ—n
 FALSE
 ;
 
-2606 
+2607 
 GE¼Ü
  *
 ”rÜ
@@ -24057,19 +24059,19 @@ GE¼Ü
 NULL
 ;
 
-2607 
+2608 
 gšt
  
 idË_³rûÁage
 ;
 
-2608 
+2609 
 GsdPow”AùiÚTy³
  
 aùiÚ_ty³
 ;
 
-2609 
+2610 
 gboŞ—n
  
 is_aùive
@@ -24077,7 +24079,7 @@ is_aùive
 FALSE
 ;
 
-2612 ià(
+2613 ià(
 mode
  <ğ
 mªag”
@@ -24087,23 +24089,23 @@ mªag”
 cu¼’t_idË_mode
  &&
 
-2613 
+2614 
 mode
  !ğ
 GSD_POWER_IDLE_MODE_NORMAL
 )
 
-2615 
+2616 
 	`g_debug
  ("Not goingo 'less idle' mode %s (current: %s)",
 
-2616 
+2617 
 	`idË_mode_to_¡ršg
  (
 mode
 ),
 
-2617 
+2618 
 	`idË_mode_to_¡ršg
  (
 mªag”
@@ -24113,7 +24115,7 @@ mªag”
 cu¼’t_idË_mode
 ));
 
-2622 
+2623 
 is_aùive
  = 
 	`is_£ssiÚ_aùive
@@ -24121,21 +24123,21 @@ is_aùive
 mªag”
 );
 
-2623 ià(!
+2624 ià(!
 is_aùive
 )
 
-2625 
+2626 
 	`g_debug
  ("ignoring stateransitiono %s‡s inactive",
 
-2626 
+2627 
 	`idË_mode_to_¡ršg
  (
 mode
 ));
 
-2631 ià(
+2632 ià(
 mªag”
 ->
 ´iv
@@ -24143,17 +24145,17 @@ mªag”
 is_vœtu®_machše
 )
 
-2633 
+2634 
 	`g_debug
  ("ignoring stateransitiono %s‡s virtual machine",
 
-2634 
+2635 
 	`idË_mode_to_¡ršg
  (
 mode
 ));
 
-2638 
+2639 
 mªag”
 ->
 ´iv
@@ -24163,7 +24165,7 @@ cu¼’t_idË_mode
 mode
 ;
 
-2639 
+2640 
 	`g_debug
  ("Došg‡ s‹¿ns™iÚ: %s", 
 	`idË_mode_to_¡ršg
@@ -24171,13 +24173,13 @@ mode
 mode
 ));
 
-2643 ià(
+2644 ià(
 mode
  !ğ
 GSD_POWER_IDLE_MODE_NORMAL
 )
 
-2645 
+2646 
 	`gnome_idË_mÚ™Ü_add_u£r_aùive_w©ch
  (
 mªag”
@@ -24187,25 +24189,25 @@ mªag”
 idË_mÚ™Ü
 ,
 
-2646 
+2647 
 idË_beÿme_aùive_cb
 ,
 
-2647 
+2648 
 mªag”
 ,
 
-2648 
+2649 
 NULL
 );
 
-2652 ià(
+2653 ià(
 mode
  =ğ
 GSD_POWER_IDLE_MODE_DIM
 )
 
-2655 
+2656 
 idË_³rûÁage
  = 
 	`g_£‰šgs_g‘_št
@@ -24217,7 +24219,7 @@ mªag”
 £‰šgs
 ,
 
-2657 
+2658 
 »t
  = 
 	`di¥Ïy_backlight_dim
@@ -24229,31 +24231,31 @@ idË_³rûÁage
 ”rÜ
 );
 
-2658 ià(!
+2659 ià(!
 »t
 )
 
-2660 
+2661 
 	`g_w¬nšg
  ("failedo set dim backlighto %i%%: %s",
 
-2661 
+2662 
 idË_³rûÁage
 ,
 
-2662 
+2663 
 ”rÜ
 ->
 mes§ge
 );
 
-2663 
+2664 
 	`g_ş—r_”rÜ
  (&
 ”rÜ
 );
 
-2667 
+2668 
 »t
  = 
 	`kbd_backlight_dim
@@ -24265,43 +24267,43 @@ idË_³rûÁage
 ”rÜ
 );
 
-2668 ià(!
+2669 ià(!
 »t
 )
 
-2670 
+2671 
 	`g_w¬nšg
  ("failedo set dim kbd backlighto %i%%: %s",
 
-2671 
+2672 
 idË_³rûÁage
 ,
 
-2672 
+2673 
 ”rÜ
 ->
 mes§ge
 );
 
-2673 
+2674 
 	`g_ş—r_”rÜ
  (&
 ”rÜ
 );
 
-2678 ià(
+2679 ià(
 mode
  =ğ
 GSD_POWER_IDLE_MODE_BLANK
 )
 
-2681 
+2682 
 	`backlight_di§bË
  (
 mªag”
 );
 
-2684 ià(
+2685 ià(
 mªag”
 ->
 ´iv
@@ -24309,7 +24311,7 @@ mªag”
 upow”_kdb_´oxy
  &&
 
-2685 
+2686 
 mªag”
 ->
 ´iv
@@ -24317,7 +24319,7 @@ mªag”
 kbd_brighŠess_Şd
  == -1)
 
-2687 
+2688 
 »t
  = 
 	`upow”_kbd_toggË
@@ -24327,33 +24329,33 @@ mªag”
 ”rÜ
 );
 
-2688 ià(!
+2689 ià(!
 »t
 )
 
-2690 
+2691 
 	`g_w¬nšg
  ("failedournhe kbd backlight off: %s",
 
-2691 
+2692 
 ”rÜ
 ->
 mes§ge
 );
 
-2692 
+2693 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-2698 ià(
+2699 ià(
 mode
  =ğ
 GSD_POWER_IDLE_MODE_SLEEP
 )
 
-2701 ià(
+2702 ià(
 	`up_ş›Á_g‘_Ú_b©‹ry
  (
 mªag”
@@ -24363,7 +24365,7 @@ mªag”
 up_ş›Á
 ))
 
-2703 
+2704 
 aùiÚ_ty³
  = 
 	`g_£‰šgs_g‘_’um
@@ -24375,7 +24377,7 @@ mªag”
 £‰šgs
 ,
 
-2708 
+2709 
 aùiÚ_ty³
  = 
 	`g_£‰šgs_g‘_’um
@@ -24387,7 +24389,7 @@ mªag”
 £‰šgs
 ,
 
-2711 
+2712 
 	`do_pow”_aùiÚ_ty³
  (
 mªag”
@@ -24395,19 +24397,19 @@ mªag”
 aùiÚ_ty³
 );
 
-2715 ià(
+2716 ià(
 mode
  =ğ
 GSD_POWER_IDLE_MODE_NORMAL
 )
 
-2718 
+2719 
 	`backlight_’abË
  (
 mªag”
 );
 
-2721 ià(
+2722 ià(
 mªag”
 ->
 ´iv
@@ -24415,7 +24417,7 @@ mªag”
 ´e_dim_brighŠess
  >= 0)
 
-2723 
+2724 
 »t
  = 
 	`backlight_£t_abs
@@ -24427,7 +24429,7 @@ mªag”
 ¼_sü“n
 ,
 
-2724 
+2725 
 mªag”
 ->
 ´iv
@@ -24435,19 +24437,19 @@ mªag”
 ´e_dim_brighŠess
 ,
 
-2725 &
+2726 &
 ”rÜ
 );
 
-2726 ià(!
+2727 ià(!
 »t
 )
 
-2728 
+2729 
 	`g_w¬nšg
  ("failedo„estore backlighto %i: %s",
 
-2729 
+2730 
 mªag”
 ->
 ´iv
@@ -24455,19 +24457,19 @@ mªag”
 ´e_dim_brighŠess
 ,
 
-2730 
+2731 
 ”rÜ
 ->
 mes§ge
 );
 
-2731 
+2732 
 	`g_ş—r_”rÜ
  (&
 ”rÜ
 );
 
-2735 
+2736 
 mªag”
 ->
 ´iv
@@ -24475,7 +24477,7 @@ mªag”
 ´e_dim_brighŠess
  = -1;
 
-2740 ià(
+2741 ià(
 mªag”
 ->
 ´iv
@@ -24483,7 +24485,7 @@ mªag”
 upow”_kdb_´oxy
  &&
 
-2741 
+2742 
 mªag”
 ->
 ´iv
@@ -24491,7 +24493,7 @@ mªag”
 kbd_brighŠess_Şd
  != -1)
 
-2743 
+2744 
 »t
  = 
 	`upow”_kbd_toggË
@@ -24501,27 +24503,27 @@ mªag”
 ”rÜ
 );
 
-2744 ià(!
+2745 ià(!
 »t
 )
 
-2746 
+2747 
 	`g_w¬nšg
  ("failedournhe kbd backlight on: %s",
 
-2747 
+2748 
 ”rÜ
 ->
 mes§ge
 );
 
-2748 
+2749 
 	`g_ş—r_”rÜ
  (&
 ”rÜ
 );
 
-2753 ià(
+2754 ià(
 mªag”
 ->
 ´iv
@@ -24529,7 +24531,7 @@ mªag”
 kbd_brighŠess_´e_dim
  >= 0)
 
-2755 
+2756 
 »t
  = 
 	`upow”_kbd_£t_brighŠess
@@ -24537,7 +24539,7 @@ kbd_brighŠess_´e_dim
 mªag”
 ,
 
-2756 
+2757 
 mªag”
 ->
 ´iv
@@ -24545,19 +24547,19 @@ mªag”
 kbd_brighŠess_´e_dim
 ,
 
-2757 &
+2758 &
 ”rÜ
 );
 
-2758 ià(!
+2759 ià(!
 »t
 )
 
-2760 
+2761 
 	`g_w¬nšg
  ("failedo„estore kbd backlighto %i: %s",
 
-2761 
+2762 
 mªag”
 ->
 ´iv
@@ -24565,19 +24567,19 @@ mªag”
 kbd_brighŠess_´e_dim
 ,
 
-2762 
+2763 
 ”rÜ
 ->
 mes§ge
 );
 
-2763 
+2764 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-2765 
+2766 
 mªag”
 ->
 ´iv
@@ -24585,15 +24587,15 @@ mªag”
 kbd_brighŠess_´e_dim
  = -1;
 
-2769 
+2770 
 	}
 }
 
-2771 
+2772 
 gboŞ—n
 
 
-2772 
+2773 
 	$idË_is_£ssiÚ_šhib™ed
  (
 GsdPow”Mªag”
@@ -24601,31 +24603,31 @@ GsdPow”Mªag”
 mªag”
 ,
 
-2773 
+2774 
 GsmInhib™ÜFÏg
  
 mask
 ,
 
-2774 
+2775 
 gboŞ—n
  *
 is_šhib™ed
 )
 
-2776 
+2777 
 GV¬ŸÁ
  *
 v¬ŸÁ
 ;
 
-2777 
+2778 
 GsmInhib™ÜFÏg
  
 šhib™ed_aùiÚs
 ;
 
-2780 ià(
+2781 ià(
 mªag”
 ->
 ´iv
@@ -24635,15 +24637,15 @@ mªag”
 NULL
 )
 
-2782 
+2783 
 	`g_debug
 ("not yet connectedo gnome-session");
 
-2783  
+2784  
 FALSE
 ;
 
-2786 
+2787 
 v¬ŸÁ
  = 
 	`g_dbus_´oxy_g‘_ÿched_´İ”ty
@@ -24655,15 +24657,15 @@ mªag”
 £ssiÚ
 ,
 
-2788 ià(!
+2789 ià(!
 v¬ŸÁ
 )
 
-2789  
+2790  
 FALSE
 ;
 
-2791 
+2792 
 šhib™ed_aùiÚs
  = 
 	`g_v¬ŸÁ_g‘_ušt32
@@ -24671,13 +24673,13 @@ FALSE
 v¬ŸÁ
 );
 
-2792 
+2793 
 	`g_v¬ŸÁ_uÄef
  (
 v¬ŸÁ
 );
 
-2794 *
+2795 *
 is_šhib™ed
  = (
 šhib™ed_aùiÚs
@@ -24685,15 +24687,15 @@ is_šhib™ed
 mask
 );
 
-2796  
+2797  
 TRUE
 ;
 
-2797 
+2798 
 	}
 }
 
-2800 
+2801 
 	$ş—r_idË_w©ch
  (
 GnomeIdËMÚ™Ü
@@ -24701,17 +24703,17 @@ GnomeIdËMÚ™Ü
 mÚ™Ü
 ,
 
-2801 
+2802 
 gušt
  *
 id
 )
 
-2803 ià(*
+2804 ià(*
 id
  == 0)
 
-2805 
+2806 
 	`gnome_idË_mÚ™Ü_»move_w©ch
  (
 mÚ™Ü
@@ -24719,15 +24721,15 @@ mÚ™Ü
 id
 );
 
-2806 *
+2807 *
 id
  = 0;
 
-2807 
+2808 
 	}
 }
 
-2810 
+2811 
 	$idË_cÚfigu»
  (
 GsdPow”Mªag”
@@ -24735,61 +24737,61 @@ GsdPow”Mªag”
 mªag”
 )
 
-2812 
+2813 
 gboŞ—n
  
 is_idË_šhib™ed
 ;
 
-2813 
+2814 
 GsdPow”AùiÚTy³
  
 aùiÚ_ty³
 ;
 
-2814 
+2815 
 gušt
  
 timeout_bÏnk
 ;
 
-2815 
+2816 
 gušt
  
 timeout_¦“p
 ;
 
-2816 
+2817 
 gušt
  
 timeout_dim
 ;
 
-2817 
+2818 
 gboŞ—n
  
 Ú_b©‹ry
 ;
 
-2819 ià(!
+2820 ià(!
 	`idË_is_£ssiÚ_šhib™ed
  (
 mªag”
 ,
 
-2820 
+2821 
 GSM_INHIBITOR_FLAG_IDLE
 ,
 
-2821 &
+2822 &
 is_idË_šhib™ed
 ))
 
-2824 
+2825 
 	`g_debug
 ("Session isn't‡vailable yet,postpone\n");
 
-2829 ià(!
+2830 ià(!
 	`is_£ssiÚ_aùive
  (
 mªag”
@@ -24797,11 +24799,11 @@ mªag”
 is_idË_šhib™ed
 )
 
-2831 
+2832 
 	`g_debug
  ("inhibited or inactive, so using‚ormal state");
 
-2832 
+2833 
 	`idË_£t_mode
  (
 mªag”
@@ -24809,7 +24811,7 @@ mªag”
 GSD_POWER_IDLE_MODE_NORMAL
 );
 
-2834 
+2835 
 	`ş—r_idË_w©ch
  (
 mªag”
@@ -24819,7 +24821,7 @@ mªag”
 idË_mÚ™Ü
 ,
 
-2835 &
+2836 &
 mªag”
 ->
 ´iv
@@ -24827,7 +24829,7 @@ mªag”
 idË_bÏnk_id
 );
 
-2836 
+2837 
 	`ş—r_idË_w©ch
  (
 mªag”
@@ -24837,7 +24839,7 @@ mªag”
 idË_mÚ™Ü
 ,
 
-2837 &
+2838 &
 mªag”
 ->
 ´iv
@@ -24845,7 +24847,7 @@ mªag”
 idË_¦“p_id
 );
 
-2838 
+2839 
 	`ş—r_idË_w©ch
  (
 mªag”
@@ -24855,7 +24857,7 @@ mªag”
 idË_mÚ™Ü
 ,
 
-2839 &
+2840 &
 mªag”
 ->
 ´iv
@@ -24863,7 +24865,7 @@ mªag”
 idË_dim_id
 );
 
-2840 
+2841 
 	`ş—r_idË_w©ch
  (
 mªag”
@@ -24873,7 +24875,7 @@ mªag”
 idË_mÚ™Ü
 ,
 
-2841 &
+2842 &
 mªag”
 ->
 ´iv
@@ -24881,7 +24883,7 @@ mªag”
 idË_¦“p_w¬nšg_id
 );
 
-2842 
+2843 
 	`nÙify_şo£_if_showšg
  (&
 mªag”
@@ -24891,7 +24893,7 @@ mªag”
 nÙifiÿtiÚ_¦“p_w¬nšg
 );
 
-2848 
+2849 
 Ú_b©‹ry
  = 
 	`up_ş›Á_g‘_Ú_b©‹ry
@@ -24903,11 +24905,11 @@ mªag”
 up_ş›Á
 );
 
-2849 
+2850 
 timeout_bÏnk
  = 0;
 
-2850 ià(
+2851 ià(
 mªag”
 ->
 ´iv
@@ -24915,13 +24917,13 @@ mªag”
 sü“n§v”_aùive
 )
 
-2856 
+2857 
 timeout_bÏnk
  = 
 SCREENSAVER_TIMEOUT_BLANK
 ;
 
-2859 
+2860 
 	`ş—r_idË_w©ch
  (
 mªag”
@@ -24931,7 +24933,7 @@ mªag”
 idË_mÚ™Ü
 ,
 
-2860 &
+2861 &
 mªag”
 ->
 ´iv
@@ -24939,17 +24941,17 @@ mªag”
 idË_bÏnk_id
 );
 
-2862 ià(
+2863 ià(
 timeout_bÏnk
  != 0)
 
-2864 
+2865 
 	`g_debug
  ("£‰šg u°bÏnk c®lback fÜ %is", 
 timeout_bÏnk
 );
 
-2866 
+2867 
 mªag”
 ->
 ´iv
@@ -24961,11 +24963,11 @@ idË_bÏnk_id
 idË_mÚ™Ü
 ,
 
-2867 
+2868 
 timeout_bÏnk
  * 1000,
 
-2868 
+2869 
 idË_Œigg”ed_idË_cb
 , 
 mªag”
@@ -24973,7 +24975,7 @@ mªag”
 NULL
 );
 
-2873 
+2874 
 aùiÚ_ty³
  = 
 	`g_£‰šgs_g‘_’um
@@ -24987,11 +24989,11 @@ mªag”
 Ú_b©‹ry
  ?
 
-2875 
+2876 
 timeout_¦“p
  = 0;
 
-2876 ià(!
+2877 ià(!
 	`is_aùiÚ_šhib™ed
  (
 mªag”
@@ -24999,7 +25001,7 @@ mªag”
 aùiÚ_ty³
 ))
 
-2878 
+2879 
 timeout_¦“p
  = 
 	`g_£‰šgs_g‘_št
@@ -25013,7 +25015,7 @@ mªag”
 Ú_b©‹ry
  ?
 
-2882 
+2883 
 	`ş—r_idË_w©ch
  (
 mªag”
@@ -25023,7 +25025,7 @@ mªag”
 idË_mÚ™Ü
 ,
 
-2883 &
+2884 &
 mªag”
 ->
 ´iv
@@ -25031,7 +25033,7 @@ mªag”
 idË_¦“p_id
 );
 
-2884 
+2885 
 	`ş—r_idË_w©ch
  (
 mªag”
@@ -25041,7 +25043,7 @@ mªag”
 idË_mÚ™Ü
 ,
 
-2885 &
+2886 &
 mªag”
 ->
 ´iv
@@ -25049,23 +25051,23 @@ mªag”
 idË_¦“p_w¬nšg_id
 );
 
-2887 
+2888 
 	`g_debug
  ("£‰šg u°¦“°ÿÎback %is", 
 timeout_¦“p
 );
 
-2888 ià(
+2889 ià(
 timeout_¦“p
  != 0)
 
-2890 
+2891 
 	`g_debug
  ("£‰šg u°¦“°ÿÎback %is", 
 timeout_¦“p
 );
 
-2892 
+2893 
 mªag”
 ->
 ´iv
@@ -25077,11 +25079,11 @@ idË_¦“p_id
 idË_mÚ™Ü
 ,
 
-2893 
+2894 
 timeout_¦“p
  * 1000,
 
-2894 
+2895 
 idË_Œigg”ed_idË_cb
 , 
 mªag”
@@ -25089,31 +25091,31 @@ mªag”
 NULL
 );
 
-2895 ià(
+2896 ià(
 aùiÚ_ty³
  =ğ
 GSD_POWER_ACTION_LOGOUT
  ||
 
-2896 
+2897 
 aùiÚ_ty³
  =ğ
 GSD_POWER_ACTION_SUSPEND
  ||
 
-2897 
+2898 
 aùiÚ_ty³
  =ğ
 GSD_POWER_ACTION_HIBERNATE
 )
 
-2899 
+2900 
 gušt
  
 timeout_¦“p_w¬nšg
 ;
 
-2901 
+2902 
 mªag”
 ->
 ´iv
@@ -25123,7 +25125,7 @@ mªag”
 aùiÚ_ty³
 ;
 
-2902 
+2903 
 timeout_¦“p_w¬nšg
  = 
 timeout_¦“p
@@ -25131,23 +25133,23 @@ timeout_¦“p
 IDLE_DELAY_TO_IDLE_DIM_MULTIPLIER
 ;
 
-2903 ià(
+2904 ià(
 timeout_¦“p_w¬nšg
  < 
 MINIMUM_IDLE_DIM_DELAY
 )
 
-2904 
+2905 
 timeout_¦“p_w¬nšg
  = 0;
 
-2906 
+2907 
 	`g_debug
  ("£‰šg u°¦“°w¬nšg c®lback %is", 
 timeout_¦“p_w¬nšg
 );
 
-2908 
+2909 
 mªag”
 ->
 ´iv
@@ -25159,11 +25161,11 @@ idË_¦“p_w¬nšg_id
 idË_mÚ™Ü
 ,
 
-2909 
+2910 
 timeout_¦“p_w¬nšg
  * 1000,
 
-2910 
+2911 
 idË_Œigg”ed_idË_cb
 , 
 mªag”
@@ -25171,7 +25173,7 @@ mªag”
 NULL
 );
 
-2914 ià(
+2915 ià(
 mªag”
 ->
 ´iv
@@ -25179,7 +25181,7 @@ mªag”
 idË_¦“p_w¬nšg_id
  == 0)
 
-2915 
+2916 
 	`nÙify_şo£_if_showšg
  (&
 mªag”
@@ -25189,11 +25191,11 @@ mªag”
 nÙifiÿtiÚ_¦“p_w¬nšg
 );
 
-2919 
+2920 
 timeout_dim
  = 0;
 
-2920 ià(
+2921 ià(
 mªag”
 ->
 ´iv
@@ -25201,11 +25203,11 @@ mªag”
 sü“n§v”_aùive
 )
 
-2924 ià(!
+2925 ià(!
 Ú_b©‹ry
 )
 
-2928 ià(
+2929 ià(
 mªag”
 ->
 ´iv
@@ -25213,13 +25215,13 @@ mªag”
 b©‹ry_is_low
 )
 
-2931 
+2932 
 timeout_dim
  = 
 SCREENSAVER_TIMEOUT_BLANK
 ;
 
-2935 ià(
+2936 ià(
 	`g_£‰šgs_g‘_boŞ—n
  (
 mªag”
@@ -25229,7 +25231,7 @@ mªag”
 £‰šgs
 , "idle-dim"))
 
-2937 
+2938 
 timeout_dim
  = 
 	`g_£‰šgs_g‘_ušt
@@ -25241,33 +25243,33 @@ mªag”
 £‰šgs_£ssiÚ
 ,
 
-2939 ià(
+2940 ià(
 timeout_dim
  == 0)
 
-2941 
+2942 
 timeout_dim
  = 
 IDLE_DIM_BLANK_DISABLED_MIN
 ;
 
-2945 
+2946 
 timeout_dim
  *ğ
 IDLE_DELAY_TO_IDLE_DIM_MULTIPLIER
 ;
 
-2949 ià(
+2950 ià(
 timeout_dim
  < 
 MINIMUM_IDLE_DIM_DELAY
 )
 
-2950 
+2951 
 timeout_dim
  = 0;
 
-2955 
+2956 
 	`ş—r_idË_w©ch
  (
 mªag”
@@ -25277,7 +25279,7 @@ mªag”
 idË_mÚ™Ü
 ,
 
-2956 &
+2957 &
 mªag”
 ->
 ´iv
@@ -25285,17 +25287,17 @@ mªag”
 idË_dim_id
 );
 
-2958 ià(
+2959 ià(
 timeout_dim
  != 0)
 
-2960 
+2961 
 	`g_debug
  ("£‰šg u°dim c®lback fÜ %is", 
 timeout_dim
 );
 
-2962 
+2963 
 mªag”
 ->
 ´iv
@@ -25307,11 +25309,11 @@ idË_dim_id
 idË_mÚ™Ü
 ,
 
-2963 
+2964 
 timeout_dim
  * 1000,
 
-2964 
+2965 
 idË_Œigg”ed_idË_cb
 , 
 mªag”
@@ -25319,11 +25321,11 @@ mªag”
 NULL
 );
 
-2966 
+2967 
 	}
 }
 
-2969 
+2970 
 	$maš_b©‹ry_Ü_ups_low_chªged
  (
 GsdPow”Mªag”
@@ -25331,13 +25333,13 @@ GsdPow”Mªag”
 mªag”
 ,
 
-2970 
+2971 
 gboŞ—n
  
 is_low
 )
 
-2972 ià(
+2973 ià(
 is_low
  =ğ
 mªag”
@@ -25347,7 +25349,7 @@ mªag”
 b©‹ry_is_low
 )
 
-2974 
+2975 
 mªag”
 ->
 ´iv
@@ -25357,25 +25359,25 @@ b©‹ry_is_low
 is_low
 ;
 
-2975 
-	`g_debug
-("main_battery_or_ups-low_changed():\n");
-
 2976 
+	`g_debug
+("main_battery_or_ups_low_changed():\n");
+
+2977 
 	`idË_cÚfigu»
  (
 mªag”
 );
 
-2977 
+2978 
 	}
 }
 
-2979 
+2980 
 gboŞ—n
 
 
-2980 
+2981 
 	$‹mpÜ¬y_unidË_dÚe_cb
  (
 GsdPow”Mªag”
@@ -25383,7 +25385,7 @@ GsdPow”Mªag”
 mªag”
 )
 
-2982 
+2983 
 	`idË_£t_mode
  (
 mªag”
@@ -25393,7 +25395,7 @@ mªag”
 ´evious_idË_mode
 );
 
-2983 
+2984 
 mªag”
 ->
 ´iv
@@ -25401,15 +25403,15 @@ mªag”
 ‹mpÜ¬y_unidË_Ú_ac_id
  = 0;
 
-2984  
+2985  
 FALSE
 ;
 
-2985 
+2986 
 	}
 }
 
-2988 
+2989 
 	$£t_‹mpÜ¬y_unidË_Ú_ac
  (
 GsdPow”Mªag”
@@ -25417,17 +25419,17 @@ GsdPow”Mªag”
 mªag”
 ,
 
-2989 
+2990 
 gboŞ—n
  
 ’abË
 )
 
-2991 ià(!
+2992 ià(!
 ’abË
 )
 
-2993 ià(
+2994 ià(
 mªag”
 ->
 ´iv
@@ -25435,7 +25437,7 @@ mªag”
 ‹mpÜ¬y_unidË_Ú_ac_id
  != 0)
 
-2995 
+2996 
 	`g_sourû_»move
  (
 mªag”
@@ -25445,7 +25447,7 @@ mªag”
 ‹mpÜ¬y_unidË_Ú_ac_id
 );
 
-2996 
+2997 
 mªag”
 ->
 ´iv
@@ -25453,7 +25455,7 @@ mªag”
 ‹mpÜ¬y_unidË_Ú_ac_id
  = 0;
 
-2998 
+2999 
 	`idË_£t_mode
  (
 mªag”
@@ -25463,7 +25465,7 @@ mªag”
 ´evious_idË_mode
 );
 
-3005 ià(
+3006 ià(
 mªag”
 ->
 ´iv
@@ -25471,7 +25473,7 @@ mªag”
 ‹mpÜ¬y_unidË_Ú_ac_id
  != 0)
 
-3007 
+3008 
 	`g_sourû_»move
  (
 mªag”
@@ -25481,7 +25483,7 @@ mªag”
 ‹mpÜ¬y_unidË_Ú_ac_id
 );
 
-3011 
+3012 
 mªag”
 ->
 ´iv
@@ -25491,7 +25493,7 @@ mªag”
 cu¼’t_idË_mode
 ;
 
-3012 
+3013 
 	`idË_£t_mode
  (
 mªag”
@@ -25499,7 +25501,7 @@ mªag”
 GSD_POWER_IDLE_MODE_NORMAL
 );
 
-3014 
+3015 
 mªag”
 ->
 ´iv
@@ -25511,21 +25513,21 @@ mªag”
 POWER_UP_TIME_ON_AC
 ,
 
-3015 (
+3016 (
 GSourûFunc
 è
 ‹mpÜ¬y_unidË_dÚe_cb
 ,
 
-3016 
+3017 
 mªag”
 );
 
-3018 
+3019 
 	}
 }
 
-3021 
+3022 
 	$up_ş›Á_Ú_b©‹ry_cb
  (
 UpCl›Á
@@ -25533,29 +25535,29 @@ UpCl›Á
 ş›Á
 ,
 
-3022 
+3023 
 GP¬amS³c
  *
 p¥ec
 ,
 
-3023 
+3024 
 GsdPow”Mªag”
  *
 mªag”
 )
 
-3025 
+3026 
 	`g_debug
 ("up_client_on_battery_cb()\n");
 
-3026 
+3027 
 	`idË_cÚfigu»
  (
 mªag”
 );
 
-3028 ià(
+3029 ià(
 mªag”
 ->
 ´iv
@@ -25563,7 +25565,7 @@ mªag”
 lid_is_şo£d
 )
 
-3031 ià(
+3032 ià(
 mªag”
 ->
 ´iv
@@ -25573,7 +25575,7 @@ cu¼’t_idË_mode
 GSD_POWER_IDLE_MODE_BLANK
  ||
 
-3032 
+3033 
 mªag”
 ->
 ´iv
@@ -25583,7 +25585,7 @@ cu¼’t_idË_mode
 GSD_POWER_IDLE_MODE_DIM
  ||
 
-3033 
+3034 
 mªag”
 ->
 ´iv
@@ -25591,7 +25593,7 @@ mªag”
 ‹mpÜ¬y_unidË_Ú_ac_id
  != 0)
 
-3034 
+3035 
 	`£t_‹mpÜ¬y_unidË_Ú_ac
  (
 mªag”
@@ -25599,11 +25601,11 @@ mªag”
 TRUE
 );
 
-3035 
+3036 
 	}
 }
 
-3038 
+3039 
 	$gsd_pow”_mªag”_fš®ize
  (
 GObjeù
@@ -25611,13 +25613,13 @@ GObjeù
 objeù
 )
 
-3040 
+3041 
 GsdPow”Mªag”
  *
 mªag”
 ;
 
-3042 
+3043 
 	`g_»tuº_if_ç
  (
 objeù
@@ -25625,7 +25627,7 @@ objeù
 NULL
 );
 
-3043 
+3044 
 	`g_»tuº_if_ç
  (
 	`GSD_IS_POWER_MANAGER
@@ -25633,7 +25635,7 @@ NULL
 objeù
 ));
 
-3045 
+3046 
 mªag”
  = 
 	`GSD_POWER_MANAGER
@@ -25641,7 +25643,7 @@ mªag”
 objeù
 );
 
-3047 
+3048 
 	`g_»tuº_if_ç
  (
 mªag”
@@ -25651,7 +25653,7 @@ mªag”
 NULL
 );
 
-3049 
+3050 
 	`g_ş—r_objeù
  (&
 mªag”
@@ -25661,7 +25663,7 @@ mªag”
 cÚÃùiÚ
 );
 
-3051 ià(
+3052 ià(
 mªag”
 ->
 ´iv
@@ -25669,7 +25671,7 @@ mªag”
 Çme_id
  != 0)
 
-3052 
+3053 
 	`g_bus_unown_Çme
  (
 mªag”
@@ -25679,7 +25681,7 @@ mªag”
 Çme_id
 );
 
-3054 
+3055 
 	`G_OBJECT_CLASS
  (
 gsd_pow”_mªag”_·»Á_şass
@@ -25689,11 +25691,11 @@ gsd_pow”_mªag”_·»Á_şass
 objeù
 );
 
-3055 
+3056 
 	}
 }
 
-3058 
+3059 
 	$gsd_pow”_mªag”_şass_š™
  (
 GsdPow”Mªag”CÏss
@@ -25701,7 +25703,7 @@ GsdPow”Mªag”CÏss
 kÏss
 )
 
-3060 
+3061 
 GObjeùCÏss
  *
 objeù_şass
@@ -25711,7 +25713,7 @@ objeù_şass
 kÏss
 );
 
-3062 
+3063 
 objeù_şass
 ->
 fš®ize
@@ -25719,7 +25721,7 @@ fš®ize
 gsd_pow”_mªag”_fš®ize
 ;
 
-3064 
+3065 
 	`g_ty³_şass_add_´iv©e
  (
 kÏss
@@ -25727,11 +25729,11 @@ kÏss
 GsdPow”Mªag”Priv©e
 ));
 
-3065 
+3066 
 	}
 }
 
-3068 
+3069 
 	$£ssiÚ_´e£nû_´oxy_»ady_cb
  (
 GObjeù
@@ -25739,19 +25741,19 @@ GObjeù
 sourû_objeù
 ,
 
-3069 
+3070 
 GAsyncResuÉ
  *
 »s
 ,
 
-3070 
+3071 
 gpoš‹r
  
 u£r_d©a
 )
 
-3072 
+3073 
 GE¼Ü
  *
 ”rÜ
@@ -25759,7 +25761,7 @@ GE¼Ü
 NULL
 ;
 
-3073 
+3074 
 GsdPow”Mªag”
  *
 mªag”
@@ -25769,7 +25771,7 @@ mªag”
 u£r_d©a
 );
 
-3075 
+3076 
 mªag”
 ->
 ´iv
@@ -25783,7 +25785,7 @@ mªag”
 ”rÜ
 );
 
-3076 ià(
+3077 ià(
 mªag”
 ->
 ´iv
@@ -25793,27 +25795,27 @@ mªag”
 NULL
 )
 
-3078 
+3079 
 	`g_w¬nšg
  ("Could‚ot connecto gnome-sesson: %s",
 
-3079 
+3080 
 ”rÜ
 ->
 mes§ge
 );
 
-3080 
+3081 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-3083 
+3084 
 	}
 }
 
-3086 
+3087 
 	$hªdË_sü“n§v”_aùive
  (
 GsdPow”Mªag”
@@ -25821,19 +25823,19 @@ GsdPow”Mªag”
 mªag”
 ,
 
-3087 
+3088 
 GV¬ŸÁ
  *
 ·¿m‘”s
 )
 
-3089 
+3090 
 gboŞ—n
  
 aùive
 ;
 
-3091 
+3092 
 	`g_v¬ŸÁ_g‘
  (
 ·¿m‘”s
@@ -25841,7 +25843,7 @@ aùive
 aùive
 );
 
-3092 
+3093 
 	`g_debug
  ("Reûived sü“n§v” AùiveChªged sigÇl: %d (Şd: %d)", 
 aùive
@@ -25853,7 +25855,7 @@ mªag”
 sü“n§v”_aùive
 );
 
-3093 ià(
+3094 ià(
 mªag”
 ->
 ´iv
@@ -25863,7 +25865,7 @@ sü“n§v”_aùive
 aùive
 )
 
-3095 
+3096 
 mªag”
 ->
 ´iv
@@ -25873,21 +25875,21 @@ sü“n§v”_aùive
 aùive
 ;
 
-3096 
+3097 
 	`g_debug
 ("handle_screensaver_active():\n");
 
-3097 
+3098 
 	`idË_cÚfigu»
  (
 mªag”
 );
 
-3103 ià(
+3104 ià(
 aùive
 )
 
-3104 
+3105 
 	`idË_£t_mode
  (
 mªag”
@@ -25895,11 +25897,11 @@ mªag”
 GSD_POWER_IDLE_MODE_BLANK
 );
 
-3106 
+3107 
 	}
 }
 
-3109 
+3110 
 	$sü“n§v”_sigÇl_cb
  (
 GDBusProxy
@@ -25907,37 +25909,37 @@ GDBusProxy
 ´oxy
 ,
 
-3110 cÚ¡ 
+3111 cÚ¡ 
 gch¬
  *
 £nd”_Çme
 ,
 
-3111 cÚ¡ 
+3112 cÚ¡ 
 gch¬
  *
 sigÇl_Çme
 ,
 
-3112 
+3113 
 GV¬ŸÁ
  *
 ·¿m‘”s
 ,
 
-3113 
+3114 
 gpoš‹r
  
 u£r_d©a
 )
 
-3115 ià(
+3116 ià(
 	`g_¡rcmp0
  (
 sigÇl_Çme
 , "ActiveChanged") == 0)
 
-3116 
+3117 
 	`hªdË_sü“n§v”_aùive
  (
 	`GSD_POWER_MANAGER
@@ -25947,11 +25949,11 @@ u£r_d©a
 ·¿m‘”s
 );
 
-3117 
+3118 
 	}
 }
 
-3120 
+3121 
 	$g‘_aùive_cb
  (
 GDBusProxy
@@ -25959,25 +25961,25 @@ GDBusProxy
 ´oxy
 ,
 
-3121 
+3122 
 GAsyncResuÉ
  *
 »suÉ
 ,
 
-3122 
+3123 
 GsdPow”Mªag”
  *
 mªag”
 )
 
-3124 
+3125 
 GV¬ŸÁ
  *
 »s
 ;
 
-3125 
+3126 
 GE¼Ü
  *
 ”rÜ
@@ -25985,7 +25987,7 @@ GE¼Ü
 NULL
 ;
 
-3127 
+3128 
 »s
  = 
 	`g_dbus_´oxy_ÿÎ_fšish
@@ -25997,11 +25999,11 @@ NULL
 ”rÜ
 );
 
-3128 ià(!
+3129 ià(!
 »s
 )
 
-3130 
+3131 
 	`g_w¬nšg
  ("FaedØruÀG‘Aùive(èfunùiÚ oÀsü“n§v”: %s", 
 ”rÜ
@@ -26009,13 +26011,13 @@ NULL
 mes§ge
 );
 
-3131 
+3132 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-3135 
+3136 
 	`hªdË_sü“n§v”_aùive
  (
 mªag”
@@ -26023,17 +26025,17 @@ mªag”
 »s
 );
 
-3136 
+3137 
 	`g_v¬ŸÁ_uÄef
  (
 »s
 );
 
-3137 
+3138 
 	}
 }
 
-3140 
+3141 
 	$sü“n§v”_´oxy_»ady_cb
  (
 GObjeù
@@ -26041,19 +26043,19 @@ GObjeù
 sourû_objeù
 ,
 
-3141 
+3142 
 GAsyncResuÉ
  *
 »s
 ,
 
-3142 
+3143 
 GsdPow”Mªag”
  *
 mªag”
 )
 
-3144 
+3145 
 GE¼Ü
  *
 ”rÜ
@@ -26061,13 +26063,13 @@ GE¼Ü
 NULL
 ;
 
-3145 
+3146 
 GDBusProxy
  *
 ´oxy
 ;
 
-3147 
+3148 
 ´oxy
  = 
 	`g_dbus_´oxy_Ãw_fšish
@@ -26077,13 +26079,13 @@ GDBusProxy
 ”rÜ
 );
 
-3149 ià(
+3150 ià(
 ´oxy
  =ğ
 NULL
 )
 
-3151 ià(!
+3152 ià(!
 	`g_”rÜ_m©ches
  (
 ”rÜ
@@ -26093,7 +26095,7 @@ G_IO_ERROR
 G_IO_ERROR_CANCELLED
 ))
 
-3152 
+3153 
 	`g_w¬nšg
  ("Could‚Ù cÚÃùØsü“n§v”: %s", 
 ”rÜ
@@ -26101,13 +26103,13 @@ G_IO_ERROR_CANCELLED
 mes§ge
 );
 
-3153 
+3154 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-3157 
+3158 
 mªag”
 ->
 ´iv
@@ -26117,7 +26119,7 @@ sü“n§v”_´oxy
 ´oxy
 ;
 
-3159 
+3160 
 	`g_sigÇl_cÚÃù
  (
 mªag”
@@ -26127,7 +26129,7 @@ mªag”
 sü“n§v”_´oxy
 , "g-signal",
 
-3160 
+3161 
 	`G_CALLBACK
  (
 sü“n§v”_sigÇl_cb
@@ -26135,7 +26137,7 @@ sü“n§v”_sigÇl_cb
 mªag”
 );
 
-3161 
+3162 
 	`g_dbus_´oxy_ÿÎ
  (
 mªag”
@@ -26145,33 +26147,33 @@ mªag”
 sü“n§v”_´oxy
 ,
 
-3163 
+3164 
 NULL
-,
-
-3165 
-G_MAXINT
 ,
 
 3166 
+G_MAXINT
+,
+
+3167 
 NULL
 ,
 
-3167 (
+3168 (
 GAsyncR—dyC®lback
 )
 g‘_aùive_cb
 ,
 
-3168 
+3169 
 mªag”
 );
 
-3170 
+3171 
 	}
 }
 
-3173 
+3174 
 	$sü“n§v”_­³¬ed_cb
  (
 GDBusCÚÃùiÚ
@@ -26179,43 +26181,43 @@ GDBusCÚÃùiÚ
 cÚÃùiÚ
 ,
 
-3174 cÚ¡ *
+3175 cÚ¡ *
 Çme
 ,
 
-3175 cÚ¡ *
+3176 cÚ¡ *
 Çme_owÃr
 ,
 
-3176 
+3177 
 GsdPow”Mªag”
  *
 mªag”
 )
 
-3178 
+3179 
 	`g_dbus_´oxy_Ãw
  (
 cÚÃùiÚ
 ,
 
-3180 
+3181 
 NULL
 ,
 
-3181 
+3182 
 GS_DBUS_NAME
 ,
 
-3182 
+3183 
 GS_DBUS_PATH
 ,
 
-3183 
+3184 
 GS_DBUS_INTERFACE
 ,
 
-3184 
+3185 
 mªag”
 ->
 ´iv
@@ -26223,21 +26225,21 @@ mªag”
 sü“n§v”_ÿnûÎabË
 ,
 
-3185 (
+3186 (
 GAsyncR—dyC®lback
 è
 sü“n§v”_´oxy_»ady_cb
 ,
 
-3186 
+3187 
 mªag”
 );
 
-3188 
+3189 
 	}
 }
 
-3191 
+3192 
 	$sü“n§v”_vªished_cb
  (
 GDBusCÚÃùiÚ
@@ -26245,17 +26247,17 @@ GDBusCÚÃùiÚ
 cÚÃùiÚ
 ,
 
-3192 cÚ¡ *
+3193 cÚ¡ *
 Çme
 ,
 
-3193 
+3194 
 GsdPow”Mªag”
  *
 mªag”
 )
 
-3195 
+3196 
 	`g_ş—r_objeù
  (&
 mªag”
@@ -26265,11 +26267,11 @@ mªag”
 sü“n§v”_´oxy
 );
 
-3196 
+3197 
 	}
 }
 
-3199 
+3200 
 	$pow”_keybßrd_´oxy_»ady_cb
  (
 GObjeù
@@ -26277,19 +26279,19 @@ GObjeù
 sourû_objeù
 ,
 
-3200 
+3201 
 GAsyncResuÉ
  *
 »s
 ,
 
-3201 
+3202 
 gpoš‹r
  
 u£r_d©a
 )
 
-3203 
+3204 
 GV¬ŸÁ
  *
 k_now
@@ -26297,7 +26299,7 @@ k_now
 NULL
 ;
 
-3204 
+3205 
 GV¬ŸÁ
  *
 k_max
@@ -26305,7 +26307,7 @@ k_max
 NULL
 ;
 
-3205 
+3206 
 GE¼Ü
  *
 ”rÜ
@@ -26313,7 +26315,7 @@ GE¼Ü
 NULL
 ;
 
-3206 
+3207 
 GsdPow”Mªag”
  *
 mªag”
@@ -26323,7 +26325,7 @@ mªag”
 u£r_d©a
 );
 
-3208 
+3209 
 mªag”
 ->
 ´iv
@@ -26337,7 +26339,7 @@ upow”_kdb_´oxy
 ”rÜ
 );
 
-3209 ià(
+3210 ià(
 mªag”
 ->
 ´iv
@@ -26347,27 +26349,27 @@ upow”_kdb_´oxy
 NULL
 )
 
-3211 
+3212 
 	`g_w¬nšg
  ("Could‚ot connecto UPower: %s",
 
-3212 
+3213 
 ”rÜ
 ->
 mes§ge
 );
 
-3213 
+3214 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-3214 
+3215 
 out
 ;
 
-3217 
+3218 
 k_now
  = 
 	`g_dbus_´oxy_ÿÎ_sync
@@ -26379,29 +26381,29 @@ mªag”
 upow”_kdb_´oxy
 ,
 
-3219 
+3220 
 NULL
 ,
 
-3220 
+3221 
 G_DBUS_CALL_FLAGS_NONE
 ,
 
-3222 
+3223 
 NULL
 ,
 
-3223 &
+3224 &
 ”rÜ
 );
 
-3224 ià(
+3225 ià(
 k_now
  =ğ
 NULL
 )
 
-3226 ià(
+3227 ià(
 ”rÜ
 ->
 domaš
@@ -26409,7 +26411,7 @@ domaš
 G_DBUS_ERROR
  ||
 
-3227 
+3228 
 ”rÜ
 ->
 code
@@ -26417,27 +26419,27 @@ code
 G_DBUS_ERROR_UNKNOWN_METHOD
 )
 
-3229 
+3230 
 	`g_w¬nšg
  ("Failedo get brightness: %s",
 
-3230 
+3231 
 ”rÜ
 ->
 mes§ge
 );
 
-3232 
+3233 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-3233 
+3234 
 out
 ;
 
-3236 
+3237 
 k_max
  = 
 	`g_dbus_´oxy_ÿÎ_sync
@@ -26449,29 +26451,29 @@ mªag”
 upow”_kdb_´oxy
 ,
 
-3238 
+3239 
 NULL
 ,
 
-3239 
+3240 
 G_DBUS_CALL_FLAGS_NONE
 ,
 
-3241 
+3242 
 NULL
 ,
 
-3242 &
+3243 &
 ”rÜ
 );
 
-3243 ià(
+3244 ià(
 k_max
  =ğ
 NULL
 )
 
-3245 
+3246 
 	`g_w¬nšg
  ("FaedØg‘ max brighŠess: %s", 
 ”rÜ
@@ -26479,17 +26481,17 @@ NULL
 mes§ge
 );
 
-3246 
+3247 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-3247 
+3248 
 out
 ;
 
-3250 
+3251 
 	`g_v¬ŸÁ_g‘
  (
 k_now
@@ -26501,7 +26503,7 @@ mªag”
 kbd_brighŠess_now
 );
 
-3251 
+3252 
 	`g_v¬ŸÁ_g‘
  (
 k_max
@@ -26513,7 +26515,7 @@ mªag”
 kbd_brighŠess_max
 );
 
-3255 ià(
+3256 ià(
 mªag”
 ->
 ´iv
@@ -26521,13 +26523,13 @@ mªag”
 kbd_brighŠess_now
  <= 0)
 
-3257 
+3258 
 gboŞ—n
  
 »t
 ;
 
-3258 
+3259 
 »t
  = 
 	`upow”_kbd_£t_brighŠess
@@ -26535,7 +26537,7 @@ gboŞ—n
 mªag”
 ,
 
-3259 
+3260 
 mªag”
 ->
 ´iv
@@ -26543,19 +26545,19 @@ mªag”
 kbd_brighŠess_max
 ,
 
-3260 &
+3261 &
 ”rÜ
 );
 
-3261 ià(!
+3262 ià(!
 »t
 )
 
-3263 
+3264 
 	`g_w¬nšg
  ("failedo initialize kbd backlighto %i: %s",
 
-3264 
+3265 
 mªag”
 ->
 ´iv
@@ -26563,51 +26565,51 @@ mªag”
 kbd_brighŠess_max
 ,
 
-3265 
+3266 
 ”rÜ
 ->
 mes§ge
 );
 
-3266 
+3267 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-3269 
+3270 
 out
 :
 
-3270 ià(
+3271 ià(
 k_now
  !ğ
 NULL
 )
 
-3271 
+3272 
 	`g_v¬ŸÁ_uÄef
  (
 k_now
 );
 
-3272 ià(
+3273 ià(
 k_max
  !ğ
 NULL
 )
-
-3273 
-	`g_v¬ŸÁ_uÄef
- (
-k_max
-);
 
 3274 
+	`g_v¬ŸÁ_uÄef
+ (
+k_max
+);
+
+3275 
 	}
 }
 
-3277 
+3278 
 	$show_¦“p_w¬nšg
  (
 GsdPow”Mªag”
@@ -26615,7 +26617,7 @@ GsdPow”Mªag”
 mªag”
 )
 
-3280 
+3281 
 	`nÙify_şo£_if_showšg
  (&
 mªag”
@@ -26625,7 +26627,7 @@ mªag”
 nÙifiÿtiÚ_¦“p_w¬nšg
 );
 
-3283 
+3284 
 mªag”
 ->
 ´iv
@@ -26633,21 +26635,21 @@ mªag”
 ¦“p_aùiÚ_ty³
 )
 
-3285 
+3286 
 GSD_POWER_ACTION_LOGOUT
 :
 
-3286 
+3287 
 	`ü—‹_nÙifiÿtiÚ
  (
 	`_
 ("Automatic†ogout"), _("You will soon†og out because of inactivity."),
 
-3287 
+3288 
 NULL
 ,
 
-3288 &
+3289 &
 mªag”
 ->
 ´iv
@@ -26655,21 +26657,21 @@ mªag”
 nÙifiÿtiÚ_¦“p_w¬nšg
 );
 
-3290 
+3291 
 GSD_POWER_ACTION_SUSPEND
 :
 
-3291 
+3292 
 	`ü—‹_nÙifiÿtiÚ
  (
 	`_
 ("Automatic suspend"), _("Computer will suspend very soon because of inactivity."),
 
-3292 
+3293 
 NULL
 ,
 
-3293 &
+3294 &
 mªag”
 ->
 ´iv
@@ -26677,21 +26679,21 @@ mªag”
 nÙifiÿtiÚ_¦“p_w¬nšg
 );
 
-3295 
+3296 
 GSD_POWER_ACTION_HIBERNATE
 :
 
-3296 
+3297 
 	`ü—‹_nÙifiÿtiÚ
  (
 	`_
 ("Automatic hibernation"), _("Computer will suspend very soon because of inactivity."),
 
-3297 
+3298 
 NULL
 ,
 
-3298 &
+3299 &
 mªag”
 ->
 ´iv
@@ -26699,11 +26701,11 @@ mªag”
 nÙifiÿtiÚ_¦“p_w¬nšg
 );
 
-3301 
+3302 
 	`g_as£¹_nÙ_»ached
  ();
 
-3304 
+3305 
 	`nÙify_nÙifiÿtiÚ_£t_timeout
  (
 mªag”
@@ -26713,11 +26715,11 @@ mªag”
 nÙifiÿtiÚ_¦“p_w¬nšg
 ,
 
-3305 
+3306 
 NOTIFY_EXPIRES_NEVER
 );
 
-3306 
+3307 
 	`nÙify_nÙifiÿtiÚ_£t_urg’cy
  (
 mªag”
@@ -26727,11 +26729,11 @@ mªag”
 nÙifiÿtiÚ_¦“p_w¬nšg
 ,
 
-3307 
+3308 
 NOTIFY_URGENCY_CRITICAL
 );
 
-3308 
+3309 
 	`nÙify_nÙifiÿtiÚ_£t_­p_Çme
  (
 mªag”
@@ -26743,7 +26745,7 @@ nÙifiÿtiÚ_¦“p_w¬nšg
 	`_
 ("Power"));
 
-3310 
+3311 
 	`nÙify_nÙifiÿtiÚ_show
  (
 mªag”
@@ -26755,7 +26757,7 @@ nÙifiÿtiÚ_¦“p_w¬nšg
 NULL
 );
 
-3312 ià(
+3313 ià(
 mªag”
 ->
 ´iv
@@ -26765,7 +26767,7 @@ mªag”
 GSD_POWER_ACTION_LOGOUT
 )
 
-3313 
+3314 
 	`£t_‹mpÜ¬y_unidË_Ú_ac
  (
 mªag”
@@ -26773,11 +26775,11 @@ mªag”
 TRUE
 );
 
-3314 
+3315 
 	}
 }
 
-3317 
+3318 
 	$idË_Œigg”ed_idË_cb
  (
 GnomeIdËMÚ™Ü
@@ -26785,19 +26787,19 @@ GnomeIdËMÚ™Ü
 mÚ™Ü
 ,
 
-3318 
+3319 
 gušt
  
 w©ch_id
 ,
 
-3319 
+3320 
 gpoš‹r
  
 u£r_d©a
 )
 
-3321 
+3322 
 GsdPow”Mªag”
  *
 mªag”
@@ -26807,11 +26809,11 @@ mªag”
 u£r_d©a
 );
 
-3322 cÚ¡ *
+3323 cÚ¡ *
 id_Çme
 ;
 
-3324 
+3325 
 id_Çme
  = 
 	`idË_w©ch_id_to_¡ršg
@@ -26821,19 +26823,19 @@ mªag”
 w©ch_id
 );
 
-3325 ià(
+3326 ià(
 id_Çme
  =ğ
 NULL
 )
 
-3326 
+3327 
 	`g_debug
  ("idËtimw©ch: %i", 
 w©ch_id
 );
 
-3328 
+3329 
 	`g_debug
  ("idËtimw©ch: % (%i)", 
 id_Çme
@@ -26841,7 +26843,7 @@ id_Çme
 w©ch_id
 );
 
-3330 ià(
+3331 ià(
 w©ch_id
  =ğ
 mªag”
@@ -26851,7 +26853,7 @@ mªag”
 idË_dim_id
 )
 
-3332 
+3333 
 	`idË_£t_mode
  (
 mªag”
@@ -26859,7 +26861,7 @@ mªag”
 GSD_POWER_IDLE_MODE_DIM
 );
 
-3334 ià(
+3335 ià(
 w©ch_id
  =ğ
 mªag”
@@ -26869,7 +26871,7 @@ mªag”
 idË_bÏnk_id
 )
 
-3336 
+3337 
 	`idË_£t_mode
  (
 mªag”
@@ -26877,7 +26879,7 @@ mªag”
 GSD_POWER_IDLE_MODE_BLANK
 );
 
-3338 ià(
+3339 ià(
 w©ch_id
  =ğ
 mªag”
@@ -26887,7 +26889,7 @@ mªag”
 idË_¦“p_id
 )
 
-3340 
+3341 
 	`idË_£t_mode
  (
 mªag”
@@ -26895,7 +26897,7 @@ mªag”
 GSD_POWER_IDLE_MODE_SLEEP
 );
 
-3342 ià(
+3343 ià(
 w©ch_id
  =ğ
 mªag”
@@ -26905,17 +26907,17 @@ mªag”
 idË_¦“p_w¬nšg_id
 )
 
-3344 
+3345 
 	`show_¦“p_w¬nšg
  (
 mªag”
 );
 
-3346 
+3347 
 	}
 }
 
-3349 
+3350 
 	$idË_beÿme_aùive_cb
  (
 GnomeIdËMÚ™Ü
@@ -26923,19 +26925,19 @@ GnomeIdËMÚ™Ü
 mÚ™Ü
 ,
 
-3350 
+3351 
 gušt
  
 w©ch_id
 ,
 
-3351 
+3352 
 gpoš‹r
  
 u£r_d©a
 )
 
-3353 
+3354 
 GsdPow”Mªag”
  *
 mªag”
@@ -26945,11 +26947,11 @@ mªag”
 u£r_d©a
 );
 
-3355 
+3356 
 	`g_debug
  ("idletime„eset");
 
-3357 
+3358 
 	`£t_‹mpÜ¬y_unidË_Ú_ac
  (
 mªag”
@@ -26957,7 +26959,7 @@ mªag”
 FALSE
 );
 
-3360 
+3361 
 	`nÙify_şo£_if_showšg
  (&
 mªag”
@@ -26967,7 +26969,7 @@ mªag”
 nÙifiÿtiÚ_¦“p_w¬nšg
 );
 
-3362 
+3363 
 	`idË_£t_mode
  (
 mªag”
@@ -26975,11 +26977,11 @@ mªag”
 GSD_POWER_IDLE_MODE_NORMAL
 );
 
-3363 
+3364 
 	}
 }
 
-3366 
+3367 
 	$’gše_£‰šgs_key_chªged_cb
  (
 GS‘tšgs
@@ -26987,25 +26989,25 @@ GS‘tšgs
 £‰šgs
 ,
 
-3367 cÚ¡ 
+3368 cÚ¡ 
 gch¬
  *
 key
 ,
 
-3368 
+3369 
 GsdPow”Mªag”
  *
 mªag”
 )
 
-3370 ià(
+3371 ià(
 	`g_¡rcmp0
  (
 key
 , "use-time-for-policy") == 0)
 
-3372 
+3373 
 mªag”
 ->
 ´iv
@@ -27019,39 +27021,39 @@ u£_time_´im¬y
 key
 );
 
-3375 ià(
+3376 ià(
 	`g_¡r_has_´efix
  (
 key
 , "sleep-inactive") ||
 
-3376 
+3377 
 	`g_¡r_equ®
  (
 key
 , "idle-delay") ||
 
-3377 
+3378 
 	`g_¡r_equ®
  (
 key
 , "idle-dim"))
 
-3379 
+3380 
 	`g_debug
 ("engine_settings_key_changed_cb()\n");
 
-3380 
+3381 
 	`idË_cÚfigu»
  (
 mªag”
 );
 
-3383 
+3384 
 	}
 }
 
-3386 
+3387 
 	$’gše_£ssiÚ_´İ”t›s_chªged_cb
  (
 GDBusProxy
@@ -27059,29 +27061,29 @@ GDBusProxy
 £ssiÚ
 ,
 
-3387 
+3388 
 GV¬ŸÁ
  *
 chªged
 ,
 
-3388 **
+3389 **
 šv®id©ed
 ,
 
-3389 
+3390 
 GsdPow”Mªag”
  *
 mªag”
 )
 
-3391 
+3392 
 GV¬ŸÁ
  *
 v
 ;
 
-3393 
+3394 
 v
  = 
 	`g_v¬ŸÁ_lookup_v®ue
@@ -27091,17 +27093,17 @@ chªged
 G_VARIANT_TYPE_BOOLEAN
 );
 
-3394 ià(
+3395 ià(
 v
 )
 
-3396 
+3397 
 gboŞ—n
  
 aùive
 ;
 
-3398 
+3399 
 aùive
  = 
 	`g_v¬ŸÁ_g‘_boŞ—n
@@ -27109,17 +27111,17 @@ aùive
 v
 );
 
-3399 
+3400 
 	`g_debug
  ("Reûived sessiÚ i aùivchªge:‚ow %s", 
 aùive
  ? "active" : "inactive");
 
-3402 ià(
+3403 ià(
 aùive
 )
 
-3403 
+3404 
 	`idË_£t_mode
  (
 mªag”
@@ -27127,13 +27129,13 @@ mªag”
 GSD_POWER_IDLE_MODE_NORMAL
 );
 
-3404 
+3405 
 	`g_v¬ŸÁ_uÄef
  (
 v
 );
 
-3408 
+3409 
 v
  = 
 	`g_v¬ŸÁ_lookup_v®ue
@@ -27143,35 +27145,35 @@ chªged
 G_VARIANT_TYPE_UINT32
 );
 
-3409 ià(
+3410 ià(
 v
 )
 
-3411 
+3412 
 	`g_v¬ŸÁ_uÄef
  (
 v
 );
 
-3412 
+3413 
 	`g_debug
  ("Received gnome session inhibitor change");
 
-3413 
+3414 
 	`g_debug
  ("engine_session_properties_changed_cb()\n");
 
-3414 
+3415 
 	`idË_cÚfigu»
  (
 mªag”
 );
 
-3416 
+3417 
 	}
 }
 
-3419 
+3420 
 	$šhib™_lid_sw™ch_dÚe
  (
 GObjeù
@@ -27179,19 +27181,19 @@ GObjeù
 sourû
 ,
 
-3420 
+3421 
 GAsyncResuÉ
  *
 »suÉ
 ,
 
-3421 
+3422 
 gpoš‹r
  
 u£r_d©a
 )
 
-3423 
+3424 
 GDBusProxy
  *
 ´oxy
@@ -27201,7 +27203,7 @@ GDBusProxy
 sourû
 );
 
-3424 
+3425 
 GsdPow”Mªag”
  *
 mªag”
@@ -27211,7 +27213,7 @@ mªag”
 u£r_d©a
 );
 
-3425 
+3426 
 GE¼Ü
  *
 ”rÜ
@@ -27219,13 +27221,13 @@ GE¼Ü
 NULL
 ;
 
-3426 
+3427 
 GV¬ŸÁ
  *
 »s
 ;
 
-3427 
+3428 
 GUnixFDLi¡
  *
 fd_li¡
@@ -27233,13 +27235,13 @@ fd_li¡
 NULL
 ;
 
-3428 
+3429 
 gšt
  
 idx
 ;
 
-3430 
+3431 
 »s
  = 
 	`g_dbus_´oxy_ÿÎ_w™h_unix_fd_li¡_fšish
@@ -27253,13 +27255,13 @@ fd_li¡
 ”rÜ
 );
 
-3431 ià(
+3432 ià(
 »s
  =ğ
 NULL
 )
 
-3433 
+3434 
 	`g_w¬nšg
  ("UÇbËØšhib™†id sw™ch: %s", 
 ”rÜ
@@ -27267,13 +27269,13 @@ NULL
 mes§ge
 );
 
-3434 
+3435 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-3438 
+3439 
 	`g_v¬ŸÁ_g‘
  (
 »s
@@ -27281,7 +27283,7 @@ mes§ge
 idx
 );
 
-3439 
+3440 
 mªag”
 ->
 ´iv
@@ -27297,7 +27299,7 @@ idx
 ”rÜ
 );
 
-3440 ià(
+3441 ià(
 mªag”
 ->
 ´iv
@@ -27305,7 +27307,7 @@ mªag”
 šhib™_lid_sw™ch_fd
  == -1)
 
-3442 
+3443 
 	`g_w¬nšg
  ("FaedØ»ûivsy¡em inhib™Ü fd: %s", 
 ”rÜ
@@ -27313,13 +27315,13 @@ mªag”
 mes§ge
 );
 
-3443 
+3444 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-3445 
+3446 
 	`g_debug
  ("Sy¡em inhib™Ü fd i %d", 
 mªag”
@@ -27329,23 +27331,23 @@ mªag”
 šhib™_lid_sw™ch_fd
 );
 
-3446 
+3447 
 	`g_objeù_uÄef
  (
 fd_li¡
 );
 
-3447 
+3448 
 	`g_v¬ŸÁ_uÄef
  (
 »s
 );
 
-3449 
+3450 
 	}
 }
 
-3452 
+3453 
 	$šhib™_lid_sw™ch
  (
 GsdPow”Mªag”
@@ -27353,13 +27355,13 @@ GsdPow”Mªag”
 mªag”
 )
 
-3454 
+3455 
 GV¬ŸÁ
  *
 ·¿ms
 ;
 
-3456 ià(
+3457 ià(
 mªag”
 ->
 ´iv
@@ -27367,15 +27369,15 @@ mªag”
 šhib™_lid_sw™ch_k’
 )
 
-3458 
+3459 
 	`g_debug
  ("already inhibited†id-switch");
 
-3461 
+3462 
 	`g_debug
  ("Adding†id switch system inhibitor");
 
-3462 
+3463 
 mªag”
 ->
 ´iv
@@ -27385,17 +27387,17 @@ mªag”
 TRUE
 ;
 
-3464 
+3465 
 ·¿ms
  = 
 	`g_v¬ŸÁ_Ãw
  ("(ssss)",
 
-3466 
+3467 
 	`g_g‘_u£r_Çme
  (),
 
-3469 
+3470 
 	`g_dbus_´oxy_ÿÎ_w™h_unix_fd_li¡
  (
 mªag”
@@ -27405,16 +27407,12 @@ mªag”
 logšd_´oxy
 ,
 
-3471 
+3472 
 ·¿ms
 ,
 
-3473 
-G_MAXINT
-,
-
 3474 
-NULL
+G_MAXINT
 ,
 
 3475 
@@ -27422,18 +27420,22 @@ NULL
 ,
 
 3476 
-šhib™_lid_sw™ch_dÚe
+NULL
 ,
 
 3477 
+šhib™_lid_sw™ch_dÚe
+,
+
+3478 
 mªag”
 );
 
-3478 
+3479 
 	}
 }
 
-3481 
+3482 
 	$unšhib™_lid_sw™ch
  (
 GsdPow”Mªag”
@@ -27441,7 +27443,7 @@ GsdPow”Mªag”
 mªag”
 )
 
-3483 ià(
+3484 ià(
 mªag”
 ->
 ´iv
@@ -27449,15 +27451,15 @@ mªag”
 šhib™_lid_sw™ch_fd
  == -1)
 
-3485 
+3486 
 	`g_debug
  ("no†id-switch inhibitor");
 
-3488 
+3489 
 	`g_debug
  ("Removing†id switch system inhibitor");
 
-3489 
+3490 
 	`şo£
  (
 mªag”
@@ -27467,7 +27469,7 @@ mªag”
 šhib™_lid_sw™ch_fd
 );
 
-3490 
+3491 
 mªag”
 ->
 ´iv
@@ -27475,7 +27477,7 @@ mªag”
 šhib™_lid_sw™ch_fd
  = -1;
 
-3491 
+3492 
 mªag”
 ->
 ´iv
@@ -27485,11 +27487,11 @@ mªag”
 FALSE
 ;
 
-3492 
+3493 
 	}
 }
 
-3495 
+3496 
 	$šhib™_su¥’d_dÚe
  (
 GObjeù
@@ -27497,19 +27499,19 @@ GObjeù
 sourû
 ,
 
-3496 
+3497 
 GAsyncResuÉ
  *
 »suÉ
 ,
 
-3497 
+3498 
 gpoš‹r
  
 u£r_d©a
 )
 
-3499 
+3500 
 GDBusProxy
  *
 ´oxy
@@ -27519,7 +27521,7 @@ GDBusProxy
 sourû
 );
 
-3500 
+3501 
 GsdPow”Mªag”
  *
 mªag”
@@ -27529,7 +27531,7 @@ mªag”
 u£r_d©a
 );
 
-3501 
+3502 
 GE¼Ü
  *
 ”rÜ
@@ -27537,13 +27539,13 @@ GE¼Ü
 NULL
 ;
 
-3502 
+3503 
 GV¬ŸÁ
  *
 »s
 ;
 
-3503 
+3504 
 GUnixFDLi¡
  *
 fd_li¡
@@ -27551,13 +27553,13 @@ fd_li¡
 NULL
 ;
 
-3504 
+3505 
 gšt
  
 idx
 ;
 
-3506 
+3507 
 »s
  = 
 	`g_dbus_´oxy_ÿÎ_w™h_unix_fd_li¡_fšish
@@ -27571,13 +27573,13 @@ fd_li¡
 ”rÜ
 );
 
-3507 ià(
+3508 ià(
 »s
  =ğ
 NULL
 )
 
-3509 
+3510 
 	`g_w¬nšg
  ("UÇbËØšhib™ su¥’d: %s", 
 ”rÜ
@@ -27585,13 +27587,13 @@ NULL
 mes§ge
 );
 
-3510 
+3511 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-3514 
+3515 
 	`g_v¬ŸÁ_g‘
  (
 »s
@@ -27599,7 +27601,7 @@ mes§ge
 idx
 );
 
-3515 
+3516 
 mªag”
 ->
 ´iv
@@ -27615,7 +27617,7 @@ idx
 ”rÜ
 );
 
-3516 ià(
+3517 ià(
 mªag”
 ->
 ´iv
@@ -27623,7 +27625,7 @@ mªag”
 šhib™_su¥’d_fd
  == -1)
 
-3518 
+3519 
 	`g_w¬nšg
  ("FaedØ»ûivsy¡em inhib™Ü fd: %s", 
 ”rÜ
@@ -27631,13 +27633,13 @@ mªag”
 mes§ge
 );
 
-3519 
+3520 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-3521 
+3522 
 	`g_debug
  ("Sy¡em inhib™Ü fd i %d", 
 mªag”
@@ -27647,23 +27649,23 @@ mªag”
 šhib™_su¥’d_fd
 );
 
-3522 
+3523 
 	`g_objeù_uÄef
  (
 fd_li¡
 );
 
-3523 
+3524 
 	`g_v¬ŸÁ_uÄef
  (
 »s
 );
 
-3525 
+3526 
 	}
 }
 
-3532 
+3533 
 	$šhib™_su¥’d
  (
 GsdPow”Mªag”
@@ -27671,7 +27673,7 @@ GsdPow”Mªag”
 mªag”
 )
 
-3534 ià(
+3535 ià(
 mªag”
 ->
 ´iv
@@ -27679,15 +27681,15 @@ mªag”
 šhib™_su¥’d_k’
 )
 
-3536 
+3537 
 	`g_debug
  ("already inhibited†id-switch");
 
-3539 
+3540 
 	`g_debug
  ("Adding suspend delay inhibitor");
 
-3540 
+3541 
 mªag”
 ->
 ´iv
@@ -27697,7 +27699,7 @@ mªag”
 TRUE
 ;
 
-3541 
+3542 
 	`g_dbus_´oxy_ÿÎ_w™h_unix_fd_li¡
  (
 mªag”
@@ -27707,20 +27709,16 @@ mªag”
 logšd_´oxy
 ,
 
-3543 
+3544 
 	`g_v¬ŸÁ_Ãw
  ("(ssss)",
 
-3545 
+3546 
 	`g_g‘_u£r_Çme
  (),
 
-3549 
-G_MAXINT
-,
-
 3550 
-NULL
+G_MAXINT
 ,
 
 3551 
@@ -27728,18 +27726,22 @@ NULL
 ,
 
 3552 
-šhib™_su¥’d_dÚe
+NULL
 ,
 
 3553 
+šhib™_su¥’d_dÚe
+,
+
+3554 
 mªag”
 );
 
-3554 
+3555 
 	}
 }
 
-3557 
+3558 
 	$unšhib™_su¥’d
  (
 GsdPow”Mªag”
@@ -27747,7 +27749,7 @@ GsdPow”Mªag”
 mªag”
 )
 
-3559 ià(
+3560 ià(
 mªag”
 ->
 ´iv
@@ -27755,15 +27757,15 @@ mªag”
 šhib™_su¥’d_fd
  == -1)
 
-3561 
+3562 
 	`g_debug
  ("no suspend delay inhibitor");
 
-3564 
+3565 
 	`g_debug
  ("Removing suspend delay inhibitor");
 
-3565 
+3566 
 	`şo£
  (
 mªag”
@@ -27773,7 +27775,7 @@ mªag”
 šhib™_su¥’d_fd
 );
 
-3566 
+3567 
 mªag”
 ->
 ´iv
@@ -27781,7 +27783,7 @@ mªag”
 šhib™_su¥’d_fd
  = -1;
 
-3567 
+3568 
 mªag”
 ->
 ´iv
@@ -27791,11 +27793,11 @@ mªag”
 FALSE
 ;
 
-3568 
+3569 
 	}
 }
 
-3571 
+3572 
 	$Ú_¿ndr_ev’t
  (
 GnomeRRSü“n
@@ -27807,7 +27809,7 @@ gpoš‹r
 u£r_d©a
 )
 
-3573 
+3574 
 GsdPow”Mªag”
  *
 mªag”
@@ -27817,43 +27819,43 @@ mªag”
 u£r_d©a
 );
 
-3575 ià(
+3576 ià(
 	`su¥’d_Ú_lid_şo£
  (
 mªag”
 ))
 
-3577 
+3578 
 	`»¡¬t_šhib™_lid_sw™ch_tim”
  (
 mªag”
 );
 
-3589 
+3590 
 	`šhib™_lid_sw™ch
  (
 mªag”
 );
 
-3590 
+3591 
 	`£tup_šhib™_lid_sw™ch_tim”
  (
 mªag”
 );
 
-3591 
+3592 
 	}
 }
 
-3593 #ifdeà
+3594 #ifdeà
 GSD_MOCK
 
 
-3594 
+3595 
 gboŞ—n
 
 
-3595 
+3596 
 	$»ûived_sigu¤2
  (
 GsdPow”Mªag”
@@ -27861,7 +27863,7 @@ GsdPow”Mªag”
 mªag”
 )
 
-3597 
+3598 
 	`Ú_¿ndr_ev’t
  (
 NULL
@@ -27869,15 +27871,15 @@ NULL
 mªag”
 );
 
-3598  
+3599  
 TRUE
 ;
 
-3599 
+3600 
 	}
 }
 
-3603 
+3604 
 	$hªdË_su¥’d_aùiÚs
  (
 GsdPow”Mªag”
@@ -27885,23 +27887,23 @@ GsdPow”Mªag”
 mªag”
 )
 
-3605 
+3606 
 	`backlight_di§bË
  (
 mªag”
 );
 
-3606 
+3607 
 	`unšhib™_su¥’d
  (
 mªag”
 );
 
-3607 
+3608 
 	}
 }
 
-3610 
+3611 
 	$hªdË_»sume_aùiÚs
  (
 GsdPow”Mªag”
@@ -27909,7 +27911,7 @@ GsdPow”Mªag”
 mªag”
 )
 
-3614 
+3615 
 	`nÙify_şo£_if_showšg
  (&
 mªag”
@@ -27919,7 +27921,7 @@ mªag”
 nÙifiÿtiÚ_low
 );
 
-3615 
+3616 
 	`nÙify_şo£_if_showšg
  (&
 mªag”
@@ -27929,7 +27931,7 @@ mªag”
 nÙifiÿtiÚ_ups_disch¬gšg
 );
 
-3616 
+3617 
 	`maš_b©‹ry_Ü_ups_low_chªged
  (
 mªag”
@@ -27937,27 +27939,27 @@ mªag”
 FALSE
 );
 
-3619 
+3620 
 	`backlight_’abË
  (
 mªag”
 );
 
-3623 
+3624 
 	`»£t_idËtime
  ();
 
-3626 
+3627 
 	`šhib™_su¥’d
  (
 mªag”
 );
 
-3627 
+3628 
 	}
 }
 
-3630 
+3631 
 	$logšd_´oxy_sigÇl_cb
  (
 GDBusProxy
@@ -27965,31 +27967,31 @@ GDBusProxy
 ´oxy
 ,
 
-3631 cÚ¡ 
+3632 cÚ¡ 
 gch¬
  *
 £nd”_Çme
 ,
 
-3632 cÚ¡ 
+3633 cÚ¡ 
 gch¬
  *
 sigÇl_Çme
 ,
 
-3633 
+3634 
 GV¬ŸÁ
  *
 ·¿m‘”s
 ,
 
-3634 
+3635 
 gpoš‹r
  
 u£r_d©a
 )
 
-3636 
+3637 
 GsdPow”Mªag”
  *
 mªag”
@@ -27999,19 +28001,19 @@ mªag”
 u£r_d©a
 );
 
-3637 
+3638 
 gboŞ—n
  
 is_about_to_su¥’d
 ;
 
-3639 ià(
+3640 ià(
 	`g_¡rcmp0
  (
 sigÇl_Çme
 , "PrepareForSleep") != 0)
 
-3641 
+3642 
 	`g_v¬ŸÁ_g‘
  (
 ·¿m‘”s
@@ -28019,31 +28021,31 @@ sigÇl_Çme
 is_about_to_su¥’d
 );
 
-3642 ià(
+3643 ià(
 is_about_to_su¥’d
 )
 
-3644 
+3645 
 	`hªdË_su¥’d_aùiÚs
  (
 mªag”
 );
 
-3648 
+3649 
 	`hªdË_»sume_aùiÚs
  (
 mªag”
 );
 
-3650 
+3651 
 	}
 }
 
-3652 
+3653 
 gboŞ—n
 
 
-3653 
+3654 
 	$gsd_pow”_mªag”_¡¬t
  (
 GsdPow”Mªag”
@@ -28051,23 +28053,23 @@ GsdPow”Mªag”
 mªag”
 ,
 
-3654 
+3655 
 GE¼Ü
  **
 ”rÜ
 )
 
-3656 
+3657 
 	`g_debug
  ("Starting…ower manager");
 
-3657 
+3658 
 	`gnome_£‰šgs_´ofe_¡¬t
  (
 NULL
 );
 
-3660 
+3661 
 mªag”
 ->
 ´iv
@@ -28081,7 +28083,7 @@ mªag”
 ”rÜ
 );
 
-3661 ià(
+3662 ià(
 mªag”
 ->
 ´iv
@@ -28091,29 +28093,29 @@ mªag”
 NULL
 )
 
-3663 
+3664 
 	`g_debug
  ("Couldn't detect‡ny screens, disabling…lugin");
 
-3664  
+3665  
 FALSE
 ;
 
-3668 ià(
+3669 ià(
 	`suµÜts_x‹¡
  (è=ğ
 FALSE
 )
 
-3670 
+3671 
 	`g_debug
  ("XTESTƒxtension„equired, disabling…lugin");
 
-3671  
+3672  
 FALSE
 ;
 
-3675 
+3676 
 mªag”
 ->
 ´iv
@@ -28121,37 +28123,37 @@ mªag”
 logšd_´oxy
  =
 
-3676 
+3677 
 	`g_dbus_´oxy_Ãw_fÜ_bus_sync
  (
 G_BUS_TYPE_SYSTEM
 ,
 
-3678 
-NULL
-,
-
 3679 
-SYSTEMD_DBUS_NAME
+NULL
 ,
 
 3680 
-SYSTEMD_DBUS_PATH
+SYSTEMD_DBUS_NAME
 ,
 
 3681 
-SYSTEMD_DBUS_INTERFACE
+SYSTEMD_DBUS_PATH
 ,
 
 3682 
-NULL
+SYSTEMD_DBUS_INTERFACE
 ,
 
 3683 
+NULL
+,
+
+3684 
 ”rÜ
 );
 
-3684 ià(
+3685 ià(
 mªag”
 ->
 ´iv
@@ -28161,15 +28163,15 @@ logšd_´oxy
 NULL
 )
 
-3686 
+3687 
 	`g_debug
  ("No systemd (logind) support, disabling…lugin");
 
-3687  
+3688  
 FALSE
 ;
 
-3689 
+3690 
 	`g_sigÇl_cÚÃù
  (
 mªag”
@@ -28179,23 +28181,23 @@ mªag”
 logšd_´oxy
 , "g-signal",
 
-3690 
+3691 
 	`G_CALLBACK
  (
 logšd_´oxy_sigÇl_cb
 ),
 
-3691 
+3692 
 mªag”
 );
 
-3693 
+3694 
 	`šhib™_su¥’d
  (
 mªag”
 );
 
-3696 
+3697 
 mªag”
 ->
 ´iv
@@ -28205,7 +28207,7 @@ mªag”
 	`gnome_£‰šgs_£ssiÚ_g‘_£ssiÚ_´oxy
  ();
 
-3697 
+3698 
 	`g_sigÇl_cÚÃù
  (
 mªag”
@@ -28215,17 +28217,17 @@ mªag”
 £ssiÚ
 , "g-properties-changed",
 
-3698 
+3699 
 	`G_CALLBACK
  (
 ’gše_£ssiÚ_´İ”t›s_chªged_cb
 ),
 
-3699 
+3700 
 mªag”
 );
 
-3701 
+3702 
 mªag”
 ->
 ´iv
@@ -28233,7 +28235,7 @@ mªag”
 kbd_brighŠess_Şd
  = -1;
 
-3702 
+3703 
 mªag”
 ->
 ´iv
@@ -28241,7 +28243,7 @@ mªag”
 kbd_brighŠess_´e_dim
  = -1;
 
-3703 
+3704 
 mªag”
 ->
 ´iv
@@ -28249,7 +28251,7 @@ mªag”
 ´e_dim_brighŠess
  = -1;
 
-3705 
+3706 
 mªag”
 ->
 ´iv
@@ -28261,17 +28263,17 @@ mªag”
 DEEPIN_POWER_SETTINGS_SCHEMA
 ,
 
-3706 
+3707 
 DEEPIN_POWER_SETTINGS_PATH
 );
 
-3707 
+3708 
 	`g_debug
 ("ü—‹d‚ew s‘‰šg w™h…©h :%s\n", 
 DEEPIN_POWER_SETTINGS_PATH
 );
 
-3708 
+3709 
 	`g_sigÇl_cÚÃù
  (
 mªag”
@@ -28281,7 +28283,7 @@ mªag”
 £‰šgs
 , "changed",
 
-3709 
+3710 
 	`G_CALLBACK
  (
 ’gše_£‰šgs_key_chªged_cb
@@ -28289,7 +28291,7 @@ mªag”
 mªag”
 );
 
-3710 
+3711 
 mªag”
 ->
 ´iv
@@ -28299,7 +28301,7 @@ mªag”
 	`g_£‰šgs_Ãw
  ("org.gnome.desktop.screensaver");
 
-3711 
+3712 
 mªag”
 ->
 ´iv
@@ -28309,7 +28311,7 @@ mªag”
 	`g_£‰šgs_Ãw
  ("org.gnome.desktop.session");
 
-3714 
+3715 
 mªag”
 ->
 ´iv
@@ -28321,7 +28323,7 @@ mªag”
 GSD_XRANDR_SETTINGS_SCHEMA
 );
 
-3715 
+3716 
 mªag”
 ->
 ´iv
@@ -28331,7 +28333,7 @@ up_ş›Á
 	`up_ş›Á_Ãw
  ();
 
-3716 
+3717 
 mªag”
 ->
 ´iv
@@ -28343,7 +28345,7 @@ lid_is_şo£d
 up_ş›Á
 );
 
-3717 
+3718 
 	`g_sigÇl_cÚÃù
  (
 mªag”
@@ -28353,7 +28355,7 @@ mªag”
 up_ş›Á
 , "device-added",
 
-3718 
+3719 
 	`G_CALLBACK
  (
 ’gše_deviû_added_cb
@@ -28361,7 +28363,7 @@ up_ş›Á
 mªag”
 );
 
-3719 
+3720 
 	`g_sigÇl_cÚÃù
  (
 mªag”
@@ -28371,7 +28373,7 @@ mªag”
 up_ş›Á
 , "device-removed",
 
-3720 
+3721 
 	`G_CALLBACK
  (
 ’gše_deviû_»moved_cb
@@ -28379,7 +28381,7 @@ up_ş›Á
 mªag”
 );
 
-3721 
+3722 
 	`g_sigÇl_cÚÃù
  (
 mªag”
@@ -28389,7 +28391,7 @@ mªag”
 up_ş›Á
 , "device-changed",
 
-3722 
+3723 
 	`G_CALLBACK
  (
 ’gše_deviû_chªged_cb
@@ -28397,7 +28399,7 @@ up_ş›Á
 mªag”
 );
 
-3723 
+3724 
 	`g_sigÇl_cÚÃù_aá”
  (
 mªag”
@@ -28407,7 +28409,7 @@ mªag”
 up_ş›Á
 , "changed",
 
-3724 
+3725 
 	`G_CALLBACK
  (
 up_ş›Á_chªged_cb
@@ -28415,7 +28417,7 @@ up_ş›Á_chªged_cb
 mªag”
 );
 
-3725 
+3726 
 	`g_sigÇl_cÚÃù
  (
 mªag”
@@ -28425,7 +28427,7 @@ mªag”
 up_ş›Á
 , "notify::on-battery",
 
-3726 
+3727 
 	`G_CALLBACK
  (
 up_ş›Á_Ú_b©‹ry_cb
@@ -28433,79 +28435,79 @@ up_ş›Á_Ú_b©‹ry_cb
 mªag”
 );
 
-3729 
+3730 
 	`g_dbus_´oxy_Ãw_fÜ_bus
  (
 G_BUS_TYPE_SYSTEM
 ,
 
-3730 
+3731 
 G_DBUS_PROXY_FLAGS_DO_NOT_LOAD_PROPERTIES
 ,
 
-3731 
-NULL
-,
-
 3732 
-UPOWER_DBUS_NAME
+NULL
 ,
 
 3733 
-UPOWER_DBUS_PATH_KBDBACKLIGHT
+UPOWER_DBUS_NAME
 ,
 
 3734 
-UPOWER_DBUS_INTERFACE_KBDBACKLIGHT
+UPOWER_DBUS_PATH_KBDBACKLIGHT
 ,
 
 3735 
-NULL
+UPOWER_DBUS_INTERFACE_KBDBACKLIGHT
 ,
 
 3736 
-pow”_keybßrd_´oxy_»ady_cb
+NULL
 ,
 
 3737 
+pow”_keybßrd_´oxy_»ady_cb
+,
+
+3738 
 mªag”
 );
 
-3740 
+3741 
 	`g_dbus_´oxy_Ãw_fÜ_bus
  (
 G_BUS_TYPE_SESSION
 ,
 
-3742 
-NULL
-,
-
 3743 
-GNOME_SESSION_DBUS_NAME
+NULL
 ,
 
 3744 
-GNOME_SESSION_DBUS_PATH_PRESENCE
+GNOME_SESSION_DBUS_NAME
 ,
 
 3745 
-GNOME_SESSION_DBUS_INTERFACE_PRESENCE
+GNOME_SESSION_DBUS_PATH_PRESENCE
 ,
 
 3746 
-NULL
+GNOME_SESSION_DBUS_INTERFACE_PRESENCE
 ,
 
 3747 
-£ssiÚ_´e£nû_´oxy_»ady_cb
+NULL
 ,
 
 3748 
+£ssiÚ_´e£nû_´oxy_»ady_cb
+,
+
+3749 
 mªag”
 );
 
-3750 
+3751 
 mªag”
 ->
 ´iv
@@ -28513,41 +28515,41 @@ mªag”
 sü“n§v”_w©ch_id
  =
 
-3751 
+3752 
 	`g_bus_w©ch_Çme
  (
 G_BUS_TYPE_SESSION
 ,
 
-3752 
+3753 
 GS_DBUS_NAME
 ,
 
-3753 
+3754 
 G_BUS_NAME_WATCHER_FLAGS_NONE
 ,
 
-3754 (
+3755 (
 GBusNameAµ—»dC®lback
 è
 sü“n§v”_­³¬ed_cb
 ,
 
-3755 (
+3756 (
 GBusNameVªishedC®lback
 è
 sü“n§v”_vªished_cb
 ,
 
-3756 
+3757 
 mªag”
 ,
 
-3757 
+3758 
 NULL
 );
 
-3759 
+3760 
 mªag”
 ->
 ´iv
@@ -28559,7 +28561,7 @@ deviûs_¬¿y
 g_objeù_uÄef
 );
 
-3762 
+3763 
 mªag”
 ->
 ´iv
@@ -28569,7 +28571,7 @@ deviû_compos™e
 	`up_deviû_Ãw
  ();
 
-3763 
+3764 
 	`g_objeù_£t
  (
 mªag”
@@ -28579,27 +28581,27 @@ mªag”
 deviû_compos™e
 ,
 
-3764 "kšd", 
+3765 "kšd", 
 UP_DEVICE_KIND_BATTERY
 ,
 
-3765 "is-»ch¬g—bË", 
+3766 "is-»ch¬g—bË", 
 TRUE
 ,
 
-3767 "pow”-suµly", 
+3768 "pow”-suµly", 
 TRUE
 ,
 
-3768 "is-´e£Á", 
+3769 "is-´e£Á", 
 TRUE
 ,
 
-3769 
+3770 
 NULL
 );
 
-3772 
+3773 
 mªag”
 ->
 ´iv
@@ -28611,7 +28613,7 @@ low_³rûÁage
 £‰šgs
 ,
 
-3774 
+3775 
 mªag”
 ->
 ´iv
@@ -28623,7 +28625,7 @@ mªag”
 £‰šgs
 ,
 
-3776 
+3777 
 mªag”
 ->
 ´iv
@@ -28635,7 +28637,7 @@ aùiÚ_³rûÁage
 £‰šgs
 ,
 
-3780 
+3781 
 mªag”
 ->
 ´iv
@@ -28647,7 +28649,7 @@ low_time
 £‰šgs
 ,
 
-3782 
+3783 
 mªag”
 ->
 ´iv
@@ -28659,7 +28661,7 @@ mªag”
 £‰šgs
 ,
 
-3784 
+3785 
 mªag”
 ->
 ´iv
@@ -28671,7 +28673,7 @@ aùiÚ_time
 £‰šgs
 ,
 
-3788 
+3789 
 mªag”
 ->
 ´iv
@@ -28683,7 +28685,7 @@ u£_time_´im¬y
 £‰šgs
 ,
 
-3792 
+3793 
 mªag”
 ->
 ´iv
@@ -28693,7 +28695,7 @@ idË_mÚ™Ü
 	`gnome_idË_mÚ™Ü_Ãw
  ();
 
-3795 
+3796 
 	`g_sigÇl_cÚÃù
  (
 mªag”
@@ -28707,7 +28709,7 @@ mªag”
 Ú_¿ndr_ev’t
 ), manager);
 
-3796 
+3797 
 	`Ú_¿ndr_ev’t
  (
 mªag”
@@ -28717,11 +28719,11 @@ mªag”
 ¼_sü“n
 , manager);
 
-3798 #ifdeà
+3799 #ifdeà
 GSD_MOCK
 
 
-3799 
+3800 
 	`g_unix_sigÇl_add
  (
 SIGUSR2
@@ -28733,7 +28735,7 @@ GSourûFunc
 mªag”
 );
 
-3803 
+3804 
 mªag”
 ->
 ´iv
@@ -28745,25 +28747,25 @@ backlight_avaabË
 ¼_sü“n
 );
 
-3806 
+3807 
 	`backlight_’abË
  (
 mªag”
 );
 
-3809 
+3810 
 	`’gše_cŞd¶ug
  (
 mªag”
 );
 
-3810 
+3811 
 	`idË_cÚfigu»
  (
 mªag”
 );
 
-3812 
+3813 
 mªag”
 ->
 ´iv
@@ -28773,7 +28775,7 @@ xsü“n§v”_w©chdog_tim”_id
 	`gsd_pow”_’abË_sü“n§v”_w©chdog
  ();
 
-3815 
+3816 
 mªag”
 ->
 ´iv
@@ -28783,21 +28785,21 @@ is_vœtu®_machše
 	`gsd_pow”_is_h¬dw¬e_a_vm
  ();
 
-3817 
+3818 
 	`gnome_£‰šgs_´ofe_’d
  (
 NULL
 );
 
-3818  
+3819  
 TRUE
 ;
 
-3819 
+3820 
 	}
 }
 
-3822 
+3823 
 	$gsd_pow”_mªag”_¡İ
  (
 GsdPow”Mªag”
@@ -28805,11 +28807,11 @@ GsdPow”Mªag”
 mªag”
 )
 
-3824 
+3825 
 	`g_debug
  ("Stopping…ower manager");
 
-3826 ià(
+3827 ià(
 mªag”
 ->
 ´iv
@@ -28817,7 +28819,7 @@ mªag”
 šhib™_lid_sw™ch_tim”_id
  != 0)
 
-3828 
+3829 
 	`g_sourû_»move
  (
 mªag”
@@ -28827,7 +28829,7 @@ mªag”
 šhib™_lid_sw™ch_tim”_id
 );
 
-3829 
+3830 
 mªag”
 ->
 ´iv
@@ -28835,7 +28837,7 @@ mªag”
 šhib™_lid_sw™ch_tim”_id
  = 0;
 
-3832 ià(
+3833 ià(
 mªag”
 ->
 ´iv
@@ -28845,7 +28847,7 @@ sü“n§v”_ÿnûÎabË
 NULL
 )
 
-3834 
+3835 
 	`g_ÿnûÎabË_ÿnûl
  (
 mªag”
@@ -28855,7 +28857,7 @@ mªag”
 sü“n§v”_ÿnûÎabË
 );
 
-3835 
+3836 
 	`g_ş—r_objeù
  (&
 mªag”
@@ -28865,7 +28867,7 @@ mªag”
 sü“n§v”_ÿnûÎabË
 );
 
-3838 ià(
+3839 ià(
 mªag”
 ->
 ´iv
@@ -28873,7 +28875,7 @@ mªag”
 sü“n§v”_w©ch_id
  != 0)
 
-3840 
+3841 
 	`g_bus_unw©ch_Çme
  (
 mªag”
@@ -28883,7 +28885,7 @@ mªag”
 sü“n§v”_w©ch_id
 );
 
-3841 
+3842 
 mªag”
 ->
 ´iv
@@ -28891,7 +28893,7 @@ mªag”
 sü“n§v”_w©ch_id
  = 0;
 
-3844 ià(
+3845 ià(
 mªag”
 ->
 ´iv
@@ -28901,7 +28903,7 @@ bus_ÿnûÎabË
 NULL
 )
 
-3846 
+3847 
 	`g_ÿnûÎabË_ÿnûl
  (
 mªag”
@@ -28911,7 +28913,7 @@ mªag”
 bus_ÿnûÎabË
 );
 
-3847 
+3848 
 	`g_objeù_uÄef
  (
 mªag”
@@ -28921,7 +28923,7 @@ mªag”
 bus_ÿnûÎabË
 );
 
-3848 
+3849 
 mªag”
 ->
 ´iv
@@ -28931,7 +28933,7 @@ bus_ÿnûÎabË
 NULL
 ;
 
-3851 ià(
+3852 ià(
 mªag”
 ->
 ´iv
@@ -28939,7 +28941,7 @@ mªag”
 šŒo¥eùiÚ_d©a
 )
 
-3853 
+3854 
 	`g_dbus_node_šfo_uÄef
  (
 mªag”
@@ -28949,7 +28951,7 @@ mªag”
 šŒo¥eùiÚ_d©a
 );
 
-3854 
+3855 
 mªag”
 ->
 ´iv
@@ -28959,7 +28961,7 @@ mªag”
 NULL
 ;
 
-3857 
+3858 
 	`g_sigÇl_hªdËrs_discÚÃù_by_d©a
  (
 mªag”
@@ -28969,7 +28971,7 @@ mªag”
 up_ş›Á
 , manager);
 
-3859 
+3860 
 	`g_ş—r_objeù
  (&
 mªag”
@@ -28979,7 +28981,7 @@ mªag”
 £ssiÚ
 );
 
-3860 
+3861 
 	`g_ş—r_objeù
  (&
 mªag”
@@ -28989,7 +28991,7 @@ mªag”
 £‰šgs
 );
 
-3861 
+3862 
 	`g_ş—r_objeù
  (&
 mªag”
@@ -28999,7 +29001,7 @@ mªag”
 £‰šgs_sü“n§v”
 );
 
-3862 
+3863 
 	`g_ş—r_objeù
  (&
 mªag”
@@ -29009,7 +29011,7 @@ mªag”
 £‰šgs_£ssiÚ
 );
 
-3863 
+3864 
 	`g_ş—r_objeù
  (&
 mªag”
@@ -29019,7 +29021,7 @@ mªag”
 up_ş›Á
 );
 
-3865 ià(
+3866 ià(
 mªag”
 ->
 ´iv
@@ -29027,7 +29029,7 @@ mªag”
 šhib™_lid_sw™ch_fd
  != -1)
 
-3867 
+3868 
 	`şo£
  (
 mªag”
@@ -29037,7 +29039,7 @@ mªag”
 šhib™_lid_sw™ch_fd
 );
 
-3868 
+3869 
 mªag”
 ->
 ´iv
@@ -29045,7 +29047,7 @@ mªag”
 šhib™_lid_sw™ch_fd
  = -1;
 
-3869 
+3870 
 mªag”
 ->
 ´iv
@@ -29055,7 +29057,7 @@ mªag”
 FALSE
 ;
 
-3871 ià(
+3872 ià(
 mªag”
 ->
 ´iv
@@ -29063,7 +29065,7 @@ mªag”
 šhib™_su¥’d_fd
  != -1)
 
-3873 
+3874 
 	`şo£
  (
 mªag”
@@ -29073,7 +29075,7 @@ mªag”
 šhib™_su¥’d_fd
 );
 
-3874 
+3875 
 mªag”
 ->
 ´iv
@@ -29081,7 +29083,7 @@ mªag”
 šhib™_su¥’d_fd
  = -1;
 
-3875 
+3876 
 mªag”
 ->
 ´iv
@@ -29091,7 +29093,7 @@ mªag”
 FALSE
 ;
 
-3878 
+3879 
 	`g_ş—r_objeù
  (&
 mªag”
@@ -29101,7 +29103,7 @@ mªag”
 logšd_´oxy
 );
 
-3879 
+3880 
 	`g_ş—r_objeù
  (&
 mªag”
@@ -29111,7 +29113,7 @@ mªag”
 ¼_sü“n
 );
 
-3881 
+3882 
 	`g_±r_¬¿y_uÄef
  (
 mªag”
@@ -29121,7 +29123,7 @@ mªag”
 deviûs_¬¿y
 );
 
-3882 
+3883 
 mªag”
 ->
 ´iv
@@ -29131,7 +29133,7 @@ deviûs_¬¿y
 NULL
 ;
 
-3883 
+3884 
 	`g_ş—r_objeù
  (&
 mªag”
@@ -29141,7 +29143,7 @@ mªag”
 deviû_compos™e
 );
 
-3884 
+3885 
 	`g_ş—r_objeù
  (&
 mªag”
@@ -29151,7 +29153,7 @@ mªag”
 ´evious_icÚ
 );
 
-3886 
+3887 
 	`g_ş—r_poš‹r
  (&
 mªag”
@@ -29163,7 +29165,7 @@ mªag”
 g_ä“
 );
 
-3888 
+3889 
 	`g_ş—r_objeù
  (&
 mªag”
@@ -29173,7 +29175,7 @@ mªag”
 £ssiÚ_´e£nû_´oxy
 );
 
-3889 
+3890 
 	`g_ş—r_objeù
  (&
 mªag”
@@ -29183,7 +29185,7 @@ mªag”
 sü“n§v”_´oxy
 );
 
-3891 
+3892 
 	`¶ay_loİ_¡İ
  (&
 mªag”
@@ -29193,7 +29195,7 @@ mªag”
 ü™iÿl_®”t_timeout_id
 );
 
-3893 
+3894 
 	`g_ş—r_objeù
  (&
 mªag”
@@ -29203,7 +29205,7 @@ mªag”
 idË_mÚ™Ü
 );
 
-3895 ià(
+3896 ià(
 mªag”
 ->
 ´iv
@@ -29211,7 +29213,7 @@ mªag”
 xsü“n§v”_w©chdog_tim”_id
  > 0)
 
-3897 
+3898 
 	`g_sourû_»move
  (
 mªag”
@@ -29221,7 +29223,7 @@ mªag”
 xsü“n§v”_w©chdog_tim”_id
 );
 
-3898 
+3899 
 mªag”
 ->
 ´iv
@@ -29229,11 +29231,11 @@ mªag”
 xsü“n§v”_w©chdog_tim”_id
  = 0;
 
-3900 
+3901 
 	}
 }
 
-3903 
+3904 
 	$gsd_pow”_mªag”_š™
  (
 GsdPow”Mªag”
@@ -29241,7 +29243,7 @@ GsdPow”Mªag”
 mªag”
 )
 
-3905 
+3906 
 mªag”
 ->
 ´iv
@@ -29249,7 +29251,7 @@ mªag”
 	`GSD_POWER_MANAGER_GET_PRIVATE
  (manager);
 
-3906 
+3907 
 mªag”
 ->
 ´iv
@@ -29257,7 +29259,7 @@ mªag”
 šhib™_lid_sw™ch_fd
  = -1;
 
-3907 
+3908 
 mªag”
 ->
 ´iv
@@ -29265,7 +29267,7 @@ mªag”
 šhib™_su¥’d_fd
  = -1;
 
-3908 
+3909 
 mªag”
 ->
 ´iv
@@ -29275,7 +29277,7 @@ sü“n§v”_ÿnûÎabË
 	`g_ÿnûÎabË_Ãw
  ();
 
-3909 
+3910 
 mªag”
 ->
 ´iv
@@ -29285,11 +29287,11 @@ bus_ÿnûÎabË
 	`g_ÿnûÎabË_Ãw
  ();
 
-3910 
+3911 
 	}
 }
 
-3914 
+3915 
 	$hªdË_m‘hod_ÿÎ_keybßrd
  (
 GsdPow”Mªag”
@@ -29297,49 +29299,49 @@ GsdPow”Mªag”
 mªag”
 ,
 
-3915 cÚ¡ 
+3916 cÚ¡ 
 gch¬
  *
 m‘hod_Çme
 ,
 
-3916 
+3917 
 GV¬ŸÁ
  *
 ·¿m‘”s
 ,
 
-3917 
+3918 
 GDBusM‘hodInvoÿtiÚ
  *
 švoÿtiÚ
 )
 
-3919 
+3920 
 gšt
  
 ¡•
 ;
 
-3920 
+3921 
 gšt
  
 v®ue
  = -1;
 
-3921 
+3922 
 gboŞ—n
  
 »t
 ;
 
-3922 
+3923 
 gušt
  
 ³rûÁage
 ;
 
-3923 
+3924 
 GE¼Ü
  *
 ”rÜ
@@ -29347,17 +29349,17 @@ GE¼Ü
 NULL
 ;
 
-3925 ià(
+3926 ià(
 	`g_¡rcmp0
  (
 m‘hod_Çme
 , "StepUp") == 0)
 
-3927 
+3928 
 	`g_debug
  ("keyboard step up");
 
-3928 
+3929 
 ¡•
  = 
 	`BRIGHTNESS_STEP_AMOUNT
@@ -29369,7 +29371,7 @@ mªag”
 kbd_brighŠess_max
 );
 
-3929 
+3930 
 v®ue
  = 
 	`MIN
@@ -29383,7 +29385,7 @@ kbd_brighŠess_now
 ¡•
 ,
 
-3930 
+3931 
 mªag”
 ->
 ´iv
@@ -29391,7 +29393,7 @@ mªag”
 kbd_brighŠess_max
 );
 
-3931 
+3932 
 »t
  = 
 	`upow”_kbd_£t_brighŠess
@@ -29403,17 +29405,17 @@ v®ue
 ”rÜ
 );
 
-3934 ià(
+3935 ià(
 	`g_¡rcmp0
  (
 m‘hod_Çme
 , "StepDown") == 0)
 
-3936 
+3937 
 	`g_debug
  ("keyboard step down");
 
-3937 
+3938 
 ¡•
  = 
 	`BRIGHTNESS_STEP_AMOUNT
@@ -29425,7 +29427,7 @@ mªag”
 kbd_brighŠess_max
 );
 
-3938 
+3939 
 v®ue
  = 
 	`MAX
@@ -29439,7 +29441,7 @@ kbd_brighŠess_now
 ¡•
 , 0);
 
-3939 
+3940 
 »t
  = 
 	`upow”_kbd_£t_brighŠess
@@ -29451,13 +29453,13 @@ v®ue
 ”rÜ
 );
 
-3942 ià(
+3943 ià(
 	`g_¡rcmp0
  (
 m‘hod_Çme
 , "Toggle") == 0)
 
-3944 
+3945 
 »t
  = 
 	`upow”_kbd_toggË
@@ -29467,31 +29469,31 @@ mªag”
 ”rÜ
 );
 
-3948 
+3949 
 	`g_as£¹_nÙ_»ached
  ();
 
-3952 ià(!
+3953 ià(!
 »t
 )
 
-3954 
+3955 
 	`g_dbus_m‘hod_švoÿtiÚ_ke_”rÜ
  (
 švoÿtiÚ
 ,
 
-3955 
+3956 
 ”rÜ
 );
 
-3959 
+3960 
 ³rûÁage
  = 
 	`ABS_TO_PERCENTAGE
  (0,
 
-3960 
+3961 
 mªag”
 ->
 ´iv
@@ -29499,29 +29501,29 @@ mªag”
 kbd_brighŠess_max
 ,
 
-3961 
+3962 
 v®ue
 );
 
-3962 
+3963 
 	`g_dbus_m‘hod_švoÿtiÚ_»tuº_v®ue
  (
 švoÿtiÚ
 ,
 
-3963 
+3964 
 	`g_v¬ŸÁ_Ãw
  ("(u)",
 
-3964 
+3965 
 ³rûÁage
 ));
 
-3966 
+3967 
 	}
 }
 
-3969 
+3970 
 	$hªdË_m‘hod_ÿÎ_sü“n
  (
 GsdPow”Mªag”
@@ -29529,25 +29531,25 @@ GsdPow”Mªag”
 mªag”
 ,
 
-3970 cÚ¡ 
+3971 cÚ¡ 
 gch¬
  *
 m‘hod_Çme
 ,
 
-3971 
+3972 
 GV¬ŸÁ
  *
 ·¿m‘”s
 ,
 
-3972 
+3973 
 GDBusM‘hodInvoÿtiÚ
  *
 švoÿtiÚ
 )
 
-3974 
+3975 
 gboŞ—n
  
 »t
@@ -29555,19 +29557,19 @@ gboŞ—n
 FALSE
 ;
 
-3975 
+3976 
 gšt
  
 v®ue
  = -1;
 
-3976 
+3977 
 gušt
  
 v®ue_tmp
 ;
 
-3977 
+3978 
 GE¼Ü
  *
 ”rÜ
@@ -29575,7 +29577,7 @@ GE¼Ü
 NULL
 ;
 
-3979 ià(!
+3980 ià(!
 mªag”
 ->
 ´iv
@@ -29583,35 +29585,35 @@ mªag”
 backlight_avaabË
 )
 
-3981 
+3982 
 	`g_£t_”rÜ_l™”®
  (&
 ”rÜ
 ,
 
-3982 
+3983 
 GSD_POWER_MANAGER_ERROR
 ,
 
-3983 
+3984 
 GSD_POWER_MANAGER_ERROR_FAILED
 ,
 
-3985 
+3986 
 out
 ;
 
-3988 ià(
+3989 ià(
 	`g_¡rcmp0
  (
 m‘hod_Çme
 , "GetPercentage") == 0)
 
-3990 
+3991 
 	`g_debug
  ("screen get…ercentage");
 
-3991 
+3992 
 v®ue
  = 
 	`backlight_g‘_³rûÁage
@@ -29625,17 +29627,17 @@ mªag”
 ”rÜ
 );
 
-3994 ià(
+3995 ià(
 	`g_¡rcmp0
  (
 m‘hod_Çme
 , "SetPercentage") == 0)
 
-3996 
+3997 
 	`g_debug
  ("screen set…ercentage");
 
-3997 
+3998 
 	`g_v¬ŸÁ_g‘
  (
 ·¿m‘”s
@@ -29643,7 +29645,7 @@ m‘hod_Çme
 v®ue_tmp
 );
 
-3998 
+3999 
 »t
  = 
 	`backlight_£t_³rûÁage
@@ -29659,33 +29661,33 @@ v®ue_tmp
 ”rÜ
 );
 
-3999 ià(
+4000 ià(
 »t
 )
 
-4001 
+4002 
 v®ue
  = 
 v®ue_tmp
 ;
 
-4002 
+4003 
 	`backlight_em™_chªged
  (
 mªag”
 );
 
-4006 ià(
+4007 ià(
 	`g_¡rcmp0
  (
 m‘hod_Çme
 , "StepUp") == 0)
 
-4008 
+4009 
 	`g_debug
  ("screen step up");
 
-4009 
+4010 
 v®ue
  = 
 	`backlight_¡•_up
@@ -29699,27 +29701,27 @@ mªag”
 ”rÜ
 );
 
-4010 ià(
+4011 ià(
 v®ue
  != -1)
 
-4011 
+4012 
 	`backlight_em™_chªged
  (
 mªag”
 );
 
-4013 ià(
+4014 ià(
 	`g_¡rcmp0
  (
 m‘hod_Çme
 , "StepDown") == 0)
 
-4015 
+4016 
 	`g_debug
  ("screen step down");
 
-4016 
+4017 
 v®ue
  = 
 	`backlight_¡•_down
@@ -29733,61 +29735,61 @@ mªag”
 ”rÜ
 );
 
-4017 ià(
+4018 ià(
 v®ue
  != -1)
 
-4018 
+4019 
 	`backlight_em™_chªged
  (
 mªag”
 );
 
-4022 
+4023 
 	`g_as£¹_nÙ_»ached
  ();
 
-4025 
+4026 
 out
 :
 
-4027 ià(
+4028 ià(
 v®ue
  < 0)
 
-4029 
+4030 
 	`g_dbus_m‘hod_švoÿtiÚ_ke_”rÜ
  (
 švoÿtiÚ
 ,
 
-4030 
+4031 
 ”rÜ
 );
 
-4034 
+4035 
 	`g_dbus_m‘hod_švoÿtiÚ_»tuº_v®ue
  (
 švoÿtiÚ
 ,
 
-4035 
+4036 
 	`g_v¬ŸÁ_Ãw
  ("(u)",
 
-4036 
+4037 
 v®ue
 ));
 
-4038 
+4039 
 	}
 }
 
-4040 
+4041 
 GV¬ŸÁ
  *
 
-4041 
+4042 
 	$deviû_to_v¬ŸÁ_blob
  (
 UpDeviû
@@ -29795,31 +29797,31 @@ UpDeviû
 deviû
 )
 
-4043 cÚ¡ 
+4044 cÚ¡ 
 gch¬
  *
 objeù_·th
 ;
 
-4044 
+4045 
 gch¬
  *
 deviû_icÚ
 ;
 
-4045 
+4046 
 gdoubË
  
 ³rûÁage
 ;
 
-4046 
+4047 
 GIcÚ
  *
 icÚ
 ;
 
-4047 
+4048 
 gušt64
  
 time_em±y
@@ -29827,31 +29829,31 @@ time_em±y
 time_fuÎ
 ;
 
-4048 
+4049 
 gušt64
  
 time_¡©e
  = 0;
 
-4049 
+4050 
 GV¬ŸÁ
  *
 v®ue
 ;
 
-4050 
+4051 
 UpDeviûKšd
  
 kšd
 ;
 
-4051 
+4052 
 UpDeviûS‹
  
 ¡©e
 ;
 
-4053 
+4054 
 icÚ
  = 
 	`gpm_upow”_g‘_deviû_icÚ
@@ -29861,7 +29863,7 @@ deviû
 TRUE
 );
 
-4054 
+4055 
 deviû_icÚ
  = 
 	`g_icÚ_to_¡ršg
@@ -29869,61 +29871,61 @@ deviû_icÚ
 icÚ
 );
 
-4055 
+4056 
 	`g_objeù_g‘
  (
 deviû
 ,
 
-4056 "kšd", &
+4057 "kšd", &
 kšd
 ,
 
-4057 "³rûÁage", &
+4058 "³rûÁage", &
 ³rûÁage
 ,
 
-4058 "¡©e", &
+4059 "¡©e", &
 ¡©e
 ,
 
-4059 "time-to-em±y", &
+4060 "time-to-em±y", &
 time_em±y
 ,
 
-4060 "time-to-fuÎ", &
+4061 "time-to-fuÎ", &
 time_fuÎ
 ,
 
-4061 
+4062 
 NULL
 );
 
-4064 ià(
+4065 ià(
 ¡©e
  =ğ
 UP_DEVICE_STATE_DISCHARGING
 )
 
-4065 
+4066 
 time_¡©e
  = 
 time_em±y
 ;
 
-4066 ià(
+4067 ià(
 ¡©e
  =ğ
 UP_DEVICE_STATE_CHARGING
 )
 
-4067 
+4068 
 time_¡©e
  = 
 time_fuÎ
 ;
 
-4070 
+4071 
 objeù_·th
  = 
 	`up_deviû_g‘_objeù_·th
@@ -29931,69 +29933,69 @@ objeù_·th
 deviû
 );
 
-4071 ià(
+4072 ià(
 objeù_·th
  =ğ
 NULL
 )
 
-4072 
+4073 
 objeù_·th
  = 
 GSD_DBUS_PATH
 ;
 
-4075 
+4076 
 v®ue
  = 
 	`g_v¬ŸÁ_Ãw
  ("(susdut)",
 
-4076 
+4077 
 objeù_·th
 ,
 
-4077 
+4078 
 kšd
 ,
 
-4078 
+4079 
 deviû_icÚ
 ,
 
-4079 
+4080 
 ³rûÁage
 ,
 
-4080 
+4081 
 ¡©e
 ,
 
-4081 
+4082 
 time_¡©e
 );
 
-4082 
+4083 
 	`g_ä“
  (
 deviû_icÚ
 );
 
-4083 
+4084 
 	`g_objeù_uÄef
  (
 icÚ
 );
 
-4084  
+4085  
 v®ue
 ;
 
-4085 
+4086 
 	}
 }
 
-4088 
+4089 
 	$hªdË_m‘hod_ÿÎ_maš
  (
 GsdPow”Mªag”
@@ -30001,43 +30003,43 @@ GsdPow”Mªag”
 mªag”
 ,
 
-4089 cÚ¡ 
+4090 cÚ¡ 
 gch¬
  *
 m‘hod_Çme
 ,
 
-4090 
+4091 
 GV¬ŸÁ
  *
 ·¿m‘”s
 ,
 
-4091 
+4092 
 GDBusM‘hodInvoÿtiÚ
  *
 švoÿtiÚ
 )
 
-4093 
+4094 
 GPŒA¼ay
  *
 ¬¿y
 ;
 
-4094 
+4095 
 gušt
  
 i
 ;
 
-4095 
+4096 
 GV¬ŸÁBud”
  *
 bud”
 ;
 
-4096 
+4097 
 GV¬ŸÁ
  *
 tu¶e
@@ -30045,7 +30047,7 @@ tu¶e
 NULL
 ;
 
-4097 
+4098 
 GV¬ŸÁ
  *
 v®ue
@@ -30053,19 +30055,19 @@ v®ue
 NULL
 ;
 
-4098 
+4099 
 UpDeviû
  *
 deviû
 ;
 
-4101 ià(
+4102 ià(
 	`g_¡rcmp0
  (
 m‘hod_Çme
 , "GetPrimaryDevice") == 0)
 
-4105 
+4106 
 deviû
  = 
 	`’gše_g‘_´im¬y_deviû
@@ -30073,19 +30075,19 @@ deviû
 mªag”
 );
 
-4106 ià(
+4107 ià(
 deviû
  =ğ
 NULL
 )
 
-4108 
+4109 
 	`g_dbus_m‘hod_švoÿtiÚ_»tuº_dbus_”rÜ
  (
 švoÿtiÚ
 ,
 
-4115 
+4116 
 v®ue
  = 
 	`deviû_to_v¬ŸÁ_blob
@@ -30093,7 +30095,7 @@ v®ue
 deviû
 );
 
-4116 
+4117 
 tu¶e
  = 
 	`g_v¬ŸÁ_Ãw_tu¶e
@@ -30101,7 +30103,7 @@ tu¶e
 v®ue
 , 1);
 
-4117 
+4118 
 	`g_dbus_m‘hod_švoÿtiÚ_»tuº_v®ue
  (
 švoÿtiÚ
@@ -30109,19 +30111,19 @@ v®ue
 tu¶e
 );
 
-4118 
+4119 
 	`g_objeù_uÄef
  (
 deviû
 );
 
-4123 ià(
+4124 ià(
 	`g_¡rcmp0
  (
 m‘hod_Çme
 , "GetDevices") == 0)
 
-4127 
+4128 
 bud”
  = 
 	`g_v¬ŸÁ_bud”_Ãw
@@ -30129,7 +30131,7 @@ bud”
 	`G_VARIANT_TYPE
 ("a(susdut)"));
 
-4130 
+4131 
 ¬¿y
  = 
 mªag”
@@ -30139,7 +30141,7 @@ mªag”
 deviûs_¬¿y
 ;
 
-4131 
+4132 
 i
  = 0; i < 
 ¬¿y
@@ -30147,7 +30149,7 @@ i
 Ën
 ; i++)
 
-4133 
+4134 
 deviû
  = 
 	`g_±r_¬¿y_šdex
@@ -30157,7 +30159,7 @@ deviû
 i
 );
 
-4134 
+4135 
 v®ue
  = 
 	`deviû_to_v¬ŸÁ_blob
@@ -30165,7 +30167,7 @@ v®ue
 deviû
 );
 
-4135 
+4136 
 	`g_v¬ŸÁ_bud”_add_v®ue
  (
 bud”
@@ -30173,7 +30175,7 @@ bud”
 v®ue
 );
 
-4139 
+4140 
 v®ue
  = 
 	`g_v¬ŸÁ_bud”_’d
@@ -30181,7 +30183,7 @@ v®ue
 bud”
 );
 
-4140 
+4141 
 tu¶e
  = 
 	`g_v¬ŸÁ_Ãw_tu¶e
@@ -30189,7 +30191,7 @@ tu¶e
 v®ue
 , 1);
 
-4141 
+4142 
 	`g_dbus_m‘hod_švoÿtiÚ_»tuº_v®ue
  (
 švoÿtiÚ
@@ -30197,21 +30199,21 @@ v®ue
 tu¶e
 );
 
-4142 
+4143 
 	`g_v¬ŸÁ_bud”_uÄef
  (
 bud”
 );
 
-4146 
+4147 
 	`g_as£¹_nÙ_»ached
  ();
 
-4147 
+4148 
 	}
 }
 
-4150 
+4151 
 	$hªdË_m‘hod_ÿÎ
  (
 GDBusCÚÃùiÚ
@@ -30219,49 +30221,49 @@ GDBusCÚÃùiÚ
 cÚÃùiÚ
 ,
 
-4151 cÚ¡ 
+4152 cÚ¡ 
 gch¬
  *
 £nd”
 ,
 
-4152 cÚ¡ 
+4153 cÚ¡ 
 gch¬
  *
 objeù_·th
 ,
 
-4153 cÚ¡ 
+4154 cÚ¡ 
 gch¬
  *
 š‹rçû_Çme
 ,
 
-4154 cÚ¡ 
+4155 cÚ¡ 
 gch¬
  *
 m‘hod_Çme
 ,
 
-4155 
+4156 
 GV¬ŸÁ
  *
 ·¿m‘”s
 ,
 
-4156 
+4157 
 GDBusM‘hodInvoÿtiÚ
  *
 švoÿtiÚ
 ,
 
-4157 
+4158 
 gpoš‹r
  
 u£r_d©a
 )
 
-4159 
+4160 
 GsdPow”Mªag”
  *
 mªag”
@@ -30271,7 +30273,7 @@ mªag”
 u£r_d©a
 );
 
-4163 ià(
+4164 ià(
 mªag”
 ->
 ´iv
@@ -30281,17 +30283,17 @@ mªag”
 NULL
 )
 
-4168 
+4169 
 	`g_debug
  ("Calling method '%s.%s' for Power",
 
-4169 
+4170 
 š‹rçû_Çme
 , 
 m‘hod_Çme
 );
 
-4171 ià(
+4172 ià(
 	`g_¡rcmp0
  (
 š‹rçû_Çme
@@ -30299,25 +30301,25 @@ m‘hod_Çme
 GSD_POWER_DBUS_INTERFACE
 ) == 0)
 
-4173 
+4174 
 	`hªdË_m‘hod_ÿÎ_maš
  (
 mªag”
 ,
 
-4174 
+4175 
 m‘hod_Çme
 ,
 
-4175 
+4176 
 ·¿m‘”s
 ,
 
-4176 
+4177 
 švoÿtiÚ
 );
 
-4178 ià(
+4179 ià(
 	`g_¡rcmp0
  (
 š‹rçû_Çme
@@ -30325,25 +30327,25 @@ m‘hod_Çme
 GSD_POWER_DBUS_INTERFACE_SCREEN
 ) == 0)
 
-4180 
+4181 
 	`hªdË_m‘hod_ÿÎ_sü“n
  (
 mªag”
 ,
 
-4181 
+4182 
 m‘hod_Çme
 ,
 
-4182 
+4183 
 ·¿m‘”s
 ,
 
-4183 
+4184 
 švoÿtiÚ
 );
 
-4185 ià(
+4186 ià(
 	`g_¡rcmp0
  (
 š‹rçû_Çme
@@ -30351,39 +30353,39 @@ m‘hod_Çme
 GSD_POWER_DBUS_INTERFACE_KEYBOARD
 ) == 0)
 
-4187 
+4188 
 	`hªdË_m‘hod_ÿÎ_keybßrd
  (
 mªag”
 ,
 
-4188 
+4189 
 m‘hod_Çme
 ,
 
-4189 
+4190 
 ·¿m‘”s
 ,
 
-4190 
+4191 
 švoÿtiÚ
 );
 
-4194 
+4195 
 	`g_w¬nšg
  ("nÙ„ecogni£d iÁ”çû: %s", 
 š‹rçû_Çme
 );
 
-4196 
+4197 
 	}
 }
 
-4198 
+4199 
 GV¬ŸÁ
  *
 
-4199 
+4200 
 	$hªdË_g‘_´İ”ty
  (
 GDBusCÚÃùiÚ
@@ -30391,31 +30393,31 @@ GDBusCÚÃùiÚ
 cÚÃùiÚ
 ,
 
-4200 cÚ¡ 
+4201 cÚ¡ 
 gch¬
  *
 £nd”
 ,
 
-4201 cÚ¡ 
+4202 cÚ¡ 
 gch¬
  *
 objeù_·th
 ,
 
-4202 cÚ¡ 
+4203 cÚ¡ 
 gch¬
  *
 š‹rçû_Çme
 ,
 
-4203 cÚ¡ 
+4204 cÚ¡ 
 gch¬
  *
 ´İ”ty_Çme
 ,
 
-4204 
+4205 
 GE¼Ü
  **
 ”rÜ
@@ -30425,7 +30427,7 @@ gpoš‹r
 u£r_d©a
 )
 
-4206 
+4207 
 GsdPow”Mªag”
  *
 mªag”
@@ -30435,7 +30437,7 @@ mªag”
 u£r_d©a
 );
 
-4207 
+4208 
 GV¬ŸÁ
  *
 »tv®
@@ -30443,7 +30445,7 @@ GV¬ŸÁ
 NULL
 ;
 
-4211 ià(
+4212 ià(
 mªag”
 ->
 ´iv
@@ -30453,17 +30455,17 @@ mªag”
 NULL
 )
 
-4213  
+4214  
 NULL
 ;
 
-4216 ià(
+4217 ià(
 	`g_¡rcmp0
  (
 ´İ”ty_Çme
 , "Icon") == 0)
 
-4218 
+4219 
 »tv®
  = 
 	`’gše_g‘_icÚ_´İ”ty_v¬ŸÁ
@@ -30471,13 +30473,13 @@ NULL
 mªag”
 );
 
-4220 ià(
+4221 ià(
 	`g_¡rcmp0
  (
 ´İ”ty_Çme
 , "Tooltip") == 0)
 
-4222 
+4223 
 »tv®
  = 
 	`’gše_g‘_toŞt_´İ”ty_v¬ŸÁ
@@ -30485,19 +30487,19 @@ mªag”
 mªag”
 );
 
-4224 ià(
+4225 ià(
 	`g_¡rcmp0
  (
 ´İ”ty_Çme
 , "Percentage") == 0)
 
-4226 
+4227 
 gdoubË
  
 ³rûÁage
 ;
 
-4227 
+4228 
 ³rûÁage
  = 
 	`’gše_g‘_³rûÁage
@@ -30505,11 +30507,11 @@ gdoubË
 mªag”
 );
 
-4228 ià(
+4229 ià(
 ³rûÁage
  >= 0)
 
-4229 
+4230 
 »tv®
  = 
 	`g_v¬ŸÁ_Ãw_doubË
@@ -30517,33 +30519,33 @@ mªag”
 ³rûÁage
 );
 
-4232  
+4233  
 »tv®
 ;
 
-4233 
+4234 
 	}
 }
 
-4235 cÚ¡ 
+4236 cÚ¡ 
 GDBusIÁ”çûVTabË
  
 	gš‹rçû_vbË
  =
 
-4237 
+4238 
 hªdË_m‘hod_ÿÎ
 ,
 
-4238 
+4239 
 hªdË_g‘_´İ”ty
 ,
 
-4239 
+4240 
 NULL
 ,
 
-4243 
+4244 
 	$Ú_bus_gÙ‹n
  (
 GObjeù
@@ -30551,31 +30553,31 @@ GObjeù
 sourû_objeù
 ,
 
-4244 
+4245 
 GAsyncResuÉ
  *
 »s
 ,
 
-4245 
+4246 
 GsdPow”Mªag”
  *
 mªag”
 )
 
-4247 
+4248 
 GDBusCÚÃùiÚ
  *
 cÚÃùiÚ
 ;
 
-4248 
+4249 
 GDBusIÁ”çûInfo
  **
 šfos
 ;
 
-4249 
+4250 
 GE¼Ü
  *
 ”rÜ
@@ -30583,13 +30585,13 @@ GE¼Ü
 NULL
 ;
 
-4250 
+4251 
 gušt
  
 i
 ;
 
-4252 
+4253 
 cÚÃùiÚ
  = 
 	`g_bus_g‘_fšish
@@ -30599,13 +30601,13 @@ cÚÃùiÚ
 ”rÜ
 );
 
-4253 ià(
+4254 ià(
 cÚÃùiÚ
  =ğ
 NULL
 )
 
-4255 ià(!
+4256 ià(!
 	`g_”rÜ_m©ches
  (
 ”rÜ
@@ -30615,7 +30617,7 @@ G_IO_ERROR
 G_IO_ERROR_CANCELLED
 ))
 
-4256 
+4257 
 	`g_w¬nšg
  ("Could‚Ù g‘ sessiÚ bus: %s", 
 ”rÜ
@@ -30623,13 +30625,13 @@ G_IO_ERROR_CANCELLED
 mes§ge
 );
 
-4257 
+4258 
 	`g_”rÜ_ä“
  (
 ”rÜ
 );
 
-4261 
+4262 
 mªag”
 ->
 ´iv
@@ -30637,7 +30639,7 @@ mªag”
 cÚÃùiÚ
  = connection;
 
-4263 
+4264 
 šfos
  = 
 mªag”
@@ -30649,7 +30651,7 @@ mªag”
 š‹rçûs
 ;
 
-4264 
+4265 
 i
  = 0; 
 šfos
@@ -30657,39 +30659,39 @@ i
 NULL
 ; i++)
 
-4266 
+4267 
 	`g_dbus_cÚÃùiÚ_»gi¡”_objeù
  (
 cÚÃùiÚ
 ,
 
-4267 
+4268 
 GSD_POWER_DBUS_PATH
 ,
 
-4268 
+4269 
 šfos
 [
 i
 ],
 
-4269 &
+4270 &
 š‹rçû_vbË
 ,
 
-4270 
-mªag”
-,
-
 4271 
-NULL
+mªag”
 ,
 
 4272 
 NULL
+,
+
+4273 
+NULL
 );
 
-4275 
+4276 
 mªag”
 ->
 ´iv
@@ -30701,16 +30703,12 @@ mªag”
 cÚÃùiÚ
 ,
 
-4276 
+4277 
 GSD_POWER_DBUS_NAME
 ,
 
-4277 
-G_BUS_NAME_OWNER_FLAGS_NONE
-,
-
 4278 
-NULL
+G_BUS_NAME_OWNER_FLAGS_NONE
 ,
 
 4279 
@@ -30723,13 +30721,17 @@ NULL
 
 4281 
 NULL
-);
+,
 
 4282 
+NULL
+);
+
+4283 
 	}
 }
 
-4285 
+4286 
 	$»gi¡”_mªag”_dbus
  (
 GsdPow”Mªag”
@@ -30737,7 +30739,7 @@ GsdPow”Mªag”
 mªag”
 )
 
-4287 
+4288 
 mªag”
 ->
 ´iv
@@ -30751,7 +30753,7 @@ mªag”
 NULL
 );
 
-4288 
+4289 
 	`g_as£¹
  (
 mªag”
@@ -30763,13 +30765,13 @@ mªag”
 NULL
 );
 
-4290 
+4291 
 	`g_bus_g‘
  (
 G_BUS_TYPE_SESSION
 ,
 
-4291 
+4292 
 mªag”
 ->
 ´iv
@@ -30777,41 +30779,41 @@ mªag”
 bus_ÿnûÎabË
 ,
 
-4292 (
+4293 (
 GAsyncR—dyC®lback
 è
 Ú_bus_gÙ‹n
 ,
 
-4293 
+4294 
 mªag”
 );
 
-4294 
+4295 
 	}
 }
 
-4296 
+4297 
 GsdPow”Mªag”
  *
 
-4297 
+4298 
 	$gsd_pow”_mªag”_Ãw
  ()
 
-4299 ià(
+4300 ià(
 mªag”_objeù
  !ğ
 NULL
 )
 
-4301 
+4302 
 	`g_objeù_»f
  (
 mªag”_objeù
 );
 
-4305 
+4306 
 mªag”_objeù
  = 
 	`g_objeù_Ãw
@@ -30821,31 +30823,31 @@ GSD_TYPE_POWER_MANAGER
 NULL
 );
 
-4306 
+4307 
 	`g_objeù_add_w—k_poš‹r
  (
 mªag”_objeù
 ,
 
-4307 (
+4308 (
 gpoš‹r
  *è&
 mªag”_objeù
 );
 
-4308 
+4309 
 	`»gi¡”_mªag”_dbus
  (
 mªag”_objeù
 );
 
-4310  
+4311  
 	`GSD_POWER_MANAGER
  (
 mªag”_objeù
 );
 
-4311 
+4312 
 	}
 }
 
@@ -31187,9 +31189,347 @@ G_BEGIN_DECLS
 	gG_END_DECLS
 
 
+	@test-plugin.h
+
+12 
+	~"cÚfig.h
+"
+
+14 
+	~<¡dlib.h
+>
+
+16 
+	~<glib/gi18n.h
+>
+
+17 
+	~<gtk/gtk.h
+>
+
+18 
+	~<libnÙify/nÙify.h
+>
+
+20 #iâdeà
+SCHEMA_NAME
+
+
+21 
+	#SCHEMA_NAME
+ 
+PLUGIN_NAME
+
+
+	)
+
+24 #iâdeà
+PLUGIN_NAME
+
+
+25 #”rÜ 
+Inşude
+ 
+PLUGIN_CFLAGS
+ 
+š
+ 
+the
+ 
+‹¡
+ 
+­¶iÿtiÚ
+ 
+s
+ 
+CFLAGS
+
+
+28 
+MANAGER
+ *
+	gmªag”
+ = 
+NULL
+;
+
+30 
+gboŞ—n
+
+
+31 
+	$has_£‰šgs
+ ()
+
+33 cÚ¡ 
+gch¬
+ * cÚ¡ * 
+li¡
+;
+
+34 
+gušt
+ 
+i
+;
+
+36 
+li¡
+ = 
+	`g_£‰šgs_li¡_schemas
+ ();
+
+37 
+i
+ = 0; 
+li¡
+[i] !ğ
+NULL
+; i++) {
+
+38 ià(
+	`g_¡r_equ®
+ (
+li¡
+[
+i
+], "Üg.gnome.£‰šgs-d«mÚ.¶ugšs." 
+SCHEMA_NAME
+))
+
+39  
+TRUE
+;
+
+41  
+FALSE
+;
+
+42 
+	}
+}
+
+45 
+	$´št_’abË_di§bË_h–p
+ ()
+
+47 
+	`årštf
+ (
+¡d”r
+, "To deactivate:\n");
+
+48 
+	`årštf
+ (
+¡d”r
+, "\tg£‰šg £ˆÜg.gnome.£‰šgs-d«mÚ.¶ugšs." 
+SCHEMA_NAME
+ "‡ctive false\n");
+
+49 
+	`årštf
+ (
+¡d”r
+, "To„eactivate:\n");
+
+50 
+	`årštf
+ (
+¡d”r
+, "\tg£‰šg £ˆÜg.gnome.£‰šgs-d«mÚ.¶ugšs." 
+SCHEMA_NAME
+ "‡ctiverue\n");
+
+51 
+	}
+}
+
+54 
+	$maš
+ (
+¬gc
+, **
+¬gv
+)
+
+56 
+GE¼Ü
+ *
+”rÜ
+;
+
+57 
+GS‘tšgs
+ *
+£‰šgs
+;
+
+59 
+	`bšd‹xtdomaš
+ (
+GETTEXT_PACKAGE
+, 
+GNOME_SETTINGS_LOCALEDIR
+);
+
+60 
+	`bšd_‹xtdomaš_code£t
+ (
+GETTEXT_PACKAGE
+, "UTF-8");
+
+61 
+	`‹xtdomaš
+ (
+GETTEXT_PACKAGE
+);
+
+62 
+	`nÙify_š™
+ ("gnome-settings-daemon");
+
+64 
+	`g_£‹nv
+ ("G_MESSAGES_DEBUG", "®l", 
+TRUE
+);
+
+66 
+”rÜ
+ = 
+NULL
+;
+
+67 ià(! 
+	`gtk_š™_w™h_¬gs
+ (&
+¬gc
+, &
+¬gv
+, 
+NULL
+, NULL, NULL, &
+”rÜ
+)) {
+
+68 
+	`årštf
+ (
+¡d”r
+, "%s\n", 
+”rÜ
+->
+mes§ge
+);
+
+69 
+	`g_”rÜ_ä“
+ (
+”rÜ
+);
+
+70 
+	`ex™
+ (1);
+
+73 ià(
+	`has_£‰šgs
+ (è=ğ
+FALSE
+) {
+
+74 
+	`årštf
+ (
+¡d”r
+, "Thschema fÜ…lugš '%s' i¢'ˆavaabË, check you¸š¡®ÏtiÚ.\n", 
+SCHEMA_NAME
+);
+
+76 
+£‰šgs
+ = 
+	`g_£‰šgs_Ãw
+ ("Üg.gnome.£‰šgs-d«mÚ.¶ugšs." 
+SCHEMA_NAME
+);
+
+77 ià(
+	`g_£‰šgs_g‘_boŞ—n
+ (
+£‰šgs
+, "aùive"è!ğ
+FALSE
+) {
+
+78 
+	`årštf
+ (
+¡d”r
+, "Plugš '%s' i nÙ di§bËd. You‚“dØdi§bË iˆbefÜÏunchšgh‹¡‡µliÿtiÚ.\n", 
+SCHEMA_NAME
+);
+
+79 
+	`´št_’abË_di§bË_h–p
+ ();
+
+80 
+	`ex™
+ (1);
+
+82 
+	`´št_’abË_di§bË_h–p
+();
+
+85 
+mªag”
+ = 
+	`NEW
+ ();
+
+87 
+”rÜ
+ = 
+NULL
+;
+
+88 
+	`START
+ (
+mªag”
+, &
+”rÜ
+);
+
+90 
+	`gtk_maš
+ ();
+
+92 
+	`STOP
+ (
+mªag”
+);
+
+93 
+	`g_objeù_uÄef
+ (
+mªag”
+);
+
+96 
+	}
+}
+
 	@test-power.c
 
-1 
+1 #ifdeà
+TEST
+
+
+3 
 	#NEW
  
 gsd_pow”_mªag”_Ãw
@@ -31197,7 +31537,7 @@ gsd_pow”_mªag”_Ãw
 
 	)
 
-2 
+4 
 	#START
  
 gsd_pow”_mªag”_¡¬t
@@ -31205,7 +31545,7 @@ gsd_pow”_mªag”_¡¬t
 
 	)
 
-3 
+5 
 	#STOP
  
 gsd_pow”_mªag”_¡İ
@@ -31213,7 +31553,7 @@ gsd_pow”_mªag”_¡İ
 
 	)
 
-4 
+6 
 	#MANAGER
  
 GsdPow”Mªag”
@@ -31221,11 +31561,11 @@ GsdPow”Mªag”
 
 	)
 
-5 
+7 
 	~"gsd-pow”-mªag”.h
 "
 
-7 
+9 
 	~"‹¡-¶ugš.h
 "
 
@@ -173760,8 +174100,8 @@ __END_DECLS
 .
 1
 /usr/include
-178
-4939
+179
+4953
 config.h
 func.c
 gnome-idle-monitor.c
@@ -173786,6 +174126,7 @@ gsd-power-plugin.c
 gsm-inhibitor-flag.h
 gsm-manager-logout-mode.h
 gsm-presence-flag.h
+test-plugin.h
 test-power.c
 /usr/include/X11/Xatom.h
 /usr/include/X11/Xlib.h
