@@ -3719,7 +3719,8 @@ gsd_power_manager_start (GsdPowerManager *manager,
     inhibit_suspend (manager);
 
     /* track the active session */
-    /*manager->priv->session = gnome_settings_session_get_session_proxy ();*/
+    manager->priv->session = gnome_settings_session_get_session_proxy ();
+    g_debug("manager->priv->session: %p", manager->priv->session);
     /*g_signal_connect (manager->priv->session, "g-properties-changed",*/
     /*G_CALLBACK (engine_session_properties_changed_cb),*/
     /*manager);*/
