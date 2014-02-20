@@ -3721,9 +3721,9 @@ gsd_power_manager_start (GsdPowerManager *manager,
     /* track the active session */
     manager->priv->session = gnome_settings_session_get_session_proxy ();
     g_debug("manager->priv->session: %p", manager->priv->session);
-    /*g_signal_connect (manager->priv->session, "g-properties-changed",*/
-    /*G_CALLBACK (engine_session_properties_changed_cb),*/
-    /*manager);*/
+    g_signal_connect (manager->priv->session, "g-properties-changed",
+                      G_CALLBACK (engine_session_properties_changed_cb),
+                      manager);
 
     manager->priv->kbd_brightness_old = -1;
     manager->priv->kbd_brightness_pre_dim = -1;
