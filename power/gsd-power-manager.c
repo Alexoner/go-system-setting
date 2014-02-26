@@ -1219,9 +1219,12 @@ engine_profile_changed_cb (GSettings *settings,
     /*idle_configure (manager);*/
     /*return;*/
     /*}*/
+    GError *error = NULL;
     gsd_power_manager_stop(manager);
+    gsd_power_manager_start(manager, &error);
 
     g_debug("Exit\n");
+    gtk_main_quit();
 
     return;
 }
